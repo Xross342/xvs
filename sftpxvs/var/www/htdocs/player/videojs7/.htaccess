@@ -1,4 +1,0 @@
-<FilesMatch "\.(xml)$">
-	Header set Access-Control-Allow-Origin "http://imasdk.googleapis.com"
-	Header set Access-Control-Allow-Credentials "true"
-</FilesMatch>
