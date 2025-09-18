@@ -79,3 +79,6 @@ Configure crontabs:
 (crontab -l -uapache ; echo "5    *  *  *  *  cd /var/www/cgi-bin;./cron_cleanup.pl >/dev/null 2>&1") | crontab -uapache -
 (crontab -l -uapache ; echo "*/3  *  *  *  *  cd /var/www/cgi-bin;./cron_ftp.pl >/dev/null 2>&1") | crontab -uapache -
 
+
+
+Original ./compile command works fine, but i cant compile the nginx perl module with it, so i will try this command ./configure --with-http_stub_status_module --with-http_perl_module --with-http_mp4_module --add-module=../nginx-upload-module-master --add-module=../nginx-upload-progress-module-master --add-module=../nginx-vod-module-1.28 --add-module=../nginx-rtmp-module-1.2.1 --add-module=../ngx_cache_purge-2.5.1 --add-module=../nginx-secure-token-module-master/ --add-module=../ngx_http_hmac_secure_link_module-master/ --with-file-aio --with-threads --with-http_ssl_module --with-http_v2_module --with-cc-opt="-Wimplicit-fallthrough=0 -fPIC" --with-http_realip_module --add-module=../ngx_http_substitutions_filter_module-master --add-module=../ngx_http_geoip2_module-3.4
