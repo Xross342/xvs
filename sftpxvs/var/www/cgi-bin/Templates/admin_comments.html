@@ -1,0 +1,63 @@
+<script>
+  loadT('Comments management');
+</script>
+<Form style="margin:0;" method="POST">
+  <input type="hidden" name="op" value="admin_comments">
+  <input type="hidden" name="token" value="<TMPL_VAR token>">
+  <div class="top-bar">
+    <div class="row align-items-center g-3">
+      <div class="col-auto flex-grow-1">
+
+        <div class="search" style="max-width:300px">
+<input type="text" placeholder="Search..." class="form-control search-field" name="key" value="<TMPL_VAR key>" >
+
+</div>
+
+
+      </div>
+    </div>
+  </div>
+  <div class="table-responsive">
+    <table class="table table-rounded table-hover text-center">
+      <thead>
+        <tr>
+          <th width="1%">
+            <div class="check-radio"><input type="checkbox" onClick="for(i=0;i<this.form.cmt_id.length;i++){this.form.cmt_id[i].checked=this.checked;}if(this.form.cmt_id.value)this.form.cmt_id.checked=this.checked;"></div>
+          </th>
+          <th>Text</th>
+          <th>Author</th>
+          <th>IP</th>
+        </tr>
+      </thead>
+      <tbody>
+        <TMPL_LOOP list>
+          <tr>
+            <td>
+              <div class="check-radio"><input type="checkbox" name="cmt_id" value="<TMPL_VAR cmt_id>"></div>
+            </td>
+            <td>
+              <TMPL_VAR cmt_text>
+            </td>
+            <td><a href="/?op=admin_comments&rr=<TMPL_VAR cmt_type>-<TMPL_VAR cmt_ext_id><TMPL_VAR token_str>">#</a> by <TMPL_IF usr_login><a href="?op=admin_comments&usr_id=<TMPL_VAR usr_id>">
+                  <TMPL_VAR usr_login>
+                </a>
+                <TMPL_ELSE>
+                  <TMPL_VAR cmt_name>
+                    <TMPL_IF cmt_email> (<TMPL_VAR cmt_email>)</TMPL_IF>
+              </TMPL_IF>
+            </td>
+            <td><a href="?op=admin_comments&ip=<TMPL_VAR ip>">
+                <TMPL_VAR ip>
+              </a></td>
+          </tr>
+        </TMPL_LOOP>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td class="text-start" colspan="4"><input type="submit" name="del_selected" value="Delete selected" class="btn btn-danger"></td>
+        </tr>
+      </tfoot>
+    </Table>
+  </div>
+  <TMPL_VAR paging>
+</Form>

@@ -1,0 +1,92 @@
+<script>
+  loadT('Payment Transactions');
+</script>
+
+<div class="top-bar">
+  <div class="row align-items-center g-3">
+    <div class="col-auto">
+      <Form>
+        <input type="hidden" name="op" value="admin_transactions">
+        <input type="hidden" name="token" value="<TMPL_VAR token>">
+      <div class="row g-2 align-items-center">
+        <div class="col-auto">
+          Key:
+        </div>
+        <div class="col-auto">
+          <input type="text" name="key" value="<TMPL_VAR key>" class="form-control" style="max-width: 150px;">
+        </div>
+        <div class="col-auto">
+          IP:
+        </div>
+        <div class="col-auto">
+          <input type="text" name="ip" value="<TMPL_VAR ip>" class="form-control" style="max-width: 150px;">
+        </div>
+        <div class="col-auto">
+        Only last:
+        </div>
+        <div class="col-auto">
+          <select name="last" class="form-select">
+          <option value="0">all time</option>
+          <option value="1"<TMPL_VAR last_1>>1 day</option>
+          <option value="7"<TMPL_VAR last_7>>7 days</option>
+          <option value="30"<TMPL_VAR last_30>>1 month</option>
+          <option value="90"<TMPL_VAR last_90>>3 months</option>
+          <option value="180"<TMPL_VAR last_180>>6 months</option>
+          <option value="360"<TMPL_VAR last_360>>1 year</option>
+          </select>
+        </div>
+        <div class="col-auto">
+        <input type="submit" value="Search" class="btn btn-primary">
+        </div>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+  <TMPL_IF list>
+
+<div class="table-responsive">
+  <table class="table table-hover table-rounded align-middle table-justify small">
+<thead>
+
+  <tr class="hdr">
+      <th>Date</th>
+      <th>Type</th>
+      <th>Amount</th>
+      <th>IP</th>
+      <th>User</th>
+      <th>Email</th>
+      <th>Affiliate</th>
+      <th>TxnID</th>
+      <th>RefURL</th>
+  </tr>
+
+
+</thead>
+<tbody>
+  <TMPL_LOOP list>
+  <tr>
+      <td><a href="?op=admin_ipn_logs&amp;ipn_id=<TMPL_VAR ipn_id>"><TMPL_VAR created></a></td>
+      <td><TMPL_VAR name></td>
+      <td align=right>$<TMPL_VAR amount></td>
+      <td><a href="?op=admin_transactions&ip=<TMPL_VAR ip><TMPL_VAR token_str>"><TMPL_VAR ip></a></td>
+      <td><a href="?op=admin_user_edit&usr_id=<TMPL_VAR usr_id><TMPL_VAR token_str>"><TMPL_VAR usr_login></a></td>
+      <td><TMPL_VAR email></td>
+      <td><a href="?op=admin_user_edit&usr_id=<TMPL_VAR aff_id><TMPL_VAR token_str>"><TMPL_VAR aff_login></a></td>
+      <td><a href="?op=admin_ipn_logs&key=<TMPL_VAR txn_id><TMPL_VAR token_str>"><TMPL_VAR txn_id></a></td>
+      <td><small><TMPL_VAR ref_url></small></td>
+  </tr>
+  </TMPL_LOOP>
+</tbody>
+</table>
+</div>
+<TMPL_VAR paging>
+<br>
+<input type="button" class="btn btn-danger" value="Cleanup unverified transactions older than 30 days" onclick="window.location='?op=admin_transactions&amp;cleanup=1<TMPL_VAR token_str>'">
+
+<TMPL_ELSE>
+<div class="alert alert-secondary">
+  No Transactions
+</div>
+  </TMPL_IF>

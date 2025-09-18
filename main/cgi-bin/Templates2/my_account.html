@@ -1,0 +1,312 @@
+<TMPL_IF msg><div class="ok"><TMPL_VAR msg></div></TMPL_IF>
+
+<div style="width:65%;margin:0 auto;">
+
+<Form method="POST" enctype="multipart/form-data">
+<input type="hidden" name="op" value="my_account">
+<input type="hidden" name="token" value="<TMPL_VAR token>">
+
+<h2><TMPL_VAR lng_myaccount_my_details></h2>
+
+<TMPL_IF m_e><p><a href="/?op=ticket_list">My Tickets</a><TMPL_IF tickets_unread> (<TMPL_VAR tickets_unread>)</TMPL_IF></p></TMPL_IF>
+
+<Table class="accountable">
+<TR>
+	<TD width=145><TMPL_VAR lng_myaccount_username>:</TD>
+	<TD><TMPL_VAR my_login></TD>
+</TR>
+<TMPL_IF login_change>
+<TR>
+	<TD><TMPL_VAR lng_myaccount_username></TD>
+	<TD><input type="text" name="usr_login" value="<TMPL_VAR usr_login>"></TD>
+</TR>
+</TMPL_IF>
+<TR>
+	<TD><TMPL_VAR lng_myaccount_email></TD>
+	<TD><TMPL_VAR usr_email><TMPL_UNLESS usr_security_lock> <a href="?op=my_email" style="float:right"><TMPL_VAR lng_myaccount_change_email></a></TMPL_UNLESS></TD>
+</TR>
+<TMPL_UNLESS usr_security_lock>
+<TR>
+	<TD><TMPL_VAR lng_myaccount_password></TD>
+	<TD>
+		<TMPL_VAR lng_myaccount_password_last_changed>: <TMPL_VAR usr_password_changed>
+		<a href="?op=my_password" style="float:right"><TMPL_VAR lng_myaccount_change_password></a>
+	</TD>
+</TR>
+</TMPL_UNLESS>
+<TMPL_LOOP extra_fields>
+<TR>
+	<TD><TMPL_VAR name></TD>
+	<TD><input type="text" name="<TMPL_VAR field>" value="<TMPL_VAR value>"></TD>
+</TR>
+</TMPL_LOOP>
+<TMPL_IF enabled_prem>
+	<TR>
+		<TD><TMPL_VAR lng_myaccount_prem_valid_until>:</TD>
+		<TD><b><TMPL_VAR premium_expire></b>
+				<br><a href="<TMPL_VAR site_url>/?op=payments" class="btn-blue"><TMPL_VAR lng_myaccount_extend_account></a>
+			</span>
+		</TD>
+	</TR>
+	<TMPL_IF m_k>
+	<TR>
+		<TD><TMPL_VAR lng_myaccount_apply_prem_key>:</TD>
+		<TD>
+		<span class="accstat" id="keyd1"><a href="#" onclick="$('#pkdiv').show();$('#keyd1').hide();return false;" class="btn-blue"><TMPL_VAR lng_myaccount_apply></a></span>
+			<span id="pkdiv" style="display:none;">
+				<input type="text" name="premium_key" value="" size=24 class="myForm">
+				<input type="submit" name="premium_key_apply" value="<TMPL_VAR lng_myaccount_apply>" class="f-btn-blue">
+			</span>
+		</TD>
+	</TR>
+	</TMPL_IF>
+</TMPL_IF>
+
+<TR>
+	<TD><TMPL_VAR lng_myaccount_acc_balance>:</TD>
+	<TD><a href="<TMPL_VAR site_url>/?op=my_reports"><b>$<TMPL_VAR usr_money></b></a>
+		<a href="<TMPL_VAR site_url>/?op=request_money" class="btn-blue" style="margin-left: 20px"><TMPL_VAR lng_myaccount_request_payout></a>
+	</TD>
+</TR>
+<TR>
+	<TD><TMPL_VAR lng_myaccount_payment_info></TD>
+	<TD>
+		<input type="text" name="usr_pay_email" size=28 value="<TMPL_VAR usr_pay_email>"<TMPL_IF usr_security_lock> disabled</TMPL_IF>>
+		<select name="usr_pay_type" style="width:130px;"<TMPL_IF usr_security_lock> disabled</TMPL_IF>>
+			<TMPL_LOOP payout_list>
+			<option value="<TMPL_VAR name>"<TMPL_IF checked> selected</TMPL_IF>><TMPL_VAR name></option>
+			</TMPL_LOOP>
+		</select>
+	</TD>
+</TR>
+<TR>
+	<TD><TMPL_VAR lng_myaccount_ref_link>:</TD>
+	<TD><TMPL_VAR site_url>/reg<TMPL_VAR usr_id>.html &nbsp; <a href="<TMPL_VAR site_url>/?op=my_referrals"><TMPL_VAR referrals> refs</a></TD>
+</TR>
+
+<TMPL_IF dl_traffic_left>
+<TR>
+	<TD><TMPL_VAR lng_myaccount_traffic_available>:</TD>
+	<TD><TMPL_VAR dl_traffic_left> MB</TD>
+</TR>
+</TMPL_IF>
+<TMPL_IF m_6_enabled>
+<TR>
+	<TD>API URL:</TD>
+	<TD>
+		<TMPL_IF usr_api_key>
+			<TMPL_VAR site_url>/api/account/info?key=<TMPL_VAR usr_id><TMPL_VAR usr_api_key> 
+			<a href="/?op=my_account&generate_api_key=1&<TMPL_VAR token_str>" onclick="return confirm('Regenerate api key?')">change key</a>
+			<br><a href="/api.html" target=_blank>API reference</a>
+		<TMPL_ELSE>
+			<a href="?op=my_account&generate_api_key=1&<TMPL_VAR token_str>">Generate API Key</a>
+		</TMPL_IF>
+	</TD>
+</TR>
+</TMPL_IF>
+<TMPL_IF m_9_enabled>
+<TR>
+	<TD>My Ads:</TD>
+	<TD>
+			<a href="?op=my_ads&<TMPL_VAR token_str>">Manage ads</a>
+	</TD>
+</TR>
+</TMPL_IF>
+<TMPL_IF m_y_enabled>
+<TR>
+	<TD>My Custom Domain:</TD>
+	<TD>
+			<TMPL_IF usr_custom_domain><TMPL_VAR usr_custom_domain> </TMPL_IF><a href="?op=my_domains&<TMPL_VAR token_str>">Manage domains</a>
+	</TD>
+</TR>
+</TMPL_IF>
+<TR>
+	<TD><TMPL_VAR lng_myaccount_channel_name>:</TD>
+	<TD><input type="text" name="usr_channel_name" value="<TMPL_VAR usr_channel_name>" size=32></TD>
+</TR>
+<TR>
+	<TD><TMPL_VAR lng_myaccount_channel_logo>:</TD>
+<TD>
+<TMPL_IF user_avatar_url>
+	<p><img src="<TMPL_VAR user_avatar_url>"><a href="?op=my_account&avatar_delete=1<TMPL_VAR token_str>"><img src="/images/del.gif" onClick="return confirm('Delete avatar?')" style="position: absolute;margin-left:-18px;margin-top:2px;"></a></p>
+</TMPL_IF>
+	<input type="file" name="user_avatar" accept="image/*">
+</TD>
+</TR>
+</table>
+
+<input type="submit" name="settings_save" value="<TMPL_VAR lng_myaccount_save_settings>" class="f-btn-blue vmargin10">
+
+<Table class="accountable">
+<TR>
+	<TH colspan=2><TMPL_VAR lng_myaccount_security_settings></TH>
+</TR>
+<TR>
+	<TD width=145><TMPL_VAR lng_myaccount_security_lock></TD>
+	<TD>
+		<TMPL_IF usr_security_lock>
+		<b><TMPL_VAR lng_myaccount_on></b> <a href="?op=my_account&amp;disable_lock=1<TMPL_VAR token_str>"><TMPL_VAR lng_myaccount_disable></a>
+		<TMPL_ELSE>
+		<b><TMPL_VAR lng_myaccount_off></b> <a href="?op=my_account&amp;enable_lock=1<TMPL_VAR token_str>"><TMPL_VAR lng_myaccount_enable></a>
+		</TMPL_IF>
+
+	</TD>
+</TR>
+<TMPL_IF usr_premium_only>
+<TR>
+	<TD><TMPL_VAR lng_myaccount_auto_set_po></TD>
+	<TD>
+		<label><input type="checkbox" name="files_auto_po" value="1"<TMPL_IF files_auto_po> checked</TMPL_IF> /><TMPL_VAR lng_myaccount_enabled></label>
+	</TD>
+</TR>
+</TMPL_IF>
+<TR>
+	<TD><TMPL_VAR lng_myaccount_allowed_ips>
+	</TD>
+	<TD>
+		<input type="text" name="usr_allowed_ips" style="width:97%" value="<TMPL_VAR usr_allowed_ips>"<TMPL_IF usr_security_lock> readonly disabled</TMPL_IF>>
+		<br><small><TMPL_VAR lng_myaccount_allowed_ips_txt> <TMPL_VAR current_ip></small>
+	</TD>
+</TR>
+<TR>
+	<TD><TMPL_VAR lng_myaccount_on_login></TD>
+	<TD>
+		<label><input type="checkbox" name="usr_logout_sessions" value="1"<TMPL_IF usr_logout_sessions> checked</TMPL_IF>><TMPL_VAR lng_myaccount_logout_sessions></label><br>
+		<label><input type="checkbox" name="usr_email_newip" value="1"<TMPL_IF usr_email_newip> checked</TMPL_IF>><TMPL_VAR lng_myaccount_email_new_ip></label>
+	</TD>
+</TR>
+<TR>
+	<TD>Special</TD>
+	<TD>
+		<label><input type="checkbox" name="usr_no_file_delete" value="1"<TMPL_IF usr_no_file_delete> checked</TMPL_IF><TMPL_IF usr_security_lock> disabled</TMPL_IF>>Disable delete function from my account</label>
+	</TD>
+</TR>
+</Table>
+
+<input type="submit" name="settings_save" value="<TMPL_VAR lng_myaccount_save_settings>" class="f-btn-blue vmargin10">
+
+<Table class="accountable">
+<TR>
+	<TH colspan=2><TMPL_VAR lng_myaccount_player_settings></TH>
+</TR>
+<TR>
+	<TD><TMPL_VAR lng_myaccount_allowed_domains></TD>
+	<TD>
+		<input type="text" name="embed_domain_allowed" style="width:97%" value="<TMPL_VAR embed_domain_allowed>">
+		<span style=""><TMPL_VAR lng_myaccount_allowed_domains_txt></span>
+	</TD>
+</TR>
+<TR>
+	<TD>Banned countries</TD>
+	<TD>
+		<input type="text" name="banned_countries" style="width:97%" value="<TMPL_VAR banned_countries>" aria-describedby="banc">
+		<span id="banc">e.g. US|CA|FR</span>
+	</TD>
+</TR>
+<TR>
+	<TD>Banned IPs</TD>
+	<TD>
+		<input type="text" name="banned_ips" style="width:97%" value="<TMPL_VAR banned_ips>" aria-describedby="banip">
+		<span id="banip">e.g. 1.1.1.1, 2.3.4.*</span>
+	</TD>
+</TR>
+<TR>
+	<TD>Block direct access</TD>
+	<TD>
+		<label><input type="checkbox" name="usr_embed_access_only" value="1"<TMPL_IF usr_embed_access_only> checked</TMPL_IF>>
+		Allow embeds only</label>
+	</TD>
+</TR>
+<TR>
+	<TD>Video title in Embeds</TD>
+	<TD>
+		<label><input type="checkbox" name="usr_embed_title" value="1"<TMPL_IF usr_embed_title> checked</TMPL_IF>>
+		Show</label>
+	</TD>
+</TR>
+<TMPL_IF force_disable_adb_2>
+<TR>
+	<TD>Force to disable ADB</TD>
+	<TD>
+		<label><input type="checkbox" name="usr_disable_adb" value="1"<TMPL_IF usr_disable_adb> checked</TMPL_IF>>
+		Enabled</label>
+	</TD>
+</TR>
+</TMPL_IF>
+<TMPL_IF alt_ads_mode>
+<TR>
+	<TD>Ads mode</TD>
+	<TD>
+		<TMPL_LOOP ads_modes>
+		<div><label><input type="radio" name="usr_ads_mode" value="<TMPL_VAR mode>"<TMPL_VAR checked>><TMPL_VAR title></label></div>
+		</TMPL_LOOP>
+	</TD>
+</TR>
+</TMPL_IF>
+<TMPL_IF allow_no_encoding>
+<TR>
+	<TD>Disable video encoding</TD>
+	<TD>
+		<label><input type="checkbox" name="usr_no_encoding" value="1"<TMPL_IF usr_no_encoding> checked</TMPL_IF>>
+		Enabled</label> <small>(video should be H264+AAC codecs)</small>
+	</TD>
+</TR>
+</TMPL_IF>
+<TMPL_IF m_v_enabled>
+<TR>
+	<TD><TMPL_VAR lng_myaccount_watermark></TD>
+	<TD><a href="<TMPL_VAR site_url>/?op=my_watermark"><TMPL_VAR lng_myaccount_edit_watermark></a></TD>
+</TR>
+</TMPL_IF>
+<TMPL_IF multi_audio_list>
+<TR>
+	<TD>Default audio language</TD>
+	<TD>
+		<select name="usr_default_audio_lang">
+			<option value="">-</option>
+			<TMPL_LOOP multi_audio_list>
+			<option value="<TMPL_VAR value>"<TMPL_IF selected> selected</TMPL_IF>><TMPL_VAR name></option>
+			</TMPL_LOOP>
+		</select>
+	</TD>
+</TR>
+</TMPL_IF>
+</Table>
+
+<input type="submit" name="settings_save" value="<TMPL_VAR lng_myaccount_save_settings>" class="f-btn-blue vmargin10">
+
+
+<TMPL_IF m_b_enabled>
+	<table class="ownership">
+		<TR><TH colspan=3><TMPL_VAR lng_myaccount_webmaster_account></TH></TR>
+		<TR>
+			<TD colspan=3>
+				<TMPL_VAR lng_myaccount_confirm_site1> <b><TMPL_VAR site_url>/<TMPL_VAR site_key>.txt</b> <TMPL_VAR lng_myaccount_confirm_site2> <b><TMPL_VAR usr_id></b>
+	<br><TMPL_VAR lng_myaccount_confirm_site_meta>: <b>&lt;meta content="<TMPL_VAR usr_id>" name="<TMPL_VAR site_key>"&gt;</b>
+			</TD>
+		</TR>
+		<TR>
+			<TD colspan=3>
+				<TMPL_VAR lng_myaccount_site_url>: <input type="text" name="site_add" size=36 value="" placeholder="http://site.com">
+				<input type="submit" name="site_validate" value=" <TMPL_VAR lng_myaccount_add> " class="f-btn-blue">
+			</TD>
+	</TR>
+	<TMPL_IF websites>
+		<TR><th colspan=3><TMPL_VAR lng_myaccount_approved_sites></th></TR>
+		<TMPL_LOOP websites>
+		<TR>
+			<TD width="80%"><TMPL_VAR domain></TD>
+			<TD>$<TMPL_VAR money_profit></TD>
+			<TD><a href="?op=my_account&amp;site_del=<TMPL_VAR domain>" onClick="return confirm('<TMPL_VAR lng_myaccount_delete_domain>')"><img src="<TMPL_VAR site_url>/images/del.gif" border=0></a></TD>
+		</TR>
+		</TMPL_LOOP>
+		<TR>
+			<TD colspan=3 style="text-align:right;"><input type="button" value="<TMPL_VAR lng_myaccount_reset_profit_counter>" class="btn2" onclick="if(!confirm('<TMPL_VAR lng_myaccount_reset_profit_counters_confirm>'))return false;window.location='?op=my_account&amp;site_reset=1';"></TD>
+		</TR>  
+	</TMPL_IF>
+	</table>
+</TMPL_IF>
+
+</Form>
+
+</div>

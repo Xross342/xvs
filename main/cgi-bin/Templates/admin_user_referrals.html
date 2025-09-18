@@ -1,0 +1,43 @@
+<script>
+  loadT('Referrals or <TMPL_VAR usr_login>');
+</script>
+<div class="top-bar">
+  <div class="row align-items-center g-3">
+    <div class="col-auto">
+      <a href="?op=admin_user_edit&usr_id=<TMPL_VAR usr_id><TMPL_VAR token_str>" class="btn btn-outline-light">Back to user details</a>
+    </div>
+  </div>
+</div>
+<h5 class="text-center text-dark mb-3">User Referrals</h5>
+<div class="table-responsive">
+  <table class="table table-hover table-rounded align-middle table-justify small">
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Username</th>
+        <th>Points</th>
+      </tr>
+    </thead>
+    <tbody>
+      <TMPL_LOOP referrals>
+        <TMPL_IF more>
+          <tr>
+            <td class="text-center" colspan="3"><a href="?op=admin_user_referrals&usr_id=<TMPL_VAR usr_aff_id><TMPL_VAR token_str>">More...</a></td>
+          </tr>
+          <TMPL_ELSE>
+            <tr>
+              <td>
+                <TMPL_VAR usr_created>
+              </td>
+              <td><a href="?op=admin_user_edit&usr_id=<TMPL_VAR usr_id><TMPL_VAR token_str>">
+                  <TMPL_VAR usr_login>
+                </a></td>
+              <td>
+                <TMPL_VAR usr_points>
+              </td>
+            </tr>
+        </TMPL_IF>
+      </TMPL_LOOP>
+    </tbody>
+  </table>
+</div>

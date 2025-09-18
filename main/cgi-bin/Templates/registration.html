@@ -1,0 +1,154 @@
+<div class="container">
+  <Form method="POST" id="regform" onSubmit="return CheckForm(this)" style="margin:0;display:block;">
+    <input type="hidden" name="op" value="register_save">
+    <input type="hidden" name="rand" value="<TMPL_VAR rand>">
+    <div class="login">
+      <h1 class="fs-3 text-dark mb-4">
+        <TMPL_VAR lng_registration_title>
+      </h1>
+      <TMPL_IF msg>
+        <div class="alert alert-danger">
+          <TMPL_VAR msg>
+        </div>
+      </TMPL_IF>
+      <div class="text-center">
+        <div class="form-floating mb-4">
+          <input type="text" class="form-control" id="usr_login" placeholder="" name="usr_login" value="<TMPL_VAR usr_login>" role="presentation" autocomplete="off">
+          <label for="usr_login">
+            <TMPL_VAR lng_registration_username>
+          </label>
+        </div>
+        <div class="form-floating mb-4">
+          <input type="text" class="form-control" id="usr_email" placeholder="" name="usr_email" value="<TMPL_VAR usr_email>" autocomplete="email">
+          <label for="usr_email">
+            E-mail
+          </label>
+        </div>
+        <div class="form-floating mb-4">
+          <input type="password" class="form-control" id="usr_password" placeholder="" name="usr_password" value="<TMPL_VAR usr_password>" autocomplete="new-password">
+          <label for="usr_password">
+            <TMPL_VAR lng_registration_password>
+          </label>
+        </div>
+        <div class="form-floating mb-4">
+          <input type="password" class="form-control" id="usr_password2" placeholder="" name="usr_password2" value="<TMPL_VAR usr_password2>" autocomplete="new-password">
+          <label for="usr_password2">
+            <TMPL_VAR lng_registration_retype_password>
+          </label>
+        </div>
+        <div class="form-floating mb-4">
+          <select id="usr_pay_type" name="usr_pay_type" class="form-select">
+            <option value="" selected="selected">--</option>
+            <TMPL_LOOP payout_list>
+              <option value="<TMPL_VAR name>">
+                <TMPL_VAR name>
+              </option>
+            </TMPL_LOOP>
+          </select>
+          <label for="usr_pay_type">Payment metod *</label>
+        </div>
+        <div id="usr_pay_field" style="display: none;">
+          <div class="form-floating mb-4">
+            <input type="password" class="form-control" id="usr_pay_email" placeholder="" name="usr_pay_email" value="<TMPL_VAR usr_pay_email>">
+            <label for="usr_pay_email">
+              <TMPL_VAR lng_registration_payment_info> *
+            </label>
+          </div>
+        </div>
+        <TMPL_IF coupons>
+          <div class="form-floating mb-4">
+            <input type="password" class="form-control" id="coupon_code" placeholder="" name="coupon_code" value="<TMPL_VAR coupon_code>">
+            <label for="coupon_code">
+              <TMPL_VAR lng_registration_coupon_code> *
+            </label>
+          </div>
+        </TMPL_IF>
+        <TMPL_LOOP extra_fields>
+          <div class="form-floating mb-4">
+            <input type="text" class="form-control" id="<TMPL_VAR field>" placeholder="" name="<TMPL_VAR field>">
+            <label for="<TMPL_VAR field>">
+              <TMPL_VAR name>
+            </label>
+          </div>
+        </TMPL_LOOP>
+        <TMPL_IF captcha_on>
+          <TMPL_IF ihtml>
+            <div class="d-flex justify-content-center mb-4">
+              <div class="d-inline-block">
+                <TMPL_VAR ihtml>
+              </div>
+            </div>
+            <TMPL_ELSE>
+              <div class="form-floating mb-4">
+                <input type="text" class="form-control" id="floatingCode" placeholder="" name="code">
+                <label for="floatingCode">Code</label>
+                <TMPL_IF iurl><img src="<TMPL_VAR iurl>" class="position-absolute top-50 end-0 translate-middle-y me-3">
+                  <TMPL_ELSE><span class="position-absolute top-50 end-0 translate-middle-y me-3">
+                      <TMPL_VAR itext>
+                    </span>
+                </TMPL_IF>
+              </div>
+          </TMPL_IF>
+        </TMPL_IF>
+        <div class="mb-3 text-start text-muted small">*Optional</div>
+        <div class="<TMPL_IF external_sites_login>mb-5</TMPL_IF>">
+          <button type="submit" class="btn btn-primary submit-btn">
+            <TMPL_VAR lng_registration_submit_button>
+          </button>
+        </div>
+        <TMPL_IF external_sites_login>
+          <div class="login-social">
+            <div class="divider-text text-muted"><span>
+                <TMPL_VAR lng_login_enter_via_other_sites>
+              </span></div>
+            <TMPL_IF facebook_app_id>
+              <span class="me-2">
+                <a href="<TMPL_VAR site_url>/login?method=facebook"><img src="<TMPL_VAR site_url>/images2/social/fb.svg" style="width: 32px;" alt=""></a>
+              </span>
+            </TMPL_IF>
+            <TMPL_IF vk_app_id>
+              <span class="me-2">
+                <a href="<TMPL_VAR site_url>/login?method=vk"><img src="<TMPL_VAR site_url>/images2/social/vk.svg" style="width: 32px;" alt=""></a>
+              </span>
+            </TMPL_IF>
+            <TMPL_IF google_app_id>
+              <span class="me-2">
+                <a href="<TMPL_VAR site_url>/login?method=google"><img src="<TMPL_VAR site_url>/images2/social/go.svg" style="width: 32px;" alt=""></a>
+              </span>
+            </TMPL_IF>
+            <TMPL_IF twit_consumer1>
+              <span class="me-2">
+                <a href="<TMPL_VAR site_url>/login?method=twitter"><img src="<TMPL_VAR site_url>/images2/social/x.svg" style="width: 32px;" alt=""></a>
+              </span>
+            </TMPL_IF>
+          </div>
+        </TMPL_IF>
+      </div>
+    </div>
+  </form>
+</div>
+
+
+<TMPL_IF aff><script src="<TMPL_VAR static_url>/js/jquery.cookie.js"></script></TMPL_IF>
+<Script>
+  $('#usr_pay_type').prop('selectedIndex',0);
+  $('#usr_pay_type').on('change', function(e){
+    if(e.target.value) {
+      $('#usr_pay_field').show();
+    } else {
+      $('#usr_pay_field').hide();
+    }    
+  })
+function  CheckForm(f) {
+    var err=Array();
+    if(f.usr_login.value.length<4)err.push("* <TMPL_VAR lng_registration_username_too_short>");
+    if(f.usr_login.value.length>32)err.push("* <TMPL_VAR lng_registration_username_too_long>");
+    if(!f.usr_login.value.match(/^([a-zA-Z0-9_\-])+$/))err.push("* <TMPL_VAR lng_registration_invalid_username>");
+    if(f.usr_password.value.length<4)err.push("* <TMPL_VAR lng_registration_password_too_short>");
+    if(f.usr_password.value.length>32)err.push("* <TMPL_VAR lng_registration_password_too_long>");
+    if( !f.usr_email.value.match(/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/) )err.push("* <TMPL_VAR lng_registration_email_invalid>");
+    if(f.usr_password.value.length!=f.usr_password2.value.length)err.push("* <TMPL_VAR lng_registration_passwords_dont_match>");
+    if(err.length>0){alert( '<TMPL_VAR lng_registration_fix_errors_below>:\n\n'+err.join('\n') );return false;}
+}
+<TMPL_IF aff>$.cookie('aff', '<TMPL_VAR aff>', { expires: 10 });</TMPL_IF>
+</Script>

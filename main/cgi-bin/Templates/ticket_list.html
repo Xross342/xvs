@@ -1,0 +1,47 @@
+<script>
+	loadT('My Tickets');
+</script>
+<div class="top-bar">
+	<div class="row align-items-center g-3">
+		<div class="col-auto">
+			<a href="/?op=ticket_create" class="btn btn-success me-2">
+				<svg class="me-2" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+					<path d="M6 6V0H8V6H14V8H8V14H6V8H0V6H6Z" fill="currentColor"></path>
+				</svg> Add ticket</a>
+		</div>
+	</div>
+</div>
+<TMPL_IF list>
+<TMPL_LOOP list>
+	<article class="block py-3 px-4 mb-3">
+		<h3 class="fs-5">
+			<a class="link-body-emphasis" href="/?op=ticket_view&ti_id=<TMPL_VAR ti_id>">
+				<TMPL_VAR ti_title>
+			</a>
+		</h3>
+		<div class="row">
+			<TMPL_UNLESS open>
+				<div class="col-auto">
+					<div class="ticket-status badge text-danger">closed</div>
+				</div>
+			</TMPL_UNLESS>
+			<TMPL_IF unread>
+				<div class="col-auto">
+					<div class="ticket-status badge text-muted">
+						<TMPL_VAR unread>
+					</div>
+				</div>
+			</TMPL_IF>
+			<div class="col-auto">
+				<span class="small text-muted me-4">
+					<TMPL_VAR updated>
+				</span>
+			</div>
+		</div>
+	</article>
+</TMPL_LOOP>
+<TMPL_ELSE>
+	<div class="alert alert-secondary">
+		No tickets
+	</div>
+</TMPL_IF>

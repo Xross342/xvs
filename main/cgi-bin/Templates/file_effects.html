@@ -1,0 +1,137 @@
+<tr>
+	<td class="text-lg-end">
+		<label class=" col-form-label">Cut video from</label>
+	</td>
+	<td class="border-start">
+		<div class="row align-items-center">
+			<div class="col-auto"><input type="text" name="eff_tt1" class="form-control" style="width: 50px;"></div>
+			<div class="col-auto"><small class="text-muted">to</small></div>
+			<div class="col-auto"><input type="text" name="eff_tt2" class="form-control" style="width: 50px;"></div>
+			<div class="col-auto"><small class="text-muted">seconds</small></div>
+		</div>
+	</td>
+</tr>
+<tr>
+	<td class="text-lg-end">
+		<label class=" col-form-label">Video crop:</label>
+	</td>
+	<td class="border-start">
+		<div class="row align-items-center g-3 mb-3">
+			<div class="col-auto col-lg-2">Left:</div>
+			<div class="col-auto">
+				<div class="input-group input-group-sm">
+					<input type="text" name="eff_cropl" class="form-control" style="max-width: 50px;">
+					<span class="input-group-text">px</span>
+				</div>
+			</div>
+		</div>
+		<div class="row align-items-center g-3 mb-3">
+			<div class="col-auto col-lg-2">Top:</div>
+			<div class="col-auto">
+				<div class="input-group input-group-sm">
+					<input type="text" name="eff_cropt" class="form-control" style="max-width: 50px;">
+					<span class="input-group-text">px</span>
+				</div>
+			</div>
+		</div>
+		<div class="row align-items-center g-3 mb-3">
+			<div class="col-auto col-lg-2">Right:</div>
+			<div class="col-auto">
+				<div class="input-group input-group-sm">
+					<input type="text" name="eff_cropr" class="form-control" style="max-width: 50px;">
+					<span class="input-group-text">px</span>
+				</div>
+			</div>
+		</div>
+		<div class="row align-items-center g-3 mb-3">
+			<div class="col-auto col-lg-2">Bottom:</div>
+			<div class="col-auto">
+				<div class="input-group input-group-sm">
+					<input type="text" name="eff_cropb" class="form-control" style="max-width: 50px;">
+					<span class="input-group-text">px</span>
+				</div>
+			</div>
+		</div>
+	</td>
+</tr>
+<tr>
+	<td class="text-lg-end">
+		<label class=" col-form-label">Auto Crop</label>
+	</td>
+	<td class="border-start">
+		<div class="form-switcher">
+			<input type="checkbox" name="eff_crop_auto" value="1" id="acrop">
+			<label class="switcher-status" for="acrop"></label>
+		</div>
+	</td>
+</tr>
+<tr>
+	<td class="text-lg-end">
+		<label class=" col-form-label">Deinterlace video</label>
+	</td>
+	<td class="border-start">
+		<div class="form-switcher">
+			<input type="checkbox" name="eff_deinterlace" value="1" id="eff_deinterlace">
+			<label class="switcher-status" for="eff_deinterlace"></label>
+		</div>
+	</td>
+</tr>
+<tr>
+	<td class="text-lg-end">
+		<label class=" col-form-label">Grayscale</label>
+	</td>
+	<td class="border-start">
+		<div class="form-switcher">
+			<input type="checkbox" name="eff_grayscale" value="1" id="eff_grayscale">
+			<label class="switcher-status" for="eff_grayscale"></label>
+		</div>
+	</td>
+</tr>
+<tr>
+	<td class="text-lg-end">
+		<label class=" col-form-label">Denoise filter</label>
+	</td>
+	<td class="border-start">
+		<div class="form-switcher">
+			<input type="checkbox" name="eff_denoise" value="1" id="eff_denoise">
+			<label class="switcher-status" for="eff_denoise"></label>
+		</div>
+	</td>
+</tr>
+<tr>
+	<td class="text-lg-end">
+		<label class=" col-form-label">Denoise filter</label>
+	</td>
+	<td class="border-start">
+		<div class="form-switcher">
+			<input type="checkbox" name="eff_denoise" value="1" id="eff_denoise">
+			<label class="switcher-status" for="eff_denoise"></label>
+		</div>
+	</td>
+</tr>
+<tr>
+	<td class="text-lg-end">
+		<label class=" col-form-label">Rotate:</label>
+	</td>
+	<td class="border-start">
+		<div class="btn-group btn-group-sm">
+			<input type="radio" class="btn-check" name="eff_rotate" value="" id="eff_rotate1" autocomplete="off" checked="checked">
+			<label class="btn btn-outline-primary px-3" for="eff_rotate1">None</label>
+			<input type="radio" class="btn-check" name="eff_rotate" value="1" id="eff_rotate2" autocomplete="off">
+			<label class="btn btn-outline-primary px-3" for="eff_rotate2">Clockwise</label>
+			<input type="radio" class="btn-check" name="eff_rotate" value="2" id="eff_rotate3" autocomplete="off">
+			<label class="btn btn-outline-primary px-3" for="eff_rotate3">Counterclockwise</label>
+		</div>
+	</td>
+</tr>
+<tr>
+	<td class="text-lg-end">
+		<label class=" col-form-label">Audio volume multiplier</label>
+	</td>
+	<td class="border-start">
+		<div class="row align-items-center">
+			<div class="col-auto"><input type="text" name="eff_volume" class="form-control" style="width: 50px;"></div>
+			<div class="col-auto"><small class="text-muted">(0.0 - 5.0)</small></div>
+		</div>
+	</td>
+</tr>

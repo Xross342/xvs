@@ -1,0 +1,12 @@
+<div class="container">
+<TMPL_IF err>
+  <div class="alert alert-danger" role="alert">
+    <TMPL_VAR err>
+  </div>
+  </TMPL_IF>
+  <TMPL_IF msg>
+  <div class="alert alert-primary" role="alert">
+    <TMPL_VAR msg>
+  </div>
+</TMPL_IF>
+</div>

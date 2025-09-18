@@ -1,0 +1,68 @@
+<script>
+	loadT('Ad details');
+</script>
+<TMPL_IF msg>
+	<div class="alert alert-success">
+		<TMPL_VAR msg>
+	</div>
+</TMPL_IF>
+<div class="block admin-settings p-0">
+	<Form method="POST" enctype="multipart/form-data" action="<TMPL_VAR site_url>/">
+		<input type="hidden" name="op" value="my_ads_form">
+		<input type="hidden" name="ad_id" value="<TMPL_VAR ad_id>">
+		<table class="table settings-table mb-0 align-middle">
+			<tbody>
+				<tr>
+					<td class="text-lg-end">
+						<label class="col-form-label">Title</label>
+					</td>
+					<td class="border-start">
+						<input type="text" name="ad_title" value="<TMPL_VAR ad_title>" class="form-control form-control-sm">
+					</td>
+				</tr>
+				<tr>
+					<td class="text-lg-end">
+						<label class=" col-form-label">HTML Code</label>
+					</td>
+					<td class="border-start">
+						<textarea name="ad_code" class="form-control form-control-sm" rows="5"><TMPL_VAR ad_code></textarea>
+					</td>
+				</tr>
+				<tr>
+					<td class="text-lg-end">
+						<label class=" col-form-label">Weight</label>
+					</td>
+					<td class="border-start">
+						<div class="row align-items-center">
+							<div class="col-auto"><input type="text" name="ad_weight" value="<TMPL_VAR ad_weight>" class="form-control form-control-sm"></div>
+							<div class="col-auto"><small class="text-muted">(0..255)</small></div>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td class="text-lg-end">
+						<label class=" col-form-label">Adult</label>
+					</td>
+					<td class="border-start">
+						<div class="form-switcher">
+							<input type="checkbox" name="ad_adult" value="1" <TMPL_IF ad_adult> checked</TMPL_IF>>
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td class="text-lg-end">
+						<label class=" col-form-label">Disabled</label>
+					</td>
+					<td class="border-start">
+						<div class="form-switcher">
+							<input type="checkbox" name="ad_disabled" value="1" <TMPL_IF ad_disabled> checked</TMPL_IF>>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<div class="text-center p-4">
+			<input type="submit" name="save" value="<TMPL_VAR lng_misc_save>" class="btn btn-primary submit-btn">
+		</div>
+	</form>
+</div>

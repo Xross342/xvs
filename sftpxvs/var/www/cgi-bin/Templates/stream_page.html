@@ -1,0 +1,35 @@
+<div class="container">
+	<div class="col-xl-9 mx-auto">
+		<div class="preview mb-4">
+			<div class="ratio ratio-16x9">
+				<iframe src="/streams/<TMPL_VAR stream_code>.html"></iframe>
+			</div>
+		</div>
+		<div class="block py-3 mb-5">
+			<h1 class="download-title text-truncate mb-2">
+				<TMPL_VAR stream_title>
+			</h1>
+			<div class="download-meta">
+				<div> Online: <span id="online">0</span>
+				</div>
+			</div>
+			<TMPL_IF stream_descr>
+				<div class="fulltext">
+					<div class="plot">
+						<p>
+							<TMPL_VAR stream_descr>
+						</p>
+					</div>
+				</div>
+			</TMPL_IF>
+		</div>
+	</div>
+</div>
+
+<script>
+function updateOnline(){
+	$.get('<TMPL_VAR site_url>/dl?op=stream_ping&stream_id=<TMPL_VAR stream_id>&check=1', function(data) {eval(data);} );
+}
+	updateOnline();
+	setInterval(updateOnline, 30000);
+</script>

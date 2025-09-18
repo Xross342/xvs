@@ -1,0 +1,866 @@
+<script>
+	loadT('<TMPL_VAR lng_myfiles_page_title>');
+</script>
+
+<div class="top-bar">
+        <div class="row align-items-center g-3">
+          <div class="col-auto flex-grow-1 flex-shrink-1">
+
+						<div class="row flex-nowrap align-items-center gx-2">
+              <div class="col-auto">
+                <button type="button" data-bs-toggle="modal" data-bs-target="#add_folder" class="btn btn-success">
+                  <svg class="me-2" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+                    <path d="M6 6V0H8V6H14V8H8V14H6V8H0V6H6Z" fill="currentColor"></path>
+                  </svg>
+                  <TMPL_VAR lng_myfiles_create_new_folder></button>
+              </div>
+              <div class="col-auto">
+
+								<form method="POST" action="<TMPL_VAR site_url>/" name="F1" enctype="multipart/form-data">
+								<input type="hidden" name="op" value="my_files">
+								<input type="hidden" name="fld_id" value="<TMPL_VAR folder_id>">
+								<input type="hidden" name="token" value="<TMPL_VAR token>">
+
+                <input type="text" class="form-control search-field" name="key" value="<TMPL_VAR key>" placeholder="<TMPL_VAR lng_myfiles_search>">
+
+  </form>
+
+              </div>
+              <div class="col-auto">
+                <button type="button" data-bs-target="#mass_search" data-bs-toggle="modal" class="btn btn-outline-primary"><TMPL_VAR lng_myfiles_bulk_search></button>
+              </div>
+            </div>
+
+          </div>
+			<div class="col-auto">
+				<small class="text-muted">
+					<TMPL_IF total_files>
+								<TMPL_VAR lng_myfiles_used_space> <b><TMPL_VAR total_size></b><TMPL_IF disk_space> <TMPL_VAR lng_myfiles_of> <b><TMPL_VAR disk_space> GB</b></TMPL_IF>, <TMPL_VAR total_files> <TMPL_VAR lng_myfiles_files>
+					</TMPL_IF>
+				</small>
+			</div>
+			<TMPL_IF deleted_num><div class="col-auto"><a class="small text-muted" href="?op=my_files_deleted"><TMPL_VAR deleted_num> <TMPL_VAR lng_myfiles_deleted></a></div></TMPL_IF>
+			<TMPL_IF dmca_num><div class="col-auto"><TMPL_IF m_a><a class="small text-muted" href="?op=my_files_dmca" style="color:orange !important"><TMPL_VAR dmca_num> DMCA</a></TMPL_IF></div></TMPL_IF>
+			<TMPL_IF dmca_renamed_num><div class="col-auto"><TMPL_IF m_a><a class="small text-muted" href="?op=my_files_dmca_renamed" style="color:red !important"><TMPL_VAR dmca_renamed_num> renamed</a></TMPL_IF></div></TMPL_IF>
+		</div>
+      </div>
+
+        <div class="modal fade" id="mass_search" tabindex="-1">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5"><TMPL_VAR lng_myfiles_bulk_search></h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="<TMPL_VAR lng_misc_close>"></button>
+              </div>
+
+
+							<form method="POST" action="<TMPL_VAR site_url>/" name="F1" enctype="multipart/form-data">
+							<input type="hidden" name="op" value="my_files">
+							<input type="hidden" name="fld_id" value="<TMPL_VAR folder_id>">
+							<input type="hidden" name="token" value="<TMPL_VAR token>">
+
+
+              <div class="modal-body">
+
+
+<textarea name="mass_search" wrap="off" class="form-control" rows="6"></textarea>
+
+
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal"><TMPL_VAR lng_misc_close></button>
+                <button  type="submit" class="btn btn-primary"><TMPL_VAR lng_myfiles_search></button>
+              </div>
+
+							  </form>
+
+
+            </div>
+          </div>
+        </div>
+
+
+
+			<TMPL_IF msg>
+				<div class="alert alert-success">
+					<TMPL_VAR msg>
+				</div>
+			</TMPL_IF>
+
+
+
+
+			<TMPL_IF srt_mass_upload>
+			<TMPL_IF folder_id>
+				<div class="text-end mb-3"><a href="#" onclick="$('#mass_captions').modal('show');">Mass captions upload</a></div>
+
+				<div class="modal fade" id="mass_captions" tabindex="-1">
+					<div class="modal-dialog modal-dialog-centered">
+						<div class="modal-content border-0">
+							<div class="modal-header">
+								<h1 class="modal-title fs-5">Mass captions upload</h1>
+								<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							</div>
+
+
+							<Form method="POST" action="<TMPL_VAR site_url>/" name="F2" enctype="multipart/form-data">
+							<input type="hidden" name="op" value="my_files">
+							<input type="hidden" name="fld_id" value="<TMPL_VAR folder_id>">
+							<input type="hidden" name="token" value="<TMPL_VAR token>">
+
+
+							<div class="modal-body">
+
+
+				<div class="mb-3">
+					<input name="srts" type="file" size="30" accept=".zip" class="form-control">
+				</div>
+				<div class="mb-3">
+					<label class="form-label">Language:</label>
+					<select class="form-select" name="srt_lang">
+					<TMPL_LOOP srt_langs><option value="<TMPL_VAR value>"><TMPL_VAR title></option></TMPL_LOOP>
+					</select>
+				</div>
+
+				<div class="form-text">Captions and videos should have sXXeYY in file name</div>
+
+
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-outline-light" data-bs-dismiss="modal"><TMPL_VAR lng_misc_close></button>
+								<input type="submit" name="upload_srts" value="Upload ZIP with captions" class="btn btn-primary">
+							</div>
+
+								</form>
+
+
+						</div>
+					</div>
+				</div>
+
+		</TMPL_IF>
+		</TMPL_IF>
+
+
+
+			<form method="POST" action="<TMPL_VAR site_url>/" name="F2">
+			<input type="hidden" name="op" value="my_files">
+			<input type="hidden" name="fld_id" value="<TMPL_VAR folder_id>">
+			<input type="hidden" name="token" value="<TMPL_VAR token>">
+
+
+
+
+
+				<div class="files">
+				        <div class="table-responsive">
+
+
+<table class="table table-hover shadow-sm align-middle" id="xfiles">
+<TMPL_IF folder_id>
+<tr>
+	<td></td>
+	<td>
+		<div class="files-name">
+			<a href="/?op=my_files&fld_id=<TMPL_VAR fld_parent_id>" class="link-dark">
+				<svg class="me-2" xmlns="http://www.w3.org/2000/svg" width="14" height="13" viewBox="0 0 14 13" fill="none">
+					<path d="M7.28 1.59995H13.3C13.72 1.59995 14 1.87995 14 2.29995V12.1C14 12.52 13.72 12.8 13.3 12.8H0.7C0.28 12.8 0 12.52 0 12.1V0.899951C0 0.479951 0.28 0.199951 0.7 0.199951H5.88L7.28 1.59995Z" fill="#FFCC66"></path>
+				</svg>
+				<span class="text-truncate fw-500" title="Total files: <TMPL_VAR files_total>">&nbsp;. .&nbsp;</span>
+			</a>
+		</div>
+	</td>
+	<td></td>
+</tr>
+</TMPL_IF>
+	<TMPL_LOOP folders>
+	  <tr>
+	    <td><div class="check-radio">
+	    	<input name="fld_id1" value="<TMPL_VAR fld_id>" type="checkbox">
+	    	</div>
+	    </td>
+	    <td>
+
+				<div class="files-name">
+					<a href="/?op=my_files&amp;fld_id=<TMPL_VAR fld_id>" class="link-dark">
+						<svg class="me-2" xmlns="http://www.w3.org/2000/svg" width="14" height="13" viewBox="0 0 14 13" fill="none">
+							<path d="M7.28 1.59995H13.3C13.72 1.59995 14 1.87995 14 2.29995V12.1C14 12.52 13.72 12.8 13.3 12.8H0.7C0.28 12.8 0 12.52 0 12.1V0.899951C0 0.479951 0.28 0.199951 0.7 0.199951H5.88L7.28 1.59995Z" fill="#FFCC66"></path>
+						</svg>
+						<span class="text-truncate fw-500" title="Total files: <TMPL_VAR files_total>"><TMPL_VAR fld_name></span>
+					</a>
+				</div>
+				<TMPL_IF fld_descr><br><small><TMPL_VAR fld_descr></small></TMPL_IF>
+		</td>
+	    <td>
+	    	<a class="me-2" href="?op=fld_edit&amp;fld_id=<TMPL_VAR fld_id>"><img src="/images2/edit.svg"></a>
+	    	<a href="?op=my_files&amp;fld_id=<TMPL_VAR folder_id>&amp;del_selected_fld=1&amp;fld_id1=<TMPL_VAR fld_id>&amp;token=<TMPL_VAR token>" onClick="return confirm('<TMPL_VAR lng_myfiles_delete_folder>')"><img src="/images2/delete.svg"></a>
+		</td>
+	  </tr>
+	  </TMPL_LOOP>
+	  <tr>
+		<th colspan="3" id="fld_buttons" style="text-align:left; display: none">
+			<!-- Bulk Delete -->
+			<input type="submit" name="del_selected_fld" value="<TMPL_VAR lng_myfiles_delete_selected>" class="f-btn-red" onClick="return confirm('<TMPL_VAR lng_myfiles_delete_folders>')">
+			
+			<!-- Bulk Export -->
+			<input type="button" value="<TMPL_VAR lng_myfiles_export_selected>" onClick="this.form.op.value='my_files_export';this.form.target='_blank';this.form.submit();this.form.op.value='my_files';this.form.target='_self';" class="f-btn-black">
+			
+			<!-- Bulk Move -->
+			<input type="button" value="<TMPL_VAR lng_myfiles_move_to_folder>" class="f-btn-black" onclick="$('#fld_move_div').lbox();$('#fld_filter_btn').click();">
+		</th>
+	</tr>
+	
+	
+</table>
+
+
+<TMPL_IF files>
+<table class="table table-hover shadow-sm align-middle" id="xfiles">
+<thead>
+<tr>
+	<TMPL_IF mfs_chk>
+	<th class="nojs" style="width: 1%;">
+		<div class="check-radio">
+			<input type="checkbox" id="selall">
+		</div>
+	</th>
+	</TMPL_IF>
+	<th colspan="2" style="width: 9999px;">
+		<TMPL_VAR s_file_title>
+		<TMPL_VAR lng_myfiles_filename_description>
+		<TMPL_VAR s2_file_title>
+	</th>
+	<th nowrap>
+		<TMPL_VAR s_file_size>
+		<TMPL_VAR lng_myfiles_filesize>
+		<TMPL_VAR s2_file_size>
+	</th>
+	<TMPL_IF mfs_view>
+	<th title="Views Full">
+		<TMPL_VAR s_file_views_full>
+		<TMPL_VAR lng_myfiles_views>
+		<TMPL_VAR s2_file_views_full>
+	</th>
+	</TMPL_IF>
+	<TMPL_IF down_on>
+	<TMPL_IF mfs_ddl>
+	<th title="<TMPL_VAR lng_myfiles_number_of_dl>">
+		<TMPL_VAR s_file_downloads>
+		<TMPL_VAR lng_myfiles_downloads_short>
+		<TMPL_VAR s2_file_downloads>
+	</th>
+	</TMPL_IF>
+	</TMPL_IF>
+	<TMPL_IF mfs_pub>
+	<th title="<TMPL_VAR lng_myfiles_published>">
+		<TMPL_VAR s_file_public>
+		<TMPL_VAR lng_myfiles_published_short>
+		<TMPL_VAR s2_file_public>
+	</th>
+	</TMPL_IF>
+	<TMPL_IF usr_premium_only>
+	<th title="<TMPL_VAR lng_myfiles_premium_only>">
+		<TMPL_VAR s_file_premium_only>
+		PO
+		<TMPL_VAR s2_file_premium_only>
+	</th>
+	</TMPL_IF>
+	<TMPL_IF mfs_upl>
+	<th>
+		<TMPL_VAR s_file_created>
+		<TMPL_VAR lng_myfiles_uploaded>
+		<TMPL_VAR s2_file_created>
+	</th>
+	</TMPL_IF>
+	<th style="width: 1%;"></th>
+</tr>
+</thead>
+<tbody>
+
+										<TMPL_LOOP files>
+										  <tr>
+										    <TMPL_IF mfs_chk>
+										    <td>
+										        <div class="check-radio">
+										        	<input type="checkbox" name="file_id" value="<TMPL_VAR file_id>">
+										        </div>
+										    </td>
+										    </TMPL_IF>
+										    <td class="left">
+
+													<div class="files-name">
+												<a class="link-dark" href="<TMPL_VAR download_link>">
+
+													<TMPL_IF video_thumb_url>
+															<img src="<TMPL_VAR video_thumb_url>" class="files-thumb me-2" alt="">
+															<span class="text-truncate fw-500"><TMPL_VAR file_title_txt></span>
+													<TMPL_ELSE>
+														<svg class="me-2" width="16" height="13" viewBox="0 0 16 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+																<path d="M10.9091 0.681824C11.3455 0.681824 11.6364 0.972733 11.6364 1.4091V4.46364L15.4182 1.77273C15.5636 1.62728 15.7818 1.70001 15.9273 1.84546C16 1.99091 16 2.06364 16 2.13637V10.8636C16 11.0818 15.8545 11.2273 15.6364 11.2273C15.5636 11.2273 15.4909 11.2273 15.4182 11.1546L11.6364 8.53637V11.5909C11.6364 12.0273 11.3455 12.3182 10.9091 12.3182H0.727273C0.290909 12.3182 0 12.0273 0 11.5909V1.4091C0 0.972733 0.290909 0.681824 0.727273 0.681824H10.9091Z" fill="#3586FF"></path>
+															</svg>
+															<span class="text-truncate fw-500"><TMPL_VAR file_title_txt></span>
+													</TMPL_IF>
+
+
+
+												</a>
+
+
+
+												</div>
+
+												<TMPL_IF file_descr><div class="xsmall text-muted"></div></TMPL_IF>
+
+										    </td>
+
+												<td>
+													<TMPL_IF file_status_PENDING> <sup style="color:orange">PENDING</sup></TMPL_IF>
+													<TMPL_IF file_status_LOCKED> <sup style="color:red">LOCKED</sup></TMPL_IF>
+												</td>
+										    <td nowrap>
+												<TMPL_IF mfs_size>
+												<small>
+												<TMPL_IF file_size_o><div>O: <TMPL_VAR file_size_o></div></TMPL_IF>
+												<TMPL_IF file_size_x><div>X: <TMPL_VAR file_size_x></div></TMPL_IF>
+												<TMPL_IF file_size_h><div>H: <TMPL_VAR file_size_h></div></TMPL_IF>
+												<TMPL_IF file_size_n><div>N: <TMPL_VAR file_size_n></div></TMPL_IF>
+												<TMPL_IF file_size_l><div>L: <TMPL_VAR file_size_l></div></TMPL_IF>
+												<TMPL_IF file_size_p><div>P: <TMPL_VAR file_size_p></div></TMPL_IF>
+												<TMPL_IF enc_progress><div><TMPL_VAR enc_progress></div></TMPL_IF>
+												</small>
+												<TMPL_ELSE>
+												<TMPL_VAR file_size>
+												</TMPL_IF>
+										    </td>
+										    <TMPL_IF mfs_view>
+										    	<td title="<TMPL_VAR file_views> started"><TMPL_IF my_views_enabled><a href="?op=my_views&file_code=<TMPL_VAR file_code>"></TMPL_IF><TMPL_VAR file_views_full><TMPL_IF my_views_enabled></a></TMPL_IF></td>
+										    </TMPL_IF>
+										    <TMPL_IF down_on>
+										    	<TMPL_IF mfs_ddl><td><TMPL_IF my_views_enabled><a href="?op=my_views&download=1&file_code=<TMPL_VAR file_code>"></TMPL_IF><TMPL_VAR file_downloads><TMPL_IF my_views_enabled></a></TMPL_IF></td></TMPL_IF>
+										    </TMPL_IF>
+										    <TMPL_IF mfs_pub>
+										    	<td id="td<TMPL_VAR file_id>" <TMPL_IF file_public> class='pub'</TMPL_IF>><div class="form-switcher"><input type="checkbox" name="pub" value="1" id="p<TMPL_VAR file_id>"<TMPL_IF file_public> checked</TMPL_IF> onClick="jah('?op=my_files&amp;file_id=<TMPL_VAR file_id>&amp;token=<TMPL_VAR token>&amp;set_public='+this.checked)"></div></td>
+										    </TMPL_IF>
+										    <TMPL_IF usr_premium_only>
+										            <td id="tdpo<TMPL_VAR file_id>" <TMPL_IF file_premium_only> class='ponly'</TMPL_IF>><div class="form-switcher"><input type="checkbox" name="ponly" value="1" id="po<TMPL_VAR file_id>"<TMPL_IF file_premium_only> checked</TMPL_IF> onClick="jah('?op=my_files&amp;file_id=<TMPL_VAR file_id>&amp;token=<TMPL_VAR token>&amp;set_premium_only='+this.checked)"></div></td>
+										    </TMPL_IF>
+										    <TMPL_IF mfs_upl>
+										    	<td><TMPL_VAR created></td>
+										    </TMPL_IF>
+										    <td><a class="me-2" href="?op=file_edit&amp;file_code=<TMPL_VAR file_code>"><img src="<TMPL_VAR static_url>/images2/edit.svg" border=0 alt="<TMPL_VAR lng_myfiles_edit>"></a>
+										    <TMPL_IF mfs_del>
+										    <a href="?op=my_files&amp;del_code=<TMPL_VAR file_code>&amp;fld_id=<TMPL_VAR folder_id>&amp;token=<TMPL_VAR token>" onClick="return confirm('<TMPL_VAR lng_myfiles_delete_file>')"><img src="<TMPL_VAR static_url>/images2/delete.svg" border=0 alt="<TMPL_VAR lng_myfiles_delete_file>"></a>
+										    </TMPL_IF>
+												</td>
+										  </tr>
+										  </TMPL_LOOP>
+
+
+
+				            </tbody>
+				            <tfoot>
+				              <tr>
+				                <td colspan="9" class="text-end" id="show_props">
+				                  <button type="button" data-bs-target="#show_props_div" data-bs-toggle="modal" class="btn btn-sm border-0 p-1">
+				                    <svg class="me-2" width="15" height="14" viewBox="0 0 15 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+				                      <path d="M2.7498 1.55005C3.4498 0.850049 4.3498 0.350049 5.3498 0.0500488C5.9498 0.750049 6.7498 1.15005 7.6498 1.15005C8.5498 1.15005 9.3498 0.750049 9.9498 0.0500488C10.9498 0.350049 11.8498 0.850049 12.5498 1.55005C12.2498 2.35005 12.2498 3.35005 12.7498 4.15005C13.1498 4.95005 13.9498 5.45005 14.8498 5.55005C15.0498 6.55005 15.0498 7.55005 14.8498 8.55005C13.9498 8.65005 13.2498 9.15005 12.7498 9.95005C12.3498 10.75 12.2498 11.65 12.5498 12.45C11.7498 13.15 10.9498 13.65 9.9498 13.95C9.3498 13.25 8.5498 12.85 7.6498 12.85C6.7498 12.85 5.9498 13.25 5.3498 13.95C4.3498 13.65 3.4498 13.15 2.7498 12.45C3.0498 11.65 3.0498 10.65 2.5498 9.95005C2.0498 9.25005 1.2498 8.65005 0.449805 8.55005C0.249805 7.55005 0.249805 6.55005 0.449805 5.55005C1.2498 5.45005 2.0498 4.85005 2.5498 4.15005C2.9498 3.35005 3.0498 2.35005 2.7498 1.55005ZM8.7498 8.95005C9.8498 8.35005 10.1498 6.95005 9.5498 5.95005C8.9498 4.95005 7.5498 4.55005 6.5498 5.15005C5.4498 5.75005 5.1498 7.15005 5.7498 8.15005C6.3498 9.25005 7.6498 9.55005 8.7498 8.95005Z" fill="currentColor"></path>
+				                    </svg>Column settings
+				                  </button>
+
+
+																	        <div class="modal fade" id="show_props_div" tabindex="-1">
+																	          <div class="modal-dialog modal-dialog-centered modal-sm">
+																	            <div class="modal-content border-0">
+																	              <div class="modal-header">
+																	                <h1 class="modal-title fs-5" id="exampleModalLabel">Column settings</h1>
+																	                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="<TMPL_VAR lng_misc_close>"></button>
+																	              </div>
+																	              <div class="modal-body">
+
+
+																	                <div class="row g-3 justify-content-between align-items-center">
+																	                  <label class="col-auto col-form-label">Checkboxes</label>
+																	                  <div class="col-auto">
+																	                    <div class="form-switcher mb-0">
+																	                      <input type="checkbox" name="mfs_chk" value="1"<TMPL_IF mfs_chk> checked</TMPL_IF>>
+																	                    </div>
+																	                  </div>
+																	                </div>
+
+																	                <div class="row g-3 justify-content-between align-items-center">
+																	                  <label class="col-auto col-form-label">Thumbnail</label>
+																	                  <div class="col-auto">
+																	                    <div class="form-switcher mb-0">
+																	                      <input type="checkbox" name="mfs_thm" value="1"<TMPL_IF mfs_thm> checked</TMPL_IF>>
+																	                    </div>
+																	                  </div>
+																	                </div>
+
+																	                <div class="row g-3 justify-content-between align-items-center">
+																	                  <label class="col-auto col-form-label">Size details</label>
+																	                  <div class="col-auto">
+																	                    <div class="form-switcher mb-0">
+																	                      <input type="checkbox" name="mfs_size" value="1"<TMPL_IF mfs_size> checked</TMPL_IF>>
+																	                    </div>
+																	                  </div>
+																	                </div>
+
+																	                <div class="row g-3 justify-content-between align-items-center">
+																	                  <label class="col-auto col-form-label">Views</label>
+																	                  <div class="col-auto">
+																	                    <div class="form-switcher mb-0">
+																	                      <input type="checkbox" name="mfs_view" value="1"<TMPL_IF mfs_view> checked</TMPL_IF>>
+																	                    </div>
+																	                  </div>
+																	                </div>
+
+																	                <div class="row g-3 justify-content-between align-items-center">
+																	                  <label class="col-auto col-form-label">Downloads</label>
+																	                  <div class="col-auto">
+																	                    <div class="form-switcher mb-0">
+																	                      <input type="checkbox" name="mfs_ddl" value="1"<TMPL_IF mfs_ddl> checked</TMPL_IF>>
+																	                    </div>
+																	                  </div>
+																	                </div>
+
+																	                <div class="row g-3 justify-content-between align-items-center">
+																	                  <label class="col-auto col-form-label">Public flag</label>
+																	                  <div class="col-auto">
+																	                    <div class="form-switcher mb-0">
+																	                     <input type="checkbox" name="mfs_pub" value="1"<TMPL_IF mfs_pub> checked</TMPL_IF>>
+																	                    </div>
+																	                  </div>
+																	                </div>
+
+																	                <div class="row g-3 justify-content-between align-items-center">
+																	                  <label class="col-auto col-form-label">Upload date</label>
+																	                  <div class="col-auto">
+																	                    <div class="form-switcher mb-0">
+																	                     <input type="checkbox" name="mfs_upl" value="1"<TMPL_IF mfs_upl> checked</TMPL_IF>>
+																	                    </div>
+																	                  </div>
+																	                </div>
+
+																	                <div class="row g-3 justify-content-between align-items-center">
+																	                  <label class="col-auto col-form-label">Delete icon</label>
+																	                  <div class="col-auto">
+																	                    <div class="form-switcher mb-0">
+																	                     <input type="checkbox" name="mfs_del" value="1"<TMPL_IF mfs_del> checked</TMPL_IF>>
+																	                    </div>
+																	                  </div>
+																	                </div>
+
+
+																	                <div class="row g-3 justify-content-between align-items-center">
+																	                  <label class="col-auto col-form-label">Per page:</label>
+																	                  <div class="col-auto">
+																											<select name="per_page_opt" class="form-select form-select-sm" onchange="$.cookie(this.name, $(this).val(), { expires: 24*30 });">
+																												<option<TMPL_VAR per_20>>20</option>
+																												<option<TMPL_VAR per_50>>50</option>
+																												<option<TMPL_VAR per_100>>100</option>
+																												<option<TMPL_VAR per_200>>200</option>
+																											</select>
+																	                  </div>
+																	                </div>
+
+
+
+
+																	              </div>
+																	              <div class="modal-footer">
+																	                <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal"><TMPL_VAR lng_misc_close></button>
+																	                <button class="btn btn-primary" onclick="window.location.reload()">Apply</button>
+																	              </div>
+																	            </div>
+																	          </div>
+																	        </div>
+
+
+
+				                </td>
+				              </tr>
+
+				            </tfoot>
+				          </table>
+</TMPL_IF>
+</div>
+
+
+
+
+
+
+
+
+				        <TMPL_VAR paging>
+
+				        <div class="bottom-space"></div>
+				        <div class="control-buttons">
+				          <div class="row g-2">
+				            <div class="col-auto">
+				              <button class="btn btn-danger" type="submit" name="del_selected" value="<TMPL_VAR lng_myfiles_delete_selected>" onClick="if(!fileSelected())return false;return confirm('<TMPL_VAR lng_myfiles_delete_confirm>')">
+				                <svg class="me-2" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
+				                  <path d="M6.39844 4.7L11.0984 0L12.3984 1.3L7.69844 6L12.3984 10.7L11.0984 12L6.39844 7.3L1.69844 12L0.398438 10.7L5.09844 6L0.398438 1.3L1.69844 0L6.39844 4.7Z" fill="currentColor"></path>
+				                </svg>
+				                <TMPL_VAR lng_myfiles_delete_selected>
+				              </button>
+				            </div>
+
+
+				            <div class="col-auto">
+				              <button class="btn btn-primary" type="button" value="<TMPL_VAR lng_myfiles_export_selected>" onClick="if(!fileSelected())return false;this.form.op.value='my_files_export';this.form.target='_blank';this.form.submit();this.form.op.value='my_files';this.form.target='_self';">
+				                <svg class="me-2" xmlns="http://www.w3.org/2000/svg" width="15" height="14" viewBox="0 0 15 14" fill="none">
+				                  <path d="M6.19688 2.3V3.9H2.39688V12.5H10.9969V8.6H12.5969V13.3C12.5969 13.7 12.2969 14.1 11.7969 14.1H1.59688C1.09688 14 0.796875 13.7 0.796875 13.2V3.1C0.796875 2.7 1.09688 2.3 1.59688 2.3H6.19688ZM14.7969 0V6.2H13.1969V2.7L7.19688 8.7L6.09688 7.6L12.1969 1.5H8.59688V0H14.7969Z" fill="currentColor"></path>
+				                </svg>
+				                <TMPL_VAR lng_myfiles_export_selected>
+				              </button>
+				            </div>
+
+				            <div class="col-auto">
+				              <button class="btn btn-primary" type="submit" name="set_public_multi" value="<TMPL_VAR lng_myfiles_publish>" onclick="if(!fileSelected())return false;">
+				                <svg class="me-2" width="16" height="14" viewBox="0 0 16 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+				                  <path d="M8 0.333313C12 0.333313 15.3333 3.2222 16 6.99998C15.3333 10.7778 12 13.6666 8 13.6666C4 13.6666 0.666667 10.7778 0 6.99998C0.666667 3.2222 4 0.333313 8 0.333313ZM8 12.1852C11.1111 12.1852 13.7778 10.037 14.5185 6.99998C13.7037 3.44442 10.0741 1.14813 6.51852 1.96294C4 2.55554 2.07407 4.48146 1.48148 6.99998C2.22222 10.037 4.88889 12.1852 8 12.1852ZM8 10.3333C6.14815 10.3333 4.66667 8.85183 4.66667 6.99998C4.66667 5.14813 6.14815 3.66665 8 3.66665C9.85185 3.66665 11.3333 5.14813 11.3333 6.99998C11.3333 8.85183 9.85185 10.3333 8 10.3333ZM8 8.85183C9.03704 8.85183 9.85185 8.03702 9.85185 6.99998C9.85185 5.96294 9.03704 5.14813 8 5.14813C6.96296 5.14813 6.14815 5.96294 6.14815 6.99998C6.14815 8.03702 6.96296 8.85183 8 8.85183Z" fill="currentColor"></path>
+				                </svg>
+				                <TMPL_VAR lng_myfiles_publish>
+				              </button>
+				            </div>
+
+
+
+				            <div class="col-auto">
+				              <button class="btn btn-outline-success" type="button" onclick="if(!fileSelected())return false;$('#pld').modal('show');">
+				                <svg class="me-2" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+				                  <path d="M0.777778 0H13.2222C13.6889 0 14 0.311111 14 0.777778V13.2222C14 13.6889 13.6889 14 13.2222 14H0.777778C0.311111 14 0 13.6889 0 13.2222V0.777778C0 0.311111 0.311111 0 0.777778 0ZM1.55556 1.55556V12.4444H12.4444V1.55556H1.55556ZM6.22222 6.22222V3.11111H7.77778V6.22222H10.8889V7.77778H7.77778V10.8889H6.22222V7.77778H3.11111V6.22222H6.22222Z" fill="currentColor"></path>
+				                </svg>
+				                <TMPL_VAR lng_myfiles_playlist>
+				              </button>
+				            </div>
+
+				            <div class="col-auto">
+				              <button class="btn btn-outline-light" type="button" onclick="$('#fld_move_div2').modal('show');$('#fld_filter_btn2').click();">
+				                <svg class="me-2" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+				                  <path d="M11.2 6.3V4.2L14 7L11.2 9.8V7.7H7.7V11.2H9.8L7 14L4.2 11.2H6.3V7.7H2.8V9.8L0 7L2.8 4.2V6.3H6.3V2.8H4.2L7 0L9.8 2.8H7.7V6.3H11.2Z" fill="currentColor"></path>
+				                </svg>
+				                <TMPL_VAR lng_myfiles_folder>
+				              </button>
+				            </div>
+
+
+
+
+
+
+
+				            <div class="col-auto">
+				              <div class="dropdown">
+				                <button class="btn btn-outline-light btn-more" data-bs-toggle="dropdown">
+				                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="4" fill="none">
+				                    <path fill="currentColor" d="M2 0C.9 0 0 .9 0 2s.9 2 2 2 2-.9 2-2-.9-2-2-2Zm14 0c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2ZM9 0C7.9 0 7 .9 7 2s.9 2 2 2 2-.9 2-2-.9-2-2-2Z"></path>
+				                  </svg>
+				                </button>
+				                <div class="dropdown-menu dropdown-menu-end">
+				                  <input type="button" class="dropdown-item" value="<TMPL_VAR lng_myfiles_add_tags_to_selected>" onclick="if(!fileSelected())return false;$(this).hide();$('#tagd').modal('show');">
+<TMPL_IF extra_data><input type="button" class="dropdown-item" value="<TMPL_VAR lng_myfiles_set_extra>" onclick="$('#extra1').modal('show');"></TMPL_IF>
+	<input type="button" class="dropdown-item" value="<TMPL_VAR lng_myfiles_rename>..." onclick="$('#extra2').modal('show');">
+				                </div>
+				              </div>
+				            </div>
+				          </div>
+				        </div>
+				      </div>
+
+
+
+<div class="modal fade" id="add_folder" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">
+              <TMPL_VAR lng_myfiles_create_new_folder>
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+						<input type="text" class="form-control" name="create_new_folder" placeholder="Folder name">
+          </div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-outline-light" data-bs-dismiss="modal"><TMPL_VAR lng_misc_close></button>
+						<input value="<TMPL_VAR lng_myfiles_create_new_folder>" class="btn btn-primary" type="submit">
+					</div>
+        </div>
+      </div>
+    </div>
+
+
+<div class="modal fade" id="fld_move_div2" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">
+              <TMPL_VAR lng_myfiles_choose_folder_to_move>
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="row mb-3 flex-lg-nowrap">
+              <div class="col-auto flex-grow-1 flex-shrink-1">
+                <input type="text" id="fld_filter2" xsize=16 class="form-control">
+              </div>
+              <div class="col-auto">
+                <input type="button" value="<TMPL_VAR lng_myfiles_filter_folders>" id="fld_filter_btn2" class="btn btn-primary">
+              </div>
+            </div>
+            <div class="mb-3">
+              <Select name="to_folder" size="6" id="fld_select2" class="form-control" onfocus="$('#fld_submit2').show();"></Select>
+            </div>
+          </div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-outline-light" data-bs-dismiss="modal"><TMPL_VAR lng_misc_close></button>
+						<input type="submit" name="file_move" id="fld_submit2" value="<TMPL_VAR lng_myfiles_move_to_folder>" class="btn btn-primary" style="display:none;">
+					</div>
+        </div>
+      </div>
+    </div>
+
+
+<div class="modal fade" id="tagd" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">
+              <TMPL_VAR lng_myfiles_add_tags_to_selected>
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <input type="text" name="tags" class="form-control">
+          </div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-outline-light" data-bs-dismiss="modal"><TMPL_VAR lng_misc_close></button>
+						<input type="submit" name="multi_tag" value="<TMPL_VAR lng_myfiles_add_btn>" class="btn btn-primary">
+					</div>
+        </div>
+      </div>
+    </div>
+
+
+		<TMPL_IF extra_data>
+
+<div class="modal fade" id="extra1" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">
+              <TMPL_VAR lng_myfiles_set_extra>
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+
+						<TMPL_LOOP extra_data>
+							<div class="mb-3">
+							  <label for="extra_<TMPL_VAR name>" class="form-label"><TMPL_VAR name></label>
+							  <input type="text" name="extra_<TMPL_VAR name>" class="form-control" id="extra_<TMPL_VAR name>">
+							</div>
+						</TMPL_LOOP>
+
+          </div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-outline-light" data-bs-dismiss="modal"><TMPL_VAR lng_misc_close></button>
+						<input type="submit" name="set_extra_fields" value="<TMPL_VAR lng_myfiles_set_btn>" class="btn btn-primary">
+					</div>
+        </div>
+      </div>
+    </div>
+
+		</TMPL_IF>
+
+<div class="modal fade" id="extra2" tabindex="-1">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">
+              <TMPL_VAR lng_myfiles_rename>
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+
+						<div class="mb-3">
+    													                    <label class="form-label" for="rename_prefix"> <TMPL_VAR lng_myfiles_add_prefix> </label>
+
+    													                      <input type="text" name="rename_prefix" id="rename_prefix" value="" size="12" class="form-control">
+
+    													                  </div>
+
+
+    													                  <div class="mb-3">
+    													                    <label class="form-label" for="rename_postfix"> <TMPL_VAR lng_myfiles_add_postfix> </label>
+
+    													                      <input type="text" name="rename_postfix" id="rename_postfix" value="" size="12" class="form-control">
+
+    													                  </div>
+
+
+    													                  <div class="mb-3">
+    													                    <label class="form-label" for="rename_replace1"> <TMPL_VAR lng_myfiles_replace> </label>
+																									<div class="row flex-nowrap align-items-center g-2">
+																										<div class="col-auto flex-grow-1 flex-shrink-1">
+																											<input type="text" name="rename_replace1" id="rename_replace1" value="" size="12" class="form-control">
+																										</div>
+																										<div class="col-auto"> <TMPL_VAR lng_myfiles_with> </div>
+																										<div class="col-auto flex-grow-1 flex-shrink-1">
+																											<input type="text" name="rename_replace2" id="rename_replace2" value="" size="12" class="form-control">
+																										</div>
+																									</div>
+    													                  </div>
+
+          </div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-outline-light" data-bs-dismiss="modal"><TMPL_VAR lng_misc_close></button>
+						<input type="submit" name="rename" value="<TMPL_VAR lng_myfiles_rename>" class="btn btn-primary">
+					</div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+							        <div class="modal fade" id="pld" tabindex="-1">
+							          <div class="modal-dialog modal-dialog-centered">
+							            <div class="modal-content">
+							              <div class="modal-header">
+							                <h1 class="modal-title fs-5"><TMPL_VAR lng_myfiles_add_to_playlist>...</h1>
+							                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							              </div>
+
+							              <div class="modal-body">
+
+
+															<input type="hidden" name="new_pl" value="" id="new_pl">
+
+															<select class="form-select" name="pls_id" id="pls_id" onchange="if($(this).val()=='000'){ var nn=prompt('Enter new Playlist name'); if(!nn)return; $('#new_pl').val(nn); $('#pl_submit').click();}">
+															<option value=""><TMPL_VAR lng_myfiles_choose_playlist>...</option>
+															<option value="000">-<TMPL_VAR lng_myfiles_create_new_playlist>-</option>
+															<TMPL_LOOP playlists>
+																<option value="<TMPL_VAR pls_id>"><TMPL_VAR pls_name></option>
+															</TMPL_LOOP>
+															</select>
+
+
+
+							              </div>
+							              <div class="modal-footer">
+							                <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal"><TMPL_VAR lng_misc_close></button>
+															<input type="submit" name="to_playlist" value="<TMPL_VAR lng_myfiles_add_to_playlist>" class="btn btn-success" id="pl_submit">
+							              </div>
+							            </div>
+							          </div>
+							        </div>
+
+
+
+
+
+</form>
+
+
+
+
+
+
+
+
+<script>
+$(document).ready(function()
+{
+    $('#xfolders tr th:not(.nojs) input').prop('disabled',true);
+    $('#xfiles tr th:not(.nojs) input').prop('disabled',true);
+
+    $("#xfiles input[name=file_id]").change( function(){
+        if(this.checked){ $(this).parent().parent().addClass('hi2'); } else {$(this).parent().parent().removeClass('hi2');}
+        var num = $('input[type=checkbox][name=file_id]:checked').length;
+        if(num==0)
+        {
+            $('#xfiles tr th:not(.nojs) input').prop('disabled',true);
+        }
+        else
+        {
+            $('#xfiles tr th:not(.nojs) input').prop('disabled','');
+        }
+    } );
+
+    $("#xfolders input[name=fld_id1]").change( function(){
+        $(this).parent().parent().toggleClass('hi2');
+        var num = $('input[type=checkbox][name=fld_id1]:checked').length;
+        if(num==0)
+        {
+            $('#xfolders tr th:not(.nojs) input').prop('disabled',true);
+            $('#fld_buttons').hide();
+        }
+        else
+        {
+            $('#fld_buttons').show();
+            $('#xfolders tr th:not(.nojs) input').prop('disabled','');
+        }
+    } );
+
+    $("#selall").change(function(){
+           var sel=this.checked;
+           $("input[name=file_id]:enabled").each(function(){
+                $(this).prop('checked',sel);
+                $(this).change();
+            });
+           //$("#xfiles input[name=file_id]:enabled").click();
+    });
+    $("#selectall_fld").change(function() {
+        	var sel=this.checked;
+        	$("input[name=fld_id1]:enabled").each(function(){
+        	    $(this).prop('checked',sel);
+                $(this).change();
+        	});
+    });
+    $("input[name=fld_id1]:enabled").shiftSelectable();
+    $("input[name=file_id]:enabled").shiftSelectable();
+    $("#fld_filter_btn").click( function() {loadFolderSelects($('#fld_filter').val(), $("#fld_select"));} );
+    $("#fld_filter_btn2").click( function() {loadFolderSelects($('#fld_filter2').val(), $("#fld_select2"));} );
+    $("#btn1").click( function(e){
+        $("#btn1").hide("fast", function(){
+            $("#mass_search").show("fast");
+            });
+        return false;
+    });
+    $('#show_props input:checkbox').change(function(){
+        var sel=0;
+        if(this.checked)sel=1;
+        $.cookie(this.name, sel, { expires: 24*30 });
+    });
+});
+
+function loadFolderSelects(filter,target)
+{
+        $.ajax
+         ({
+         type: "POST",
+         url: "<TMPL_VAR site_url>/",
+         data: 'op=my_files&fld_select=1&filter='+filter,
+         cache: false,
+         success: function(html){ target.html(html); }
+         });
+}
+
+function fileSelected()
+{
+    var num = $('input[type=checkbox][name=file_id]:checked').length;
+    if(num==0)
+    {
+        alert("Select files!");
+        return 0;
+    }
+    return num;
+}
+
+</script>
+
+<script src="<TMPL_VAR static_url>/js/jquery.cookie.js"></script>

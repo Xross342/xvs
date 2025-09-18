@@ -1,0 +1,42 @@
+<input type="button" value="Hide current deleted files" onclick="window.location='?op=my_files_deleted&hide=1'">
+
+<TMPL_IF msg><br><br><b class="msg"><TMPL_VAR msg></b></TMPL_IF>
+
+<br><br>
+<form method="POST">
+<input type="hidden" name="op" value="my_files_deleted">
+<Table class="tbl1" cellpadding=2>
+<TR>
+    <TH><input type="checkbox" id="selall"></TH>
+    <TH>File Title</TH>
+    <TH>File Folder / Name</TH>
+    <TH>File code</TH>
+    <TH>Deleted, ago</TH>
+</TR>
+<TMPL_LOOP files>
+<TR>
+    <TD align=center><TMPL_IF restore><input type="checkbox" name="file_code" value="<TMPL_VAR file_code>"></TMPL_IF></TD>
+    <TD<TMPL_VAR own>><TMPL_VAR file_title></TD>
+    <TD><TMPL_VAR file_name></TD>
+    <TD><TMPL_VAR file_code></TD>
+    <TD><TMPL_VAR ago></TD>
+</TR>
+</TMPL_LOOP>
+<tr>
+	<td colspan=5><input type="submit" name="restore" value="Restore selected" class="f-btn-green"></td>
+</tr>
+</Table>
+</form>
+
+
+<script>
+$("#selall").change(function(){ 
+           var sel=this.checked;
+           $("input[name=file_code]:enabled").each(function(){
+                $(this).prop('checked',sel);
+                $(this).change();
+            });
+    });
+$("input[name=file_code]:enabled").shiftSelectable();
+</script>
+

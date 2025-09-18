@@ -1,0 +1,24 @@
+<h2>DMCA Renamed Files</h2>
+
+<br>
+
+<Table class="tbl1" cellpadding=3>
+<TR>
+	<TH>File</TH>
+	<TH>Updated, ago</TH>
+	<TH>Old Code</TH>
+	<TH>New code</TH>
+</TR>
+<TMPL_LOOP files>
+<TR align=center>
+	<TD align=left><a href="<TMPL_VAR dl_link>"><TMPL_VAR file_title></a></TD>
+	<TD><TMPL_VAR ago></TD>    
+	<TD><tt><TMPL_VAR file_code_old></tt></TD>
+	<TD><tt><TMPL_VAR file_code_new></tt></TD>
+</TR>
+</TMPL_LOOP>
+</Table>
+
+<br>
+
+<button onclick="window.location='?op=my_files_dmca_renamed&clear=1'">Clear list</button>

@@ -1,0 +1,145 @@
+<script>
+  loadT('Admin Tickets');
+</script>
+
+
+<Form style="margin:0;" method="POST">
+<input type="hidden" name="op" value="admin_ticket_list">
+<div class="block admin-settings p-0 ">
+
+  <table class="table settings-table mb-0 align-middle">
+    <tbody>
+    <tr>
+        <td class="text-lg-end"><label class="col-form-label">Search</label></td>
+  			<td class="border-start"><input type="text" name="key" value="<TMPL_VAR key>" class="form-control form-control-sm" ></td>
+    </tr>
+  </tbody>
+</table>
+<div class="collapse" id="fields">
+  <table class="table settings-table mb-0 align-middle">
+    <tbody>
+
+    <TR>
+    	<td class="text-lg-end"><label class="col-form-label">Category</label></td>
+			<td class="border-start">
+    		<select class="form-select form-select-sm" name="category">
+    		<option value="">All</option>
+    		<TMPL_LOOP categories><option value="<TMPL_VAR category>"<TMPL_IF selected> selected</TMPL_IF>><TMPL_VAR category></option></TMPL_LOOP>
+    		</select>
+    	</TD>
+    </TR>
+    <tr>
+        <td class="text-lg-end"><label class="col-form-label">User</label></td>
+  			<td class="border-start">
+
+
+          <div class="g-3 row align-items-center">
+          				<div class="col-auto">
+          					Login:
+          				</div>
+          				<div class="col-auto">
+          					<input type="text" name="usr_login" value="<TMPL_VAR usr_login>" class="form-control form-control-sm" style="max-width:60px">
+          				</div>
+          				<div class="col-auto">
+          				usr_id:
+          				</div>
+          				<div class="col-auto">
+          					<input type="text" name="usr_id" value="<TMPL_VAR usr_id>" class="form-control form-control-sm" style="max-width:60px">
+          				</div>
+
+          			</div>
+
+        </td>
+    </tr>
+    <tr>
+        <td class="text-lg-end"><label class="col-form-label">Show also</label></td>
+  			<td class="border-start">
+
+          <div class="g-3 row align-items-center">
+          				<div class="col-auto">
+          					<label class="form-switcher"><input type="checkbox" name="show_closed" value="1"<TMPL_IF show_closed> checked</TMPL_IF>>Closed</label>
+          				</div>
+          				<div class="col-auto">
+          					<label class="form-switcher"><input type="checkbox" name="show_replied" value="1"<TMPL_IF show_replied> checked</TMPL_IF>>Replied</label>
+          				</div>
+
+          			</div>
+
+
+
+
+        </td>
+    </tr>
+    <tr>
+       <td class="text-lg-end"><label class="col-form-label">Only show last</label></td>
+ 			<td class="border-start">
+
+        <div class="g-3 row align-items-center">
+        				<div class="col-auto">
+                  <input type="text" name="days" value="<TMPL_VAR days>" class="form-control form-control-sm" style="max-width:60px">
+
+        				</div>
+        				<div class="col-auto">
+        					days updated
+        				</div>
+
+        			</div>
+
+
+      </td>
+    </tr>
+  </tbody>
+  </table>
+</div>
+
+<table class="table settings-table mb-0 align-middle">
+  <tbody>
+    <tr>
+        <td class="text-lg-end border-0"></td>
+        <td class="border-0">
+<button type="button" data-bs-toggle="collapse" data-bs-target="#fields" class="btn btn-outline-light me-1 collapsed btn-options"></button>
+
+          <input type="submit" value="Show tickets" class="btn btn-primary">
+
+    </td>
+    </tr>
+  </tbody>
+  </table>
+
+
+</div>
+</Form>
+
+
+
+
+
+
+<div class="table-responsive">
+  <table class="table table-hover table-rounded align-middle table-justify small">
+<thead>
+  <tr>
+  	<th>Title</th>
+  	<th style="width:150px">User</th>
+  	<th style="width:130px">Updated</th>
+  	<th style="width:130px">Category</th>
+  	<th class="text-center" style="width:40px" title="Unread">UR</th>
+  </tr>
+</thead>
+<tbody>
+  <TMPL_LOOP list>
+  <tr>
+  	<td>
+  		<a href="?op=admin_ticket_view&ti_id=<TMPL_VAR ti_id>"><TMPL_IF unread_adm><b></TMPL_IF><TMPL_VAR ti_title></a>
+  		<TMPL_UNLESS open> [closed]</TMPL_UNLESS>
+  		<TMPL_IF replied> [replied]</TMPL_IF>
+  	</td>
+  	<td><a href="/?op=admin_ticket_list&usr_id=<TMPL_VAR usr_id>"><TMPL_VAR usr_login></a></td>
+  	<td><TMPL_VAR updated></td>
+  	<td><TMPL_VAR category></td>
+  	<td class="text-center"><TMPL_VAR unread_adm></td>
+  </tr>
+  </TMPL_LOOP>
+</tbody>
+</table>
+</div>

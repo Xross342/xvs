@@ -1,0 +1,244 @@
+<TMPL_IF msg><b class="ok"><TMPL_VAR msg></b><br></TMPL_IF>
+
+<Form method="POST" enctype="multipart/form-data" action="<TMPL_VAR site_url>/">
+<input type="hidden" name="op" value="file_edit">
+<input type="hidden" name="file_code" value="<TMPL_VAR file_code>">
+<Table class="tbl1 rct" cellpadding=3 width="720">
+
+<TR>
+	<TH colspan=2><TMPL_VAR lng_fileform_title></TH>
+</TR>
+<TR>
+	<th colspan=2 style="text-align: center;"><input type="submit" name="save" value=" <TMPL_VAR lng_misc_save> " class="f-btn-green"></th>
+</TR>
+<TMPL_IF admin>
+<TR>
+	<TD width=120>File Code</TD>
+	<TD><input type="text" name="file_code_new" value="<TMPL_VAR file_code>" size=12 style="font-family: monospace;"></TD>
+</TR>
+</TMPL_IF>
+<TR>
+	<TD width=120><TMPL_VAR lng_fileform_file_title></TD>
+	<TD><input type="text" name="file_title" value="<TMPL_VAR file_title>" size=54></TD>
+</TR>
+<TR>
+	<TD><TMPL_VAR lng_fileform_file_url></TD>
+	<TD><a href="<TMPL_VAR file_url>"><TMPL_VAR file_url></a></TD>
+</TR>
+<TMPL_IF file_src>
+<TR>
+	<TD><TMPL_VAR lng_fileform_source_url></TD>
+	<TD><TMPL_VAR file_src></TD>
+</TR>
+</TMPL_IF>
+<TMPL_IF file_fld_id>
+<TR>
+	<TD>Folder</TD>
+	<TD><a href="?op=my_files&fld_id=<TMPL_VAR file_fld_id>"><TMPL_VAR fld_name></a></TD>
+</TR>
+</TMPL_IF>
+<TMPL_IF enable_file_descr>
+<TR>
+	<TD class=top><TMPL_VAR lng_fileform_description></TD>
+	<TD><textarea name="file_descr" cols=48 rows=7 style="width:98%"><TMPL_VAR file_descr></textarea></TD>
+</TR>
+</TMPL_IF>
+<TMPL_IF encoding>
+<TR>
+	<TD class=top>Encoding queue</TD>
+	<TD><TMPL_VAR encoding></TD>
+</TR>
+</TMPL_IF>
+<TMPL_IF admin>
+<TR>
+	<TD class=top>srv_id</TD>
+	<TD><TMPL_VAR srv_id><TMPL_IF srv_id_copy> (copy: <TMPL_VAR srv_id_copy>)</TMPL_IF></TD>
+</TR>
+<TMPL_IF transfer>
+<TR>
+	<TD class=top>Transfer queue</TD>
+	<TD>queued to transfer to <TMPL_VAR transfer></TD>
+</TR>
+</TMPL_IF>
+<TR>
+	<TD class=top>Status</TD>
+	<TD>
+		<select name="file_status">
+		<option<TMPL_VAR file_status_OK>>OK</option>
+		<option<TMPL_VAR file_status_PENDING>>PENDING</option>
+		<option<TMPL_VAR file_status_LOCKED>>LOCKED</option>
+		</select>
+	</TD>
+</TR>
+<TMPL_IF is_dupe>
+<TMPL_IF admin>
+<TR>
+	<TD>File copies</TD>
+	<TD><a href="adm?op=admin_files&file_code=<TMPL_VAR file_real><TMPL_VAR token_str>"><TMPL_VAR file_real></a> <small>(This file is a copy)</small></TD>
+</TR>
+</TMPL_IF>
+</TMPL_IF>
+<TMPL_IF proxies>
+<TR>
+	<TD>Proxies</TD>
+	<TD><TMPL_LOOP proxies><div><TMPL_VAR host_name></div></TMPL_LOOP><a href="?op=file_edit&file_code=<TMPL_VAR file_code>&reset_proxies=1<TMPL_VAR token_str>" onclick="return confirm('Reset all proxy pairs for this file?')">reset</a></TD>
+</TR>
+</TMPL_IF>
+</TMPL_IF>
+<TR>
+	<TD><TMPL_VAR lng_fileform_public></TD>
+	<TD><input type="checkbox" name="file_public" value="1"<TMPL_IF file_public> checked</TMPL_IF>></TD>
+</TR>
+<TMPL_IF premium_only_mod>
+<TR>
+	<TD><TMPL_VAR lng_fileform_premium_only></TD>
+	<TD><input type="checkbox" name="file_premium_only" value="1"<TMPL_IF file_premium_only> checked</TMPL_IF>></TD>
+</TR>
+</TMPL_IF>
+<tr valign=top>
+	<td align=right><TMPL_VAR lng_uploadform_adult></td>
+	<td><input type="checkbox" name="file_adult" value="1"<TMPL_IF file_adult> checked</TMPL_IF>></td>
+</tr>
+<TR>
+	<TD class=top><TMPL_VAR lng_fileform_tags></TD>
+	<TD>
+		<input type="text" name="tags" value="" size=48>
+		<div><TMPL_LOOP tags><TMPL_VAR tag_value><a href="<TMPL_VAR site_url>/?op=file_edit&file_code=<TMPL_VAR file_code>&del_tag=<TMPL_VAR tag_id>" onClick="return confirm('<TMPL_VAR lng_fileform_delete_tag>')"><img src="<TMPL_VAR site_url>/images/del.gif" border=0></a> </TMPL_LOOP></div>
+	</TD>
+</TR>
+<TR>
+	<TD><TMPL_VAR lng_fileform_file_name></TD>
+	<TD><input type="text" name="file_name" value="<TMPL_VAR file_name>" size=48></TD>
+</TR>
+<TR>
+	<TD><TMPL_VAR lng_fileform_category></TD>
+	<TD>
+		<select name="cat_id">
+		<option value="0">None</option>
+		<TMPL_LOOP categories><option value="<TMPL_VAR cat_id>"<TMPL_VAR selected>><TMPL_VAR pre><TMPL_VAR cat_name></TMPL_LOOP>
+		</select>
+	</TD>
+</TR>
+<TMPL_IF extra_data>
+<TR>
+	<TD class=top><TMPL_VAR lng_fileform_extra_info></TD>
+	<TD>
+		<TMPL_LOOP extra_data>
+		<TMPL_VAR name>:<input type="text" name="extra_<TMPL_VAR name>" value="<TMPL_VAR value>" size=24><br>
+		</TMPL_LOOP>
+	</TD>
+</TR>
+</TMPL_IF>
+<TMPL_IF srt_on>
+<TR>
+	<TD class=top><TMPL_VAR lng_fileform_subtitles></TD>
+	<TD>
+		<TMPL_LOOP captions_list>
+			<div>
+				<a href="<TMPL_VAR url>"><TMPL_VAR title> (<TMPL_VAR language>)</a> 
+				<TMPL_IF main>
+					<a href="?op=file_edit&file_code=<TMPL_VAR file_code>&del_srt_file=<TMPL_VAR main>" onClick="return confirm('Delete SRT file?')"><img src="<TMPL_VAR site_url>/images/del.gif"></a>
+				<TMPL_ELSE>
+					<a href="?op=file_edit&file_code=<TMPL_VAR file_code>&del_srt=<TMPL_VAR language>" onClick="return confirm('Delete SRT file?')"><img src="<TMPL_VAR site_url>/images/del.gif"></a>
+				</TMPL_IF>
+			</div>
+		</TMPL_LOOP>
+
+		<p><TMPL_VAR lng_fileform_upload_srt_file>: <select name="srt_lang"><TMPL_LOOP srt_langs><option value="<TMPL_VAR value>"><TMPL_VAR title></option></TMPL_LOOP></select></p>
+		<p><input type="file" name="srt" size=10 accept=".srt,.vtt"></p>
+		<p><input type="submit" name="save_srt" value="<TMPL_VAR lng_misc_upload>"></p>
+	</TD>
+</TR>
+</TMPL_IF>
+<TR>
+	<TD class=top><TMPL_VAR lng_fileform_video_info><TMPL_IF admin><br><a href="/adm?op=admin_files&reparse_selected=<TMPL_VAR file_id>&return_code=<TMPL_VAR file_code><TMPL_VAR token_str>">reparse</a></TMPL_IF></TD>
+	<TD>
+		<TMPL_LOOP versions>
+		<Table class="tbl1" cellpadding=2 width=200 align=left style="margin:5px;">
+		<TR>
+			<TH colspan=2><TMPL_VAR vid_title> video</TH>
+		</TR>
+		<TR>
+			<TD>Size</TD>
+			<TD><TMPL_VAR vid_width>x<TMPL_VAR vid_height></TD>
+		</TR>
+		<TR>
+			<TD>Length</TD>
+			<TD><TMPL_VAR vid_length_txt></TD>
+		</TR>
+		<TR>
+			<TD>Video codec</TD>
+			<TD><TMPL_VAR vid_codec>, <TMPL_VAR vid_bitrate> Kbps</TD>
+		</TR>
+		<TR>
+			<TD>Audio codec</TD>
+			<TD><TMPL_VAR vid_audio_codec>, <TMPL_VAR vid_audio_bitrate> Kbps</TD>
+		</TR>
+		<TR>
+			<TD>Container</TD>
+			<TD><TMPL_VAR vid_container></TD>
+		</TR>
+		<TR>
+			<TD>Filesize</TD>
+			<TD title="<TMPL_VAR file_size> bytes">
+				<TMPL_VAR file_size_mb>
+				<TMPL_IF admin>&nbsp; <a href="adm?op=admin_files&del_special=<TMPL_VAR vid_mode>&file_id=<TMPL_VAR file_id><TMPL_VAR token_str>" onClick="return confirm('Delete <TMPL_VAR vid_title> version?')" class="ximg"></a></TMPL_IF>
+			</TD>
+		</TR>
+		</Table>
+		</TMPL_LOOP>
+	<TMPL_IF admin>
+	<TMPL_IF file_spec_txt>
+		<br clear=all><a href="#" onclick="$(this).hide();$('#iraw').show();return false;">Source raw info</a>
+		<div id="iraw" style="display:none;font-size:11px;background:#fff;border:1px solid #999;"><pre><TMPL_VAR file_spec_txt></pre></div>
+	</TMPL_IF>
+	</TMPL_IF>
+	</TD>
+</TR>
+<TMPL_IF file_logs>
+<TR>
+	<TD class=top>Logs</TD>
+	<TD>
+		<TMPL_LOOP file_logs><TMPL_VAR created> <TMPL_VAR event><br></TMPL_LOOP>
+	</TD>
+</TR>
+</TMPL_IF>
+<TR>
+	<TD class=top><TMPL_VAR lng_fileform_video_snapshot></TD>
+	<TD>
+		<a href="<TMPL_VAR video_img_url>" target=_blank><img src="<TMPL_VAR video_thumb_url>?<TMPL_IF newshot>nocache=1&</TMPL_IF>r=<TMPL_VAR rand>" style="float:left;"></a>
+		<TMPL_IF newshot><img src="<TMPL_VAR video_img_url>?nocache=1" width=1 height=1></TMPL_IF>
+		<TMPL_IF m_s_enabled><input type="button" onclick="window.location='?op=my_snapshot&file_code=<TMPL_VAR file_code>'" value="<TMPL_VAR lng_fileform_change_snapshot>"></TMPL_IF>
+	</TD>
+</TR>
+<TMPL_IF img_screenlist>
+<TR>
+	<TD class=top><TMPL_VAR lng_fileform_video_screenlist></TD>
+	<TD>
+		<a href="<TMPL_VAR img_screenlist>" target=_blank><img src="<TMPL_VAR img_screenlist_thumb>?<TMPL_VAR rand>"></a>
+	</TD>
+</TR>
+</TMPL_IF>
+<th colspan=2 style="text-align: center;"><input type="submit" name="save" value=" <TMPL_VAR lng_misc_save> " class="f-btn-green"></th>
+</Table>
+<TMPL_IF msg><b class="ok"><TMPL_VAR msg></b><br></TMPL_IF>
+</Form>
+
+<TMPL_IF m_p_custom_upload>
+<br><br>
+<Form method="POST" enctype="multipart/form-data" action="<TMPL_VAR srv_cgi_url>/api.cgi" onSubmit="if(!this.file.value.match(/\.mp4$/i)){alert('Not a .mp4 file!');return false;}">
+<input type="hidden" name="op" value="preview_upload">
+<input type="hidden" name="file_code" value="<TMPL_VAR file_real>">
+<input type="hidden" name="file_id" value="<TMPL_VAR file_id>">
+<input type="hidden" name="disk_id" value="<TMPL_VAR disk_id>">
+<input type="hidden" name="md5" value="<TMPL_VAR md5>">
+<Table class="tbl1" cellpadding=3 cellspacing=1 width="640">
+<TR><TH><TMPL_VAR lng_fileform_custom_video_preview></TH></TR>
+<TR>
+	<TD align=center><TMPL_VAR lng_fileform_choose_mp4_file>: <input type="file" name="file" size=16><br><input type="submit" value="<TMPL_VAR lng_misc_upload>"></TD>
+</TR>
+</Table>
+</Form>
+</TMPL_IF>
+
+<br><br>

@@ -1,0 +1,88 @@
+<script>
+  loadT('Anti-hacker Center');
+</script>
+<div class="text-center mb-4"> Top Stats for last 48 hours </div>
+<div class="mb-4 col-lg-6 mx-auto">
+  <h5 class="text-center text-dark mb-3"> Top money generated IPs </h5>
+  <div class="table-responsive">
+    <table class="table table-rounded table-hover small table-fixed">
+      <thead>
+        <tr>
+          <th>IP</th>
+          <th>Money</th>
+          <th>Downloads</th>
+        </tr>
+      </thead>
+      <tbody>
+        <TMPL_LOOP gen_ip>
+          <tr align=center>
+            <td><a href="?op=admin_users&key=<TMPL_VAR ip_txt>">
+                <TMPL_VAR ip_txt>
+              </a></td>
+            <td>$<TMPL_VAR money>
+            </td>
+            <td><a href="?op=admin_downloads_all&ip=<TMPL_VAR ip_txt>">
+                <TMPL_VAR downloads>
+              </a></td>
+          </tr>
+        </TMPL_LOOP>
+      </tbody>
+    </Table>
+  </div>
+</div>
+<div class="mb-4 col-lg-6 mx-auto">
+  <h5 class="text-center text-dark mb-3"> Top money generated Users </h5>
+  <div class="table-responsive">
+    <table class="table table-rounded table-hover small table-fixed">
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>Money</th>
+          <th>Downloads</th>
+        </tr>
+      </thead>
+      <tbody>
+        <TMPL_LOOP gen_user>
+          <tr align=center>
+            <td><a href="?op=admin_user_edit&usr_id=<TMPL_VAR usr_id>">
+                <TMPL_VAR usr_login>
+              </a></td>
+            <td>$<TMPL_VAR money>
+            </td>
+            <td><a href="?op=admin_downloads_all&usr_login=<TMPL_VAR usr_login>">
+                <TMPL_VAR downloads>
+              </a></td>
+          </tr>
+        </TMPL_LOOP>
+      </tbody>
+    </Table>
+  </div>
+</div>
+<div class="mb-4 col-lg-6 mx-auto">
+  <h5 class="text-center text-dark mb-3"> Top money received Users </h5>
+  <div class="table-responsive">
+    <table class="table table-rounded table-hover small table-fixed">
+      <thead>
+        <tr>
+          <th>Username</th>
+          <th>Money</th>
+          <th>Downloads</th>
+        </tr>
+      </thead>
+      <tbody>
+        <TMPL_LOOP rec_user>
+          <tr align=center>
+            <td><a href="?op=admin_user_edit&usr_id=<TMPL_VAR usr_id>">
+                <TMPL_VAR usr_login>
+              </a></td>
+            <td>$<TMPL_VAR money>
+            </td>
+            <td><a href="?op=admin_downloads_all&owner_login=<TMPL_VAR usr_login>">
+                <TMPL_VAR downloads>
+              </a></td>
+          </tr>
+        </TMPL_LOOP>
+      </tbody>
+    </Table>
+  </div>
+</div>

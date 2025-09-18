@@ -1,0 +1,56 @@
+<script>
+  loadT('Top User Profits');
+</script>
+
+<div class="top-bar">
+
+  <Form>
+  <input type="hidden" name="op" value="admin_top_users">
+  <input type="hidden" name="token" value="<TMPL_VAR token>">
+
+
+  <div class="row align-items-center g-3">
+    <div class="col-auto">
+      Data for last
+    </div>
+    <div class="col-auto">
+      <input type="text" name="days" value="<TMPL_VAR days>" class="form-control" maxlength="2" style="width:50px">
+    </div>
+    <div class="col-auto">
+      days
+    </div>
+    <div class="col-auto">
+      <input type="submit" value="Show" class="btn btn-primary">
+    </div>
+  </div>
+
+  </Form>
+
+</div>
+
+
+
+
+
+  <div class="table-responsive">
+    <table class="table table-rounded table-hover table-justify table-fixed">
+  <thead>
+    <tr>
+        <th>User</th>
+        <th>Uploads</th>
+        <th>Views</th>
+        <th>Profit, $</th>
+    </tr>
+  </thead>
+  <tbody>
+    <TMPL_LOOP list>
+    <tr>
+        <td><a href="?op=admin_user_edit&usr_id=<TMPL_VAR usr_id><TMPL_VAR token_str>"><TMPL_VAR usr_login></a></td>
+        <td><TMPL_VAR uploads></td>
+        <td><TMPL_VAR views></td>
+        <td><TMPL_VAR profit_views></td>
+    </tr>
+    </TMPL_LOOP>
+  </tbody>
+  </Table>
+  </div>

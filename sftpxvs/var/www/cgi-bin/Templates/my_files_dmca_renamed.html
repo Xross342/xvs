@@ -1,0 +1,33 @@
+<script>
+	loadT('DMCA Renamed Files');
+</script>
+<TMPL_IF files>
+<div class="table-responsive">
+  <table class="table table-rounded">
+    <thead>
+      <tr>
+				<th>File</th>
+				<th>Updated, ago</th>
+				<th>Old Code</th>
+				<th>New code</th>
+      </tr>
+    </thead>
+    <tbody>
+			<TMPL_LOOP files>
+			<tr>
+				<TD align=left><a href="<TMPL_VAR dl_link>"><TMPL_VAR file_title></a></TD>
+				<TD><TMPL_VAR ago></TD>    
+				<TD><tt><TMPL_VAR file_code_old></tt></TD>
+				<TD><tt><TMPL_VAR file_code_new></tt></TD>
+			</tr>
+			</TMPL_LOOP>
+    </tbody>
+  </table>
+</div>
+<TMPL_ELSE>
+  <div class="alert alert-secondary">No files</div>
+</TMPL_IF>
+
+<br>
+
+<button onclick="window.location='?op=my_files_dmca_renamed&clear=1'">Clear list</button>

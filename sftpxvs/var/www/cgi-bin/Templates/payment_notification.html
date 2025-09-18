@@ -1,0 +1,16 @@
+<div class="container">
+  <section class="page">
+    <h1 class="fs-3 text-dark mb-3"> Your payment processed successfully! </h1>
+
+    <TMPL_IF login>
+      Login: <TMPL_VAR login><br>
+      Password: <TMPL_VAR password>
+    </TMPL_IF>
+    <br><br>
+    Payment received: $<TMPL_VAR amount><br>
+    Added Premium days: <TMPL_VAR days><br>
+    Premium account expiration date: <TMPL_VAR expire><br>
+
+    <TMPL_VAR site_url>
+  </section>
+</div>

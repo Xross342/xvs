@@ -1,0 +1,94 @@
+<script>
+  loadT('<TMPL_VAR lng_requestmoney_title>');
+</script>
+<div class="top-bar">
+  <div class="row align-items-center g-3">
+    <div class="col-auto">
+      <TMPL_VAR lng_requestmoney_you_collected> <b class="text-dark fs-6">$<TMPL_VAR usr_money></b>
+    </div>
+  </div>
+</div>
+<TMPL_IF msg>
+  <div class="alert alert-success">
+    <TMPL_VAR msg>
+  </div>
+</TMPL_IF>
+<div class="col-xl-6 mx-auto">
+  <div class="block text-center">
+    <Form method="POST">
+      <input type="hidden" name="op" value="request_money">
+      <TMPL_IF enabled_prem>
+        <TMPL_IF convert_days>
+          <TMPL_IF convert_money>
+            <div class="mb-3">
+              <input type="submit" class="btn btn-outline-secondary" name="convert_ext_acc" value="<TMPL_VAR lng_requestmoney_extend_my_account> <TMPL_VAR convert_days> <TMPL_VAR lng_requestmoney_days_for> $<TMPL_VAR convert_money>" <TMPL_UNLESS
+                convert_enough> disabled</TMPL_UNLESS>> <br><br>
+              <input type="submit" class="btn btn-outline-secondary" name="convert_new_acc" value="<TMPL_VAR lng_requestmoney_create_a_new> <TMPL_VAR convert_days> <TMPL_VAR lng_requestmoney_days_account_for> $<TMPL_VAR convert_money>" <TMPL_UNLESS
+                convert_enough> disabled</TMPL_UNLESS>>
+            </div>
+          </TMPL_IF>
+        </TMPL_IF>
+      </TMPL_IF>
+      <div class="text-center">
+        <input type="submit" class="btn btn-primary submit-btn rounded" name="convert_profit" value="<TMPL_VAR lng_requestmoney_request_payout>: $<TMPL_VAR usr_money>" <TMPL_UNLESS payout_enough> disabled</TMPL_UNLESS>
+        <TMPL_IF payment_request> disabled</TMPL_IF>> <br><br>
+        <TMPL_UNLESS payout_enough><br>
+          <TMPL_VAR lng_requestmoney_min_payout> $<TMPL_VAR min_payout>
+        </TMPL_UNLESS>
+        <TMPL_IF payment_request>
+          <TMPL_VAR lng_requestmoney_pending_payment>: <b>$<TMPL_VAR payment_request></b><br><br>
+        </TMPL_IF>
+      </div>
+    </Form>
+  </div>
+</div>
+<TMPL_IF payments>
+  <div class="mb-5">
+    <div class="text-center mb-3">
+      <TMPL_VAR lng_requestmoney_pay_history>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-rounded">
+        <thead>
+          <tr>
+            <th>
+              <TMPL_VAR lng_requestmoney_date>
+            </th>
+            <th>
+              <TMPL_VAR lng_requestmoney_processed>
+            </th>
+            <th>
+              <TMPL_VAR lng_requestmoney_amount>
+            </th>
+            <th>
+              <TMPL_VAR lng_requestmoney_status>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <TMPL_LOOP payments>
+            <tr>
+              <td>
+                <TMPL_VAR created2>
+              </td>
+              <td>
+                <TMPL_VAR processed2>
+              </td>
+              <td>$<TMPL_VAR amount>
+              </td>
+              <td>
+                <TMPL_VAR status>
+              </td>
+            </tr>
+          </TMPL_LOOP>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</TMPL_IF>
+<style>
+  input[type="submit"] {
+    width: 350px;
+    max-width: 100%;
+  }
+</style>

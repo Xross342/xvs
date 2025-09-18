@@ -1,0 +1,37 @@
+<div class="container">
+  <section class="page">
+    <h1 class="text-center text-dark mb-4 fs-1">
+      <TMPL_VAR lng_payments_premium_features>
+    </h1>
+    <TMPL_INCLUDE comparison.html>
+      <TMPL_IF expire_elapsed>
+        <div class="alert alert-primary d-flex align-items-center bg-transparent mb-5">
+          <svg class="me-2 text-primary opacity-50" xmlns="http://www.w3.org/2000/svg" width="20" height="20" style="min-width: 20px;" viewBox="0 0 20 20" fill="none">
+            <path d="M10 20C4.5 20 0 15.5 0 10C0 4.5 4.5 0 10 0C15.5 0 20 4.5 20 10C20 15.5 15.5 20 10 20ZM9 9V15H11V9H9ZM9 5V7H11V5H9Z" fill="currentColor"></path>
+          </svg>
+          <div>
+            <span class="text-body">
+              <TMPL_VAR lng_payments_premium_expires_in>:
+            </span>
+            <b class="text-primary-emphasis">
+              <TMPL_VAR expire_elapsed>
+            </b>
+          </div>
+        </div>
+        <TMPL_ELSE>
+          <h2 class="text-center text-dark mb-4 fs-3">
+            <TMPL_VAR lng_payments_become_premium>
+          </h2>
+      </TMPL_IF>
+      <TMPL_INCLUDE payment_buy_with.html>
+  </section>
+</div>
+<script type="text/javascript">
+  function loadPremium(a, b) {
+    var v = document.querySelector('#pay-value');
+    var c = document.querySelector('#pay-code');
+    v.innerHTML = b;
+    var t = a.nextElementSibling.innerHTML;
+    c.innerHTML = t;
+  }
+</script>

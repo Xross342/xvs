@@ -1,0 +1,139 @@
+<h3><TMPL_VAR lng_myreports_title></h3>
+
+<Form>
+<input type="hidden" name="op" value="my_reports">
+From:<input type="text" name="date1" value="<TMPL_VAR date1>" size=9> To:<input type="text" name="date2" value="<TMPL_VAR date2>" size=9>
+<input type="submit" value="<TMPL_VAR lng_myreports_show>">
+</Form>
+
+<br>
+
+<script src="<TMPL_VAR static_url>/js/jquery.flot.min.js"></script>
+<script src="<TMPL_VAR static_url>/js/jquery.flot.time.min.js"></script>
+    <script>
+    $(function() {
+
+        var data_views = [<TMPL_LOOP list>['<TMPL_VAR time>','<TMPL_VAR profit_views>']<TMPL_UNLESS __last__>,</TMPL_UNLESS></TMPL_LOOP>];
+        var data_sales = [<TMPL_LOOP list>['<TMPL_VAR time>','<TMPL_VAR profit_sales>']<TMPL_UNLESS __last__>,</TMPL_UNLESS></TMPL_LOOP>];
+        var data_refs  = [<TMPL_LOOP list>['<TMPL_VAR time>','<TMPL_VAR profit_refs>']<TMPL_UNLESS __last__>,</TMPL_UNLESS></TMPL_LOOP>];
+
+        $.plot("#reports", [ {data:data_views,label:"Views"},{data:data_sales,label:"Sales"},{data:data_refs,label:"Referrals"} ], {
+            series: {
+                lines: {show: true},
+                points: {show: true}
+            },
+            grid: {
+                hoverable: true,
+                clickable: true,
+                markings: weekendAreas
+            },
+            yaxis: {tickDecimals: 2},
+            xaxis: {
+                mode: "time",
+                tickLength: 5
+            }
+        });
+
+
+
+        $("<div id='tooltip' style='margin-top:-33px;border-radius:3px'></div>").css({
+            position: "absolute",
+            display: "none",
+            border: "1px solid #ccc",
+            padding: "2px",
+            "background-color": "#eee",
+            opacity: 0.80
+        }).appendTo("body");
+
+        $("#reports").bind("plothover", function (event, pos, item)
+        {
+                if (item) {
+                    var x = item.datapoint[0];
+                        y = item.datapoint[1];
+                    var d = new Date(x);
+                    dt = d.toJSON().substring(0,10);
+                    $("#tooltip").html(item.series.label + ': ' + dt + " = " + y)
+                        .css({top: item.pageY+5, left: item.pageX+5})
+                        .fadeIn(200);
+                } else {
+                    $("#tooltip").hide();
+                }
+        });
+    });
+
+        function weekendAreas(axes) {
+
+            var markings = [],
+                d = new Date(axes.xaxis.min);
+
+            // go to the first Saturday
+
+            d.setUTCDate(d.getUTCDate() - ((d.getUTCDay() + 1) % 7))
+            d.setUTCSeconds(0);
+            d.setUTCMinutes(0);
+            d.setUTCHours(0);
+
+            var i = d.getTime();
+
+            do {
+                markings.push({ xaxis: { from: i, to: i + 2 * 24 * 60 * 60 * 1000 } });
+                i += 7 * 24 * 60 * 60 * 1000;
+            } while (i < axes.xaxis.max);
+
+            return markings;
+        }
+
+    </script>
+
+    <b>Profit</b>
+    <div id="reports" style="width:640px;height:300px;margin:5px auto;"></div>
+
+<br><br>
+
+<Table class="tbl1" cellpadding=2>
+<TR>
+    <TH><TMPL_VAR lng_myreports_date></TH>
+    <TH><TMPL_VAR lng_myreports_views></TH>
+    <TH>Views Prem</TH>
+    <TH>Views ADB</TH>
+    <TH>Views Profit</TH>
+    <TH><TMPL_VAR lng_myreports_premium_sales></TH>
+    <TH><TMPL_VAR lng_myreports_referrals></TH>
+    <TMPL_IF m_b><TH><TMPL_VAR lng_myreports_website></TH></TMPL_IF>
+    <TH><TMPL_VAR lng_myreports_downloads></TH>
+    <TH>Refs</TH>
+    <TH><TMPL_VAR lng_myreports_total></TH>
+</TR>
+<TMPL_LOOP list>
+<TR align=center>
+    <TD><TMPL_VAR day></TD>
+    <TD><a href="?op=my_reports_day&amp;day=<TMPL_VAR day>"><TMPL_VAR views></a></TD>
+    <TD><TMPL_VAR views_prem></TD>
+    <TD><TMPL_VAR views_adb></TD>
+    <TD>$<TMPL_VAR profit_views></TD>
+    <TD align=right><TMPL_VAR sales> / $<TMPL_VAR profit_sales></TD>
+    <TD align=right>$<TMPL_VAR profit_refs></TD>
+    <TMPL_IF m_b><TD align=right>$<TMPL_VAR profit_site></TD></TMPL_IF>
+    <TD><TMPL_VAR downloads></TD>
+    <TD><TMPL_VAR refs></TD>
+    <TD align=right>$<TMPL_VAR profit_total></TD>
+</TR>
+</TMPL_LOOP>
+<TR>
+    <TH></TH>
+    <TH><TMPL_VAR sum_views></TH>
+    <TH><TMPL_VAR sum_views_prem></TH>
+    <TH><TMPL_VAR sum_views_adb></TH>
+    <TH>$<TMPL_VAR sum_profit_views></TH>
+    <TH><TMPL_VAR sum_sales> / $<TMPL_VAR sum_profit_sales></TH>
+    <TH>$<TMPL_VAR sum_profit_refs></TH>
+    <TMPL_IF m_b><TH>$<TMPL_VAR sum_profit_site></TH></TMPL_IF>
+    <TH><TMPL_VAR sum_downloads></TH>
+    <TH><TMPL_VAR sum_refs></TH>
+    <TH>$<TMPL_VAR sum_profit_total></TH>
+</TR>
+</Table>
+
+<br><br>
+
+

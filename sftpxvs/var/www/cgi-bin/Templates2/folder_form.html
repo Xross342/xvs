@@ -1,0 +1,19 @@
+<Form method="POST">
+<input type="hidden" name="op" value="fld_edit">
+<input type="hidden" name="fld_id" value="<TMPL_VAR fld_id>">
+<Table class="tbl1" cellpadding=3 cellspacing=1>
+<TR class="hdr"><TD colspan=2><TMPL_VAR lng_myfiles_edit_folder></TD></TR>
+<TR>
+	<TD class="rc"><TMPL_VAR lng_myfiles_folder_name></TD>
+	<TD><input type="text" name="fld_name" value="<TMPL_VAR fld_name>" size=56></TD>
+</TR>
+<TR>
+	<TD class="rc">Description</TD>
+	<TD><input type="text" name="fld_descr" value="<TMPL_VAR fld_descr>" size=56></TD>
+</TR>
+<TR>
+	<TD colspan=2 align=center><input type="submit" name="save" value=" <TMPL_VAR lng_misc_save> "></TD>
+</TR>
+</Table>
+</Form>
+

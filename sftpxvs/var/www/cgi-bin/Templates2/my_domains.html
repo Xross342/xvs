@@ -1,0 +1,68 @@
+<h2>My Custom Domains</h2>
+
+<TMPL_IF msg><div class="ok"><TMPL_VAR msg></div></TMPL_IF>
+
+<Form name="F1" method="POST">
+<input type="hidden" name="op" value="my_domains">
+<input type="hidden" name="token" value="<TMPL_VAR token>">
+<Table class="tbl1" cellpadding=3 width=350>
+<TR>
+	<TH>Add new domain</TH>
+</TR>
+<TR>
+	<TD>
+		Domain name: 
+		<input type="text" name="new" value="" size=24 placeholder="mydomain.com"> 
+		<input type="submit" value="Add">
+	</TD>
+</TR>
+</Table>
+</Form>
+
+<br>
+
+<TMPL_IF active>
+<Form name="F1" method="POST">
+<input type="hidden" name="op" value="my_domains">
+<input type="hidden" name="token" value="<TMPL_VAR token>">
+<Table class="tbl1" cellpadding=3 width=350>
+<TR>
+	<TH>Choose default custom domain</TH>
+</TR>
+<TR>
+	<TD align=center>
+		<select name="default_domain">
+		<option value="">None</option>
+		<TMPL_LOOP active>
+		<option value="<TMPL_VAR dom_domain>"<TMPL_VAR selected>><TMPL_VAR dom_domain></option>
+		</TMPL_LOOP> 
+		</select> &nbsp; 
+		<input type="submit" name="default_save" value="Save">
+	</TD>
+</TR>
+</Table>
+</Form>
+</TMPL_IF>
+
+<br>
+
+<TMPL_IF list>
+<Table class="tbl1" cellpadding=3 width=350>
+<TR>
+	<TH>Domain</TH>
+	<TH>Status</TH>
+	<TH>NS1</TH>
+	<TH>NS2</TH>
+	<TH></TH>
+</TR>
+<TMPL_LOOP list>
+<TR align=center>
+	<TD align=left><b><TMPL_VAR dom_domain></b></TD>
+	<TD><TMPL_VAR dom_status></TD>
+	<TD><TMPL_VAR dom_ns1></TD>
+	<TD><TMPL_VAR dom_ns2></TD>
+	<TD><a href="?op=my_domains&del_dom=<TMPL_VAR dom_id><TMPL_VAR token_str>" onClick="return confirm('Delete domain <TMPL_VAR dom_domain>?')"><img src="<TMPL_VAR static_url>/images/del.gif" border=0></a></TD>
+</TR>
+</TMPL_LOOP>
+</Table>
+</TMPL_IF>

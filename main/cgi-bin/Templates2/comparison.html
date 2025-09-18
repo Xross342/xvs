@@ -1,0 +1,71 @@
+<table cellpadding="5" class="tbl1" width="540">
+<tr class="hdr">
+    <td width="40%"></td>
+    <td width="30%"><b><TMPL_VAR lng_comparison_registered></b></td>
+    <td width="30%"><b><TMPL_VAR lng_comparison_premium></b></td>
+</tr>
+<tr align="center">
+    <td align=right><b><TMPL_VAR lng_comparison_advertisements></b></td>
+    <td><TMPL_IF ads_reg>-<TMPL_ELSE><img src="<TMPL_VAR site_url>/images/yep.gif" width=24 height=24 alt='Yes'></TMPL_IF></td>
+    <td><TMPL_IF ads_prem>-<TMPL_ELSE><img src="<TMPL_VAR site_url>/images/yep.gif" width=24 height=24 alt='Yes'></TMPL_IF></td>
+</tr>
+<tr align="center">
+    <td align=right><b><TMPL_VAR lng_comparison_fullscreen></b></td>
+    <td><TMPL_IF fullscreen_reg><img src="<TMPL_VAR site_url>/images/yep.gif" width=24 height=24 alt='Yes'><TMPL_ELSE>-</TMPL_IF></td>
+    <td><TMPL_IF fullscreen_prem><img src="<TMPL_VAR site_url>/images/yep.gif" width=24 height=24 alt='Yes'><TMPL_ELSE>-</TMPL_IF></td>
+</tr>
+<tr align="center">
+    <td align=right><b><TMPL_VAR lng_comparison_intro_countdown></b></td>
+    <td><TMPL_IF download_countdown_reg><TMPL_VAR download_countdown_reg> <TMPL_VAR lng_comparison_seconds><TMPL_ELSE>-</TMPL_IF></td>
+    <td><TMPL_IF download_countdown_prem><TMPL_VAR download_countdown_prem> <TMPL_VAR lng_comparison_seconds><TMPL_ELSE><img src="<TMPL_VAR site_url>/images/yep.gif"></TMPL_IF></td>
+</tr>
+<TMPL_IF max_watch_time_reg>
+<tr align="center">
+    <td align=right><b><TMPL_VAR lng_comparison_watch_limit></b></td>
+    <td><TMPL_VAR max_watch_time_reg_txt></td>
+    <td><TMPL_VAR max_watch_time_prem_txt></td>
+</tr>
+</TMPL_IF>
+<TMPL_IF max_download_filesize_reg>
+<tr align="center">
+    <td align=right><b><TMPL_VAR lng_comparison_max_download_file_size></b></td>
+    <td><TMPL_VAR max_download_filesize_reg_txt></td>
+    <td><TMPL_VAR max_download_filesize_prem_txt></td>
+</tr>
+</TMPL_IF>
+<tr align="center">
+    <td align=right><b><TMPL_VAR lng_comparison_original_download></b></td>
+    <td><TMPL_IF video_dl_orig_reg><img src="<TMPL_VAR site_url>/images/yep.gif" width=24 height=24 alt='Yes'><TMPL_ELSE>-</TMPL_IF></td>
+    <td><TMPL_IF video_dl_orig_prem><img src="<TMPL_VAR site_url>/images/yep.gif" width=24 height=24 alt='Yes'><TMPL_ELSE>-</TMPL_IF></td>
+</tr>
+<tr align="center">
+    <td align=right><b><TMPL_VAR lng_comparison_download_limit></b></td>
+    <td><TMPL_IF video_dl_orig_reg><TMPL_VAR bw_limit_reg></TMPL_IF></td>
+    <td><TMPL_IF video_dl_orig_prem><TMPL_VAR bw_limit_prem></TMPL_IF></td>
+</tr>
+<tr align="center">
+    <td align=right><b><TMPL_VAR lng_comparison_dl_speed></b></td>
+    <td><TMPL_IF video_dl_orig_reg><TMPL_VAR down_speed_reg></TMPL_IF></td>
+    <td><TMPL_IF video_dl_orig_prem><TMPL_VAR down_speed_prem></TMPL_IF></td>
+</tr>
+<tr align="center">
+    <td align=right><b><TMPL_VAR lng_comparison_max_upload_file_size></b></td>
+    <td><TMPL_VAR max_upload_filesize_reg></td>
+    <td><TMPL_VAR max_upload_filesize_prem></td>
+</tr>
+<tr align="center">
+    <td align=right><b><TMPL_VAR lng_comparison_storage_space></b></td>
+    <td><TMPL_VAR disk_space_reg></td>
+    <td><TMPL_VAR disk_space_prem></td>
+</tr>
+<tr align="center">
+    <td align=right><b><TMPL_VAR lng_comparison_url_upload></b></td>
+    <td><TMPL_IF remote_url_reg><TMPL_VAR queue_url_max_reg> <TMPL_VAR lng_comparison_threads><TMPL_ELSE>-</TMPL_IF></td>
+    <td><TMPL_IF remote_url_prem><TMPL_VAR queue_url_max_prem> <TMPL_VAR lng_comparison_threads><TMPL_ELSE>-</TMPL_IF></td>
+</tr>
+<tr align="center">
+    <td align=right><b><TMPL_VAR lng_comparison_when_files_deleted></b></td>
+    <td><TMPL_VAR files_expire_reg></td>
+    <td><TMPL_VAR files_expire_prem></td>
+</tr>
+</table>

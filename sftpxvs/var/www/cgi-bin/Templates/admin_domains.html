@@ -1,0 +1,51 @@
+<h2>Admin Custom Domains</h2>
+
+<TMPL_IF msg><div class="ok"><TMPL_VAR msg></div></TMPL_IF>
+
+<Form name="F1" method="POST">
+<input type="hidden" name="op" value="admin_domains">
+<input type="hidden" name="token" value="<TMPL_VAR token>">
+
+<TMPL_IF list>
+<Table class="tbl1" cellpadding=3>
+<TR>
+	<TH><input type="checkbox" id="selall"></TH>
+	<TH>Domain</TH>
+	<TH>Status</TH>
+	<TH>NS1</TH>
+	<TH>NS2</TH>
+	<TH>User</TH>
+	<TH>Added</TH>
+</TR>
+<TMPL_LOOP list>
+<TR align=center>
+	<TD><input type="checkbox" name="dom_id" value="<TMPL_VAR dom_id>"></TD>
+	<TD align=left><a href="https://<TMPL_VAR dom_domain>" target=_blank><b><TMPL_VAR dom_domain></b></a></TD>
+	<TD><TMPL_VAR dom_status></TD>
+	<TD><TMPL_VAR dom_ns1></TD>
+	<TD><TMPL_VAR dom_ns2></TD>
+	<TD><a href="?op=admin_domains&usr_id=<TMPL_VAR usr_id><TMPL_VAR token_str>"><TMPL_VAR usr_login></a></TD>
+	<TD><TMPL_VAR created></TD>
+</TR>
+</TMPL_LOOP>
+<TR>
+	<TD colspan=8>
+		<input type="submit" name="set_active" value="Set to ACTIVE"> &nbsp; 
+		<input type="submit" name="set_off" value="Set to OFF"> &nbsp; 
+		<input type="submit" name="delete" value="Delete" onClick="return confirm('Delete selected domains?')">
+	</TD>
+</TR>
+</Table>
+<TMPL_VAR paging>
+</TMPL_IF>
+</Form>
+
+<script>
+$("#selall").change(function(){ 
+	var sel=this.checked;
+	$("input[name=dom_id]:enabled").each(function(){
+		$(this).prop('checked',sel);
+		if(sel){$(this).parent().parent().addClass('hi2');} else {$(this).parent().parent().removeClass('hi2');}
+	});
+});
+</script>

@@ -1,0 +1,47 @@
+<h3 style="margin:0;"><TMPL_VAR lng_login_title></h3>
+
+<TMPL_IF msg><b class='err'><TMPL_VAR msg></b><br></TMPL_IF>
+
+<form method="POST" action="/" name="FL">
+<input type="hidden" name="op" value="login">
+<input type="hidden" name="redirect" value="<TMPL_VAR redirect>">
+<table cellpadding=3>
+<tr>
+	<td><TMPL_VAR lng_login_username>:<br><input type="text" name="login" value="<TMPL_VAR login>" class="myForm"></td>
+</tr>
+<tr>
+	<td><TMPL_VAR lng_login_password>:<br><input type="password" name="password" class="myForm"></td>
+</tr>
+<TMPL_IF recaptcha>
+<tr>
+	<td><TMPL_VAR recaptcha></td>
+</tr>
+</TMPL_IF>
+<tr>
+	<td align=center><input type="submit" value="<TMPL_VAR lng_login_enter>" class="f-btn-blue"></td>
+</tr>
+</table>
+</form>
+
+<br>
+<a href="/?op=registration">Create new account</a>
+<br>
+<br>
+
+<TMPL_IF external_sites_login>
+<div class="rrd">
+<h3 style="margin:0;"><TMPL_VAR lng_login_enter_via_other_sites></h3>
+	<TMPL_IF facebook_app_id><a href="/?op=login&method=facebook"><img src="/images/facebook.png" alt="Login with Facebook"></a></TMPL_IF>
+	<TMPL_IF twit_consumer1><a href="/?op=login&method=twitter"><img src="/images/twitter.png" alt="Login with Twitter"></a></TMPL_IF>
+	<TMPL_IF google_app_id><a href="/?op=login&method=google"><img src="/images/google+.png" alt="Login with Google"></a></TMPL_IF>
+	<TMPL_IF vk_app_id><a href="/?op=login&method=vk"><img src="/images/vk.png" alt="Login with Vk.com"></a></TMPL_IF>
+</div>
+</TMPL_IF>
+
+<Script>
+<TMPL_IF login>
+document.FL.password.focus();
+<TMPL_ELSE>
+document.FL.login.focus();
+</TMPL_IF>
+</Script>

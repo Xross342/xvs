@@ -1,0 +1,165 @@
+<!doctype html>
+<html>
+<head>
+   <meta charset="UTF-8">
+   <title><TMPL_IF page_title><TMPL_VAR page_title><TMPL_ELSE><TMPL_VAR site_name></TMPL_IF></title>
+   <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"/> 
+   <link rel="stylesheet" href="<TMPL_VAR static_url>/css/main.css?<TMPL_VAR cdn_version_num>">
+   <script src="<TMPL_VAR static_url>/js/jquery.min.js?<TMPL_VAR cdn_version_num>"></script>
+   <script src="<TMPL_VAR static_url>/js/xupload.js?<TMPL_VAR cdn_version_num>"></script>
+   <TMPL_IF meta_descr><META NAME="description" CONTENT="<TMPL_VAR meta_descr>"></TMPL_IF>
+   <TMPL_IF meta_keywords><META NAME="keywords" CONTENT="<TMPL_VAR meta_keywords>"></TMPL_IF>
+   <TMPL_IF video_img_url><meta name="og:image" content="<TMPL_VAR video_img_url>"></TMPL_IF>
+</head>
+<body<TMPL_IF lng_rtl> style="direction:rtl;"</TMPL_IF>>
+
+<div id="header">
+   <div class="container1">
+
+	  <div id="logo">
+     <a href="/"><img src="/images/logo.png?<TMPL_VAR cdn_version_num>"></a>
+	  </div>
+
+      <!--start menu-->
+    <div id="mainmenu">
+    <ul>
+        <TMPL_IF my_login>	
+        <TMPL_IF upload_enabled><li><a href="/?op=upload"><TMPL_VAR lng_main_upload_files></a></li></TMPL_IF>
+        <li><a href="/?op=my_account"><TMPL_VAR lng_main_my_account></a></li>
+        <li><a href="/?op=my_files"><TMPL_VAR lng_main_my_files></a></li>
+        <TMPL_IF legal_tool>
+        	<li><a href="/?op=legal_tool">DMCA</a></li>
+        </TMPL_IF>
+        <TMPL_IF reseller>
+        	<li><a href="/?op=my_reseller"><TMPL_VAR lng_main_reseller_acc></a></li>
+        </TMPL_IF>
+        <TMPL_IF tickets_moderator>
+        	<li><a href="/?op=admin_ticket_list">TicketsAdm</a></li>
+        </TMPL_IF>
+        <li><a href="/?op=my_reports"><TMPL_VAR lng_main_my_reports></a></li>
+        <TMPL_IF enabled_prem>
+        <TMPL_UNLESS premium>
+          <li><a href="/premium"><TMPL_VAR lng_main_premium></a></li>
+        </TMPL_UNLESS>
+        </TMPL_IF>
+        <li><a href="/?op=logout"><TMPL_VAR lng_main_logout></a></li>
+        <TMPL_ELSE>
+        <TMPL_IF enabled_reg>
+        <li><a href="/login.html"><b><TMPL_VAR lng_main_login></b></a></li>
+        <li><a href="/?op=registration"><b><TMPL_VAR lng_main_signup></b></a></li>
+        <li><a href="/?op=forgot_pass"><TMPL_VAR lng_main_forgot_pass></a></li>
+        </TMPL_IF>
+        </TMPL_IF>
+
+      <TMPL_IF usr_moderator>
+      <li>
+        <a href="#" style="font-weight: bold;">Moderator</a>
+        <ul>
+        <TMPL_IF m_d_f><li><a href="/?op=moderator_files">Files</a></li></TMPL_IF>
+        <TMPL_IF m_d_file_approve><li><a href="/?op=moderator_files_approve">Approve Files</a></li></TMPL_IF>
+        <TMPL_IF m_d_a><li><a href="/?op=moderator_reports">Abuses</a></li></TMPL_IF>
+        <TMPL_IF m_d_c><li><a href="/?op=moderator_comments">Comments</a></li></TMPL_IF>
+        <TMPL_IF m_d_featured><li><a href="/?op=moderator_files_featured">Featured</a></li></TMPL_IF>
+        </ul>
+      </li>
+      </TMPL_IF>
+      <li><a href="/?design=<TMPL_IF design>0<TMPL_ELSE>0</TMPL_IF>" style="font-size: 12px;">Switch Design</a></li>
+    </ul>
+
+
+
+    <div id="language">
+    <ul>
+      <li>
+        <a><span class="trf trf-<TMPL_VAR language_lc>"></span></a>
+        <ul>
+          <li>
+            <a href="/?op=change_lang&lang=English">
+              <span class="trf trf-english"></span><span class="langname">English</span>
+            </a>
+          </li>
+          <li>
+            <a href="/?op=change_lang&lang=Russian">
+              <span class="trf trf-russian"></span><span class="langname">Russian</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+    </div> <!--language-->
+
+      </div>
+   </div>
+
+    <TMPL_IF admin>
+    <br clear=all>
+    <div class="admin_menu">
+        <a href="/adm?op=admin_files<TMPL_VAR token_str>">Videos</a>
+        <a href="/adm?op=admin_users<TMPL_VAR token_str>">Users</a>
+        <a href="/adm?op=admin_servers<TMPL_VAR token_str>">Servers</a>
+        <a href="/adm?op=admin_enc_list<TMPL_VAR token_str>">Encoding</a>
+        <a href="/adm?op=admin_transfer_list<TMPL_VAR token_str>">Transfers</a>
+        <a href="/adm?op=admin_url_list<TMPL_VAR token_str>">URL Uploads</a>
+        <TMPL_IF m_t><a href="/adm?op=admin_torrents<TMPL_VAR token_str>">Torrents</a></TMPL_IF>
+        <TMPL_IF m_f><a href="/adm?op=admin_ftp<TMPL_VAR token_str>">FTP</a></TMPL_IF>
+        <TMPL_IF m_e><a href="/?op=admin_ticket_list<TMPL_VAR token_str>">Tickets</a></TMPL_IF>
+        <a href="/adm?op=admin_reports<TMPL_VAR token_str>">Abuses</a>
+        <a href="/adm?op=admin_comments<TMPL_VAR token_str>">Comments</a>
+        <a href="/adm?op=admin_payouts<TMPL_VAR token_str>">Payouts</a>
+        <a href="/adm?op=admin_stats<TMPL_VAR token_str>">Stats</a>
+        <a href="/adm?op=admin_settings<TMPL_VAR token_str>">Settings</a>
+    </div>
+    </TMPL_IF>
+
+   <!--end menu-->
+</div> <!--end header-->
+
+<TMPL_IF xvs_notifications>
+<script src="<TMPL_VAR static_url>/js/jquery.cookie.js"></script>
+<div id="xvsnot" style="width:70%;margin:10px auto;">
+<br clear=all>
+<TMPL_LOOP xvs_notifications>
+<div style="background:#ffd;padding:5px;margin-top:5px;"><TMPL_VAR date>: <TMPL_VAR text> <TMPL_IF btn><input type="button" value="Dismiss" style="float:right;" onclick="$.cookie('adm_not_id', '<TMPL_VAR id>', { expires: 9999 });$('#xvsnot').hide();"></TMPL_IF></div>
+</TMPL_LOOP>
+</div>
+</TMPL_IF>
+
+<div id="container"> 
+	
+  <TMPL_VAR tmpl>
+
+</div>  <!--end conteiner-->
+<div class="clear"></div>
+
+<footer>
+	<div id="container">
+		<hr class="hr3">
+		<div style="float: left;">
+		<div id="footernav">
+			<ul>
+				<li><a href="/"><TMPL_VAR lng_main_home></a></li>
+        		<TMPL_IF news_enabled>
+        		<li><a href="/?op=news"><TMPL_VAR lng_main_news></a></li>
+        		</TMPL_IF>
+		        <TMPL_IF enable_catalogue>
+		        <li><a href="/?op=search"><TMPL_VAR lng_main_search></a></li>
+		        </TMPL_IF>
+		        <li><a href="/faq"><TMPL_VAR lng_main_faq></a></li> 
+		        <li><a href="/tos"><TMPL_VAR lng_main_tos></a></li> 
+		        <TMPL_IF enabled_prem><TMPL_UNLESS premium>
+		        <li><a href="/premium"><TMPL_VAR lng_main_premium></a></li>
+		        </TMPL_UNLESS></TMPL_IF>
+		        <li><a href="/make_money"><TMPL_VAR lng_main_make_money></a></li> 
+		        <li><a href="/check_files"><TMPL_VAR lng_main_link_checker></a></li> 
+		        <li><a href="/api.html">API</a></li> 
+		        <li><a href="/contact"><TMPL_VAR lng_main_contact_us></a></li>
+			</ul>
+		</div>
+		<div class="clear"></div>
+		<p style="margin-top: 20px;text-align:left;">&copy; 2024 <TMPL_VAR site_name></p> 
+		</div>
+	</div>
+</footer>
+
+</body>
+</html>

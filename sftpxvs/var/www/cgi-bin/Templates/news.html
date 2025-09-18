@@ -1,0 +1,26 @@
+<div class="container">
+	<section class="page col-xl-10 mx-auto">
+		<h1 class="text-center text-dark mb-4"><TMPL_VAR site_name> <TMPL_VAR lng_news_title></h1>
+		<TMPL_LOOP news>
+			<article class="block py-3 px-4 mb-4">
+				<h3 class="fs-5">
+					<a class="link-body-emphasis" href="<TMPL_VAR link>">
+						<TMPL_VAR news_title>
+					</a>
+				</h3>
+				<div class="py-2 small">
+					<TMPL_VAR news_text>
+				</div>
+				<span class="xsmall text-muted me-4">
+					<TMPL_VAR created_txt>
+				</span>
+				<TMPL_IF enable_file_comments>
+					<a class="xsmall" href="n<TMPL_VAR news_id>-<TMPL_VAR news_title2>.html#comments"><TMPL_VAR comments> <TMPL_VAR lng_news_comments></a>
+				</TMPL_IF>
+			</article>
+		</TMPL_LOOP>
+	</section>
+	<div class="paging-centered">
+		<TMPL_VAR paging>
+	</div>
+</div>

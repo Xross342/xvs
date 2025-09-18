@@ -1,0 +1,55 @@
+<script>
+	loadT('Create new ticket');
+</script>
+<div class="top-bar">
+	<div class="row align-items-center g-3">
+		<div class="col-auto">
+			<a href="/?op=ticket_list" class="btn btn-outline-light">
+				<svg class="me-2" width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<path d="M2.8998 7L7.7998 2L6.3998 0.600001L-0.000195503 7L6.3998 13.4L7.7998 12L2.8998 7Z" fill="currentColor"></path>
+				</svg> Back to list </a>
+		</div>
+	</div>
+</div>
+<div class="block admin-settings p-0">
+	<form method="POST">
+		<input type="hidden" name="op" value="ticket_create">
+		<table class="table settings-table mb-0 align-middle">
+			<tbody>
+				<tr>
+					<td class="text-lg-end">
+						<label class="col-form-label">Category</label>
+					</td>
+					<td class="border-start">
+						<select class="form-select form-select-sm" name="category">
+							<TMPL_LOOP categories>
+								<option value="<TMPL_VAR category>">
+									<TMPL_VAR category>
+								</option>
+							</TMPL_LOOP>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td class="text-lg-end">
+						<label class=" col-form-label">Title</label>
+					</td>
+					<td class="border-start">
+						<input type="text" class="form-control form-control-sm" name="ti_title" value="<TMPL_VAR ti_title>">
+					</td>
+				</tr>
+				<tr>
+					<td class="text-lg-end">
+						<label class=" col-form-label">Message</label>
+					</td>
+					<td class="border-start">
+						<textarea rows="8" class="form-control form-control-sm" name="message"><TMPL_VAR message></textarea>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<div class="text-center p-4">
+			<input type="submit" name="save" value=" Create " class="btn btn-primary submit-btn">
+		</div>
+	</form>
+</div>

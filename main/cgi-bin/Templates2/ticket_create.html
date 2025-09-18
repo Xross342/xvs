@@ -1,0 +1,28 @@
+<h1>Create new ticket</h1>
+
+<Form method="POST">
+<input type="hidden" name="op" value="ticket_create">
+<Table class="tbl1" cellpadding=3 cellspacing=1>
+<TR class="hdr"><TD colspan=2>Ticket</TD></TR>
+<TR>
+	<TD class="rc">Category</TD>
+	<TD>
+		<select name="category">
+		<TMPL_LOOP categories><option value="<TMPL_VAR category>"><TMPL_VAR category></option></TMPL_LOOP>
+		</select>
+	</TD>
+</TR>
+<TR>
+	<TD class="rc">Title</TD>
+	<TD><input type="text" name="ti_title" value="<TMPL_VAR ti_title>" size=56></TD>
+</TR>
+<TR>
+	<TD class="rc">Message</TD>
+	<TD><textarea name="message" style="width:97%;height:200px;"><TMPL_VAR message></textarea></TD>
+</TR>
+<TR>
+	<TD colspan=2 align=center><input type="submit" name="save" value=" Create "></TD>
+</TR>
+</Table>
+</Form>
+

@@ -1,0 +1,60 @@
+<script>
+	loadT('<TMPL_VAR lng_myemail_change_email>');
+</script>
+<TMPL_IF msg>
+	<div class="alert alert-success">
+		<TMPL_VAR msg>
+	</div>
+</TMPL_IF>
+<div class="block admin-settings p-0">
+	<form method="POST">
+		<input type="hidden" name="op" value="my_email">
+		<input type="hidden" name="token" value="<TMPL_VAR token>">
+		<input type="hidden" name="rand" value="<TMPL_VAR rand>">
+		<table class="table settings-table mb-0 align-middle">
+			<tbody>
+				<tr>
+					<td class="text-lg-end"><label class="col-form-label">
+							<TMPL_VAR lng_myemail_current_email>
+						</label></td>
+					<td class="border-start">
+						<TMPL_VAR usr_email>
+					</td>
+				</tr>
+				<tr>
+					<td class="text-lg-end"><label class="col-form-label">
+							<TMPL_VAR lng_myemail_new_email>
+						</label></td>
+					<td class="border-start"><input type="text" name="usr_email" class="form-control form-control-sm"></td>
+				</tr>
+				<tr>
+					<td class="text-lg-end"><label class="col-form-label">
+							<TMPL_VAR lng_myemail_new_email_retype>
+						</label></td>
+					<td class="border-start"><input type="text" name="usr_email2" class="form-control form-control-sm"></td>
+				</tr>
+				<tr>
+					<td class="text-lg-end"></td>
+					<td class="border-start">
+						<TMPL_IF ihtml>
+							<TMPL_VAR ihtml>
+								<TMPL_ELSE>
+									<div class="form-floating" style="max-width: 300px;">
+										<input type="text" class="form-control" id="floatingCode" placeholder="" name="code">
+										<label for="floatingCode">Code</label>
+										<TMPL_IF iurl><img src="<TMPL_VAR iurl>" class="position-absolute top-50 end-0 translate-middle-y me-3">
+											<TMPL_ELSE><span class="position-absolute top-50 end-0 translate-middle-y me-3">
+													<TMPL_VAR itext>
+												</span>
+										</TMPL_IF>
+									</div>
+						</TMPL_IF>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<div class="text-center p-4">
+			<input type="submit" name="change" value="<TMPL_VAR lng_myemail_change_email>" class="btn btn-primary submit-btn">
+		</div>
+	</form>
+</div>

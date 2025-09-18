@@ -1,0 +1,52 @@
+<script>
+  loadT('URL Upload queue');
+</script>
+
+<TMPL_IF stucked>
+<div style="row g-1 mb-3">
+	<div class="col-auto"><input type="button" value="Restart stucked" onclick="window.location='?op=admin_url_list&amp;restart_stucked=1<TMPL_VAR token_str>'" class="btn btn-primary"></div>
+	<div class="col-auto"><input type="button" value="Delete stucked" onclick="window.location='?op=admin_url_list&amp;delete_stucked=1<TMPL_VAR token_str>'" class="btn btn-danger"></div>
+</div>
+</TMPL_IF>
+
+<TMPL_IF errors>
+<div style="row g-1 mb-3">
+	<div class="col-auto"><input type="button" value="Restart errors" onclick="window.location='?op=admin_url_list&amp;restart_errors=1<TMPL_VAR token_str>'" class="btn btn-primary"></div>
+	<div class="col-auto"><input type="button" value="Delete errors" onclick="window.location='?op=admin_url_list&amp;delete_errors=1<TMPL_VAR token_str>'" class="btn btn-danger"></div>
+</div>
+</TMPL_IF>
+
+<TMPL_IF list>
+<div class="table-responsive">
+	<table class="table table-rounded table-hover table-justify">
+<thead>
+	<tr>
+	<th>URL</th>
+	<th>Status</th>
+	<th>User</th>
+	<th>Started</th>
+	<th title="Server ID">Srv</th>
+	<th>Progress</th>
+	<th>&nbsp;</th>
+	</tr>
+</thead>
+<tbody>
+	<TMPL_LOOP list>
+	<tr<TMPL_UNLESS __ODD__> class="hi"</TMPL_UNLESS>>
+	<td><TMPL_IF premium><b></TMPL_IF><TMPL_VAR url><TMPL_IF qstatus> <TMPL_VAR qstatus></TMPL_IF><TMPL_IF restart> <a href="?op=admin_url_list&restart=<TMPL_VAR id><TMPL_VAR token_str>"><i style="color:#aa3">[restart]</i></a></TMPL_IF></td>
+	<td><TMPL_VAR status></td>
+	<td><TMPL_IF usr_id><a href="?op=admin_files&usr_id=<TMPL_VAR usr_id><TMPL_VAR token_str>"><TMPL_VAR usr_login></a></TMPL_IF></td>
+	<td nowrap><small><TMPL_VAR started2></small></td>
+	<td><TMPL_VAR srv_id></td>
+	<tdclass="enc_td"><div style="position:relative;"><div class="enc_status" style="width:<TMPL_VAR progress>%;"></div><div class="enc_value"><TMPL_VAR progress>%<TMPL_IF size_full> (<TMPL_VAR size_dl> MB of <TMPL_VAR size_full> MB) <TMPL_VAR speed> KB/s</TMPL_IF></div></div></td>
+	<td><a href="?op=admin_url_list&del_id=<TMPL_VAR id><TMPL_VAR token_str>"><img src="<TMPL_VAR site_url>/images2/delete.svg" border=0></a></td>
+	</tr>
+	</TMPL_LOOP>
+</tbody>
+</table>
+</div>
+<TMPL_ELSE>
+<div class="alert alert-secondary">No urls</div>
+</TMPL_IF>
+
+<TMPL_VAR paging>

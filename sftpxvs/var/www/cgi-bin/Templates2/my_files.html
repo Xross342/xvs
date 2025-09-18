@@ -1,0 +1,516 @@
+<div id="contentful">
+
+	<TMPL_IF msg><div class="ok"><TMPL_VAR msg></div><br></TMPL_IF>
+
+    <div class="usedspace">
+        <TMPL_IF total_files>
+        	<h3><TMPL_VAR lng_myfiles_used_space> <b><TMPL_VAR total_size></b><TMPL_IF disk_space> <TMPL_VAR lng_myfiles_of> <b><TMPL_VAR disk_space> GB</b></TMPL_IF>, <TMPL_VAR total_files> <TMPL_VAR lng_myfiles_files>
+        </TMPL_IF>
+        <TMPL_IF deleted_num><span style="float:right"><a href="?op=my_files_deleted"><TMPL_VAR deleted_num> <TMPL_VAR lng_myfiles_deleted></a></span></TMPL_IF>
+        <TMPL_IF dmca_num><span style="float:right;margin-right:20px;"><a href="?op=my_files_dmca"><TMPL_VAR dmca_num> DMCA</a></span></TMPL_IF>
+        <TMPL_IF dmca_renamed_num><span style="float:right;margin-right:20px;"><a href="?op=my_files_dmca_renamed"><TMPL_VAR dmca_renamed_num> updated code</a></span></TMPL_IF>
+        </h3>
+    </div>
+
+
+<Form method="POST" action="<TMPL_VAR site_url>/" name="F1" enctype="multipart/form-data">
+<input type="hidden" name="op" value="my_files">
+<input type="hidden" name="fld_id" value="<TMPL_VAR folder_id>">
+<input type="hidden" name="token" value="<TMPL_VAR token>">
+
+<Table class="tbl1">
+<tr>
+    <td class="rc"><TMPL_VAR lng_myfiles_search></td>
+    <td><input type="text" name="key" value="<TMPL_VAR key>" size=24></td>
+</tr>
+<!--tr>
+    <td class="rc">Files per page</td>
+    <td>
+    <input type="radio" name="per_page" id="pp0" value="<TMPL_VAR items_per_page>"<TMPL_UNLESS per_page> checked</TMPL_UNLESS>><label for="pp0"><TMPL_VAR items_per_page></label>
+    <input type="radio" name="per_page" id="pp50" value="50" class="lmargin10"<TMPL_VAR per_50>><label for="pp50">50</label> 
+    <input type="radio" name="per_page" id="pp100" value="100" class="lmargin10"<TMPL_VAR per_100>><label for="pp100">100</label> 
+    <input type="radio" name="per_page" id="pp500" value="500" class="lmargin10"<TMPL_VAR per_500>><label for="pp500">500</label> 
+    </td>
+</tr-->
+<!--tr>
+	<td class="rc">Show properties</td>
+	<td id="show_props">
+		<label><input type="checkbox" name="mfs_chk" value="1"<TMPL_IF mfs_chk> checked</TMPL_IF>>Checkboxes</label>
+		<br>
+		<label><input type="checkbox" name="mfs_thm" value="1"<TMPL_IF mfs_thm> checked</TMPL_IF>>Thumbnail</label>
+		<br>
+		<label><input type="checkbox" name="mfs_size" value="1"<TMPL_IF mfs_size> checked</TMPL_IF>>Size details</label>
+		<br>
+		<label><input type="checkbox" name="mfs_view" value="1"<TMPL_IF mfs_view> checked</TMPL_IF>>Views</label>
+		<br>
+		<label><input type="checkbox" name="mfs_ddl" value="1"<TMPL_IF mfs_ddl> checked</TMPL_IF>>Downloads</label>
+		<br>
+		<label><input type="checkbox" name="mfs_pub" value="1"<TMPL_IF mfs_pub> checked</TMPL_IF>>Public flag</label>
+		<br>
+		<label><input type="checkbox" name="mfs_upl" value="1"<TMPL_IF mfs_upl> checked</TMPL_IF>>Upload date</label>
+		<br>
+		<label><input type="checkbox" name="mfs_del" value="1"<TMPL_IF mfs_del> checked</TMPL_IF>>Delete icon</label>
+	</td>
+</tr-->
+<tr>
+	<td colspan=2 align=center>
+	<textarea name="mass_search" id="mass_search" wrap="off" style="width:95%;display:none;font-size:11px;" rows=10></textarea>
+	<small><a href="#" id="btn1">Mass Search</a></small>
+	</td>
+</tr>
+<tr>
+    <td colspan=2 align=center><input type="submit" value=" <TMPL_VAR lng_myfiles_search> "></td>
+</tr>
+</Table>
+</Form>
+
+<div style="text-align: left; margin-top:5px;">
+	<button onclick="window.location='?op=my_playlists';">My Playlists</button>
+	<TMPL_IF m_q_enabled>
+		<button onclick="window.location='?op=my_streams';" style="margin-left: 20px">My Streams</button>
+	</TMPL_IF>
+	<TMPL_IF m_t_enabled>
+		<button onclick="window.location='?op=my_torrents';" style="margin-left: 20px">My Torrents</button>
+	</TMPL_IF>
+</div>
+
+<br>
+
+<TMPL_UNLESS filters>
+<Form method="POST" action="<TMPL_VAR site_url>/" name="F2" enctype="multipart/form-data">
+<input type="hidden" name="op" value="my_files">
+<input type="hidden" name="fld_id" value="<TMPL_VAR folder_id>">
+<input type="hidden" name="token" value="<TMPL_VAR token>">
+
+<TMPL_IF srt_mass_upload>
+<TMPL_IF folder_id>
+<a href="#" style="float:right" onclick="$(this).hide();$('#mass_captions').show('slow');">Mass captions upload</a>
+<Table class="tbl1 inv" style="margin:0px auto 20px auto;" id="mass_captions">
+<TR>
+	<TH>Mass captions upload</TH>
+</TR>
+<TR align=center>
+	<TD><input name="srts" type="file" size="30" accept=".zip"></TD>
+</TR>
+<TR align=center>
+	<TD>
+		Language: 
+		<select name="srt_lang">
+		<TMPL_LOOP srt_langs><option value="<TMPL_VAR value>"><TMPL_VAR title></option></TMPL_LOOP>
+		</select>
+	</TD>
+</TR>
+<TR>
+	<TD>Captions and videos should have sXXeYY in file name</TD>
+</TR>
+<TR align=center>
+	<TD><input type="submit" name="upload_srts" value="Upload ZIP with captions"></TD>
+</TR>
+</Table>
+</TMPL_IF>
+</TMPL_IF>
+
+<div class="folders">
+
+<div style="text-align:left; font-weight:bold;float:left;">
+<TMPL_LOOP parent_folders>
+<a href="?op=my_files&fld_id=<TMPL_VAR fld_id>"><TMPL_VAR fld_name></a> / 
+</TMPL_LOOP>
+<a href="/fld/<TMPL_VAR fld_code>"><TMPL_VAR folder_name></a>
+</div>
+
+  <table cellpadding="0" cellspacing="1" id="xfolders"> 
+  <TMPL_IF folder_id>
+  <tr>
+    <th colspan="6" class="nojs">
+    <input type="text" size="18" name="create_new_folder">
+    <input value="<TMPL_VAR lng_myfiles_create_new_folder>" class="f-btn-green" type="submit">
+    </th>
+  </tr><!-- Table Header -->
+  </TMPL_IF>
+  <tr>
+    <TMPL_IF mfs_chk>
+    <TMPL_IF folders>
+    <th class="nojs"><input type="checkbox" id="selectall_fld" title="Select all folders"></th>
+    </TMPL_IF>
+    </TMPL_IF>
+    <TMPL_IF folder_id>
+        <th><img src="/images/folder.png" alt="<TMPL_VAR lng_myfiles_folder>"></th>
+        <th width="97%" class="left"><a href="?op=my_files&amp;fld_id=<TMPL_VAR fld_parent_id>"><b>&nbsp;. .&nbsp;</b></a></th>
+        <th colspan=3></th>
+    <TMPL_ELSE>
+        <th colspan=5 class="nojs left">
+            <input type="text" size="18" name="create_new_folder">
+            <input value="<TMPL_VAR lng_myfiles_create_new_folder>" class="f-btn-green" type="submit">
+        </th>
+    </TMPL_IF>
+  </tr>
+  <TMPL_LOOP folders>
+  <tr>
+    <TMPL_IF mfs_chk><td><input name="fld_id1" value="<TMPL_VAR fld_id>" type="checkbox"></td></TMPL_IF>
+    <td><img src="/images/folder.png"></td>
+    <td width="100%" class="left"><a href="?op=my_files&amp;fld_id=<TMPL_VAR fld_id>"><TMPL_VAR fld_name></a><TMPL_IF fld_descr><br><small><TMPL_VAR fld_descr></small></TMPL_IF></td>
+    <td nowrap><TMPL_IF files_num><TMPL_VAR files_num> <TMPL_VAR lng_myfiles_files></TMPL_IF></td>
+    <td><a href="?op=fld_edit&amp;fld_id=<TMPL_VAR fld_id>"><img src="/images/edit.png"></a></td>
+    <TMPL_IF mfs_del><td><a href="?op=my_files&amp;fld_id=<TMPL_VAR folder_id>&amp;del_selected_fld=1&amp;fld_id1=<TMPL_VAR fld_id>&amp;token=<TMPL_VAR token>" onClick="return confirm('<TMPL_VAR lng_myfiles_delete_folder>')"><img src="/images/delete.png"></a></td></TMPL_IF>
+  </tr>
+  </TMPL_LOOP>
+  
+  <tr>
+    <th colspan="6" id="fld_buttons" style="display: none">
+    <input type="submit" name="del_selected_fld" value="<TMPL_VAR lng_myfiles_delete_selected>" class="f-btn-red" onClick="return confirm('<TMPL_VAR lng_myfiles_delete_folders>')">
+    <input type="button" value="<TMPL_VAR lng_myfiles_export_selected>" onClick="this.form.op.value='my_files_export';this.form.target='_blank';this.form.submit();this.form.op.value='my_files';this.form.target='_self';" class="f-btn-black">
+    <input type="button" value="<TMPL_VAR lng_myfiles_move_to_folder>" class="f-btn-black" onclick="$('#fld_move_div').lbox();$('#fld_filter_btn').click();">
+    </th>
+  </tr><!-- Table Footer -->
+ </table>
+ </div>
+
+        <div id="fld_move_div" class="lbox medium">
+            <b><TMPL_VAR lng_myfiles_choose_folder_to_move>:</b><br>
+            <input type="text" id="fld_filter" size=16 class="myForm"><input type="button" value="<TMPL_VAR lng_myfiles_filter_folders>" id="fld_filter_btn" class="btn2"><br>
+            <Select name="to_folder_fld" size=6 id="fld_select" class="myForm" style="width:100%;min-width:300px;min-height:130px;" onfocus="$('#fld_submit').show();"></Select><br>
+            <input type="checkbox" name="merge" value="1" id="mfme"><label for="mfme">Merge folders</label>
+            <center><input type="submit" name="folder_move" id="fld_submit" value=" <TMPL_VAR lng_myfiles_move_to_folder> " class="f-btn-blue" style="display:none"></center>
+            <a class="close-lbox">&#215;</a>
+        </div>
+</TMPL_UNLESS>
+</form> <!-- Folders form -->
+
+<TMPL_VAR paging>
+
+<Form method="POST" action="<TMPL_VAR site_url>/" name="F2">
+<input type="hidden" name="op" value="my_files">
+<input type="hidden" name="fld_id" value="<TMPL_VAR folder_id>">
+<input type="hidden" name="token" value="<TMPL_VAR token>">
+
+<div class="files">
+<table id="xfiles">
+	<tr>
+    <TMPL_IF mfs_chk>
+    <th class="nojs">
+    	<input type="checkbox" id="selall">
+    </th>
+    </TMPL_IF>
+    <th>
+    	<TMPL_VAR s_file_title>
+    	<TMPL_VAR lng_myfiles_filename_description>
+    	<TMPL_VAR s2_file_title>
+    </th>
+    <th nowrap>
+    	<TMPL_VAR s_file_size>
+    	<TMPL_VAR lng_myfiles_filesize>
+    	<TMPL_VAR s2_file_size>
+    </th>
+    <TMPL_IF mfs_view>
+    <th title="Views Full">
+    	<TMPL_VAR s_file_views_full>
+    	<TMPL_VAR lng_myfiles_views>
+    	<TMPL_VAR s2_file_views_full>
+    </th>
+    </TMPL_IF>
+    <TMPL_IF down_on>
+    <TMPL_IF mfs_ddl>
+    <th title="<TMPL_VAR lng_myfiles_number_of_dl>">
+    	<TMPL_VAR s_file_downloads_full>
+    	<TMPL_VAR lng_myfiles_downloads_short>
+    	<TMPL_VAR s2_file_downloads_full>
+    </th>
+    </TMPL_IF>
+    </TMPL_IF>
+    <TMPL_IF mfs_pub>
+    <th title="<TMPL_VAR lng_myfiles_published>">
+    	<TMPL_VAR s_file_public>
+    	<TMPL_VAR lng_myfiles_published_short>
+    	<TMPL_VAR s2_file_public>
+    </th>
+    </TMPL_IF>
+    <TMPL_IF usr_premium_only>
+    <th title="<TMPL_VAR lng_myfiles_premium_only>">
+    	<TMPL_VAR s_file_premium_only>
+    	PO
+    	<TMPL_VAR s2_file_premium_only>
+    </th>
+    </TMPL_IF>
+    <TMPL_IF mfs_upl>
+    <th>
+    	<TMPL_VAR s_file_created>
+    	<TMPL_VAR lng_myfiles_uploaded>
+    	<TMPL_VAR s2_file_created>
+    </th>
+    </TMPL_IF>
+    <th colspan="2"></th>
+	</tr><!-- Table Header -->
+  <TMPL_LOOP files>
+  <tr>
+    <TMPL_IF mfs_chk>
+    <td>
+        <input type="checkbox" name="file_id" value="<TMPL_VAR file_id>">
+    </td>
+    </TMPL_IF>
+    <td class="left">
+		<a href="<TMPL_VAR download_link>"><TMPL_VAR file_title_txt></a>
+		<TMPL_IF file_status_PENDING> <sup style="color:orange">PENDING</sup></TMPL_IF>
+		<TMPL_IF file_status_LOCKED> <sup style="color:red">LOCKED</sup></TMPL_IF>
+		<TMPL_IF file_descr><br><small><TMPL_VAR file_descr></small></TMPL_IF>
+		<TMPL_IF video_thumb_url><br><img src="<TMPL_VAR video_thumb_url>"></TMPL_IF>
+    </td>
+    <td align=right nowrap>
+		<TMPL_IF mfs_size>
+		<small>
+		<TMPL_IF file_size_o><div>O: <TMPL_VAR file_size_o></div></TMPL_IF>
+		<TMPL_IF file_size_x><div>X: <TMPL_VAR file_size_x></div></TMPL_IF>
+		<TMPL_IF file_size_h><div>H: <TMPL_VAR file_size_h></div></TMPL_IF>
+		<TMPL_IF file_size_n><div>N: <TMPL_VAR file_size_n></div></TMPL_IF>
+		<TMPL_IF file_size_l><div>L: <TMPL_VAR file_size_l></div></TMPL_IF>
+		<TMPL_IF file_size_p><div>P: <TMPL_VAR file_size_p></div></TMPL_IF>
+		<TMPL_IF enc_progress><div><TMPL_VAR enc_progress></div></TMPL_IF>
+		</small>
+		<TMPL_ELSE>
+		<TMPL_VAR file_size>
+		</TMPL_IF>
+    </td>
+    <TMPL_IF mfs_view>
+    	<td title="<TMPL_VAR file_views> started"><TMPL_IF my_views_enabled><a href="?op=my_views&file_code=<TMPL_VAR file_code>"></TMPL_IF><TMPL_VAR file_views_full><TMPL_IF my_views_enabled></a></TMPL_IF></td>
+    </TMPL_IF>
+    <TMPL_IF down_on>
+    	<TMPL_IF mfs_ddl><td><TMPL_IF my_views_enabled><a href="?op=my_views&download=1&file_code=<TMPL_VAR file_code>"></TMPL_IF><TMPL_VAR file_downloads><TMPL_IF my_views_enabled></a></TMPL_IF></td></TMPL_IF>
+    </TMPL_IF>
+    <TMPL_IF mfs_pub>
+    	<td id="td<TMPL_VAR file_id>" <TMPL_IF file_public> class='pub'</TMPL_IF>><input type="checkbox" name="pub" value="1" id="p<TMPL_VAR file_id>"<TMPL_IF file_public> checked</TMPL_IF> onClick="jah('?op=my_files&amp;file_id=<TMPL_VAR file_id>&amp;token=<TMPL_VAR token>&amp;set_public='+this.checked)"></td>
+    </TMPL_IF>
+    <TMPL_IF usr_premium_only>
+            <td id="tdpo<TMPL_VAR file_id>" <TMPL_IF file_premium_only> class='ponly'</TMPL_IF>><input type="checkbox" name="ponly" value="1" id="po<TMPL_VAR file_id>"<TMPL_IF file_premium_only> checked</TMPL_IF> onClick="jah('?op=my_files&amp;file_id=<TMPL_VAR file_id>&amp;token=<TMPL_VAR token>&amp;set_premium_only='+this.checked)"></td>
+    </TMPL_IF>
+    <TMPL_IF mfs_upl>
+    	<td><TMPL_VAR created></td>
+    </TMPL_IF>
+    <td><a href="?op=file_edit&amp;file_code=<TMPL_VAR file_code>"><img src="<TMPL_VAR static_url>/images/edit.png" border=0 alt="<TMPL_VAR lng_myfiles_edit>"></a></td>
+    <TMPL_IF mfs_del>
+    	<td><a href="?op=my_files&amp;del_code=<TMPL_VAR file_code>&amp;fld_id=<TMPL_VAR folder_id>&amp;token=<TMPL_VAR token>" onClick="return confirm('<TMPL_VAR lng_myfiles_delete_file>')"><img src="<TMPL_VAR static_url>/images/delete.png" border=0 alt="<TMPL_VAR lng_myfiles_delete_file>"></a></td>
+    </TMPL_IF>
+  </tr>
+  </TMPL_LOOP>
+
+  <tr>
+    <th colspan=11 class="left">
+        <input type="submit" name="del_selected" value="<TMPL_VAR lng_myfiles_delete_selected>" class="f-btn-red" onClick="if(!fileSelected())return false;return confirm('<TMPL_VAR lng_myfiles_delete_confirm>')">
+        &nbsp;
+        <input type="button" class="f-btn-black" value="<TMPL_VAR lng_myfiles_export_selected>" onClick="if(!fileSelected())return false;this.form.op.value='my_files_export';this.form.target='_blank';this.form.submit();this.form.op.value='my_files';this.form.target='_self';">
+        &nbsp;
+        <input type="submit" class="f-btn-black" name="set_public_multi" value="<TMPL_VAR lng_myfiles_publish>" onclick="if(!fileSelected())return false;">
+        &nbsp;
+        <!--input type="submit" name="set_private" value="<TMPL_VAR lng_myfiles_unpublish>" class="btn2"-->
+        &nbsp; 
+    </th>
+ </tr>
+
+  <tr>
+    <th colspan=11 class="left">
+        <input type="button" class="f-btn-black" value="<TMPL_VAR lng_myfiles_move_to_folder>" onclick="$('#fld_move_div2').lbox();$('#fld_filter_btn2').click();">
+        <div id="fld_move_div2" class="lbox medium">
+            <b><TMPL_VAR lng_myfiles_choose_folder_to_move>:</b><br>
+            <input type="text" id="fld_filter2" xsize=16 class="myForm"><input type="button" value="<TMPL_VAR lng_myfiles_filter_folders>" id="fld_filter_btn2" class="btn2"><br>
+            <Select name="to_folder" size=6 id="fld_select2" class="myForm" style="width:100%;min-width:300px;min-height:220px;" onfocus="$('#fld_submit2').show();"></Select><br>
+            <center><input type="submit" name="file_move" id="fld_submit2" value=" <TMPL_VAR lng_myfiles_move_to_folder> " class="f-btn-blue" style="display:none;"></center>
+            <a class="close-lbox">&#215;</a>
+        </div>
+
+        <input type="button" class="f-btn-black" value="<TMPL_VAR lng_myfiles_set_category_for_selected>" onclick="if(!fileSelected())return false;$(this).hide();$('#catd').show();">
+        <span id="catd" style="display:none">
+        <select name="cat_id"><option value="0">None</option><TMPL_LOOP categories><option value="<TMPL_VAR cat_id>"><TMPL_VAR pre><TMPL_VAR cat_name></TMPL_LOOP></select>
+        <input type="submit" name="multi_category" value="<TMPL_VAR lng_myfiles_set_btn>" class="f-btn-blue">
+        </span>
+
+        <input type="button" class="f-btn-black" value="Add to Playlist..." onclick="if(!fileSelected())return false;$(this).hide();$('#pld').show();">
+        <span id="pld" style="display:none">
+        <input type="hidden" name="new_pl" value="" id="new_pl">
+        <select name="pls_id" id="pls_id" onchange="if($(this).val()=='000'){ $('#new_pl').val(prompt('Enter new Playlist name')); $('#pl_submit').click();}">
+        <option value="">Choose Playlist...</option>
+        <option value="000">-Create New-</option>
+        <TMPL_LOOP playlists>
+        	<option value="<TMPL_VAR pls_id>"><TMPL_VAR pls_name></option>
+        </TMPL_LOOP>
+        </select>
+        <input type="submit" name="to_playlist" value="Add to Playlist" class="f-btn-blue" id="pl_submit">
+        </span>
+
+        <input type="button" class="f-btn-black" value="<TMPL_VAR lng_myfiles_add_tags_to_selected>" onclick="if(!fileSelected())return false;$(this).hide();$('#tagd').show();">
+        <span id="tagd" style="display:none">
+        <input type="text" name="tags" size=24>
+        <input type="submit" name="multi_tag" value="<TMPL_VAR lng_myfiles_add_btn>" class="f-btn-blue">
+        </span>
+
+        <input type="button" class="f-btn-black" value="<TMPL_VAR lng_myfiles_set_extra>" onclick="$('#extra1').lbox();">
+        <div id="extra1" class="lbox medium">
+            <center>
+            <table class="tbl1" cellpadding=3>
+            <tr><th colspan=2><TMPL_VAR lng_myfiles_set_extra></th></tr>
+            <TMPL_LOOP extra_data>
+            <tr valign=top>
+                <td align=right><TMPL_VAR name>:</td>
+                <td><input type="text" name="extra_<TMPL_VAR name>" value="" class="extra_field extra_<TMPL_VAR name>"></td>
+            </tr>
+            </TMPL_LOOP>
+            <tr><td colspan=2 align=center><input type="submit" name="set_extra_fields" value=" <TMPL_VAR lng_myfiles_set_btn> " class="btn2"></td></tr>
+            </table>
+            </center>
+            <a class="close-lbox">&#215;</a>
+        </div>
+
+        <input type="button" class="f-btn-black" value="Rename..." onclick="$('#extra2').lbox();">
+        <div id="extra2" class="lbox medium">
+            <center>
+            <table class="tbl1" cellpadding=3>
+            <tr><th colspan=2>Rename title for selected files</th></tr>
+            <tr>
+                <td class="rc">Add prefix</td>
+                <td><input type="text" name="rename_prefix" value="" size=12></td>
+            </tr>
+            <tr>
+                <td class="rc">Add postfix</td>
+                <td><input type="text" name="rename_postfix" value="" size=12></td>
+            </tr>
+            <tr>
+                <td class="rc">Replace</td>
+                <td><input type="text" name="rename_replace1" value="" size=12> with <input type="text" name="rename_replace2" value="" size=12></td>
+            </tr>
+            <tr><td colspan=2 style="text-align:center"><input type="submit" name="rename" value=" Rename titles " class="btn2"></td></tr>
+            </table>
+            </center>
+            <a class="close-lbox">&#215;</a>
+        </div>
+    </th>
+ </tr>
+	<tr>
+		<td colspan=11 class="left" id="show_props">
+		<a href="#" onclick="$(this).hide();$('#show_props_div').show();return false;" style="font-weight: normal;">Column settings</a>
+		<div class="inv" id="show_props_div">
+			<label><input type="checkbox" name="mfs_chk" value="1"<TMPL_IF mfs_chk> checked</TMPL_IF>>Checkboxes</label>
+			<label><input type="checkbox" name="mfs_thm" value="1"<TMPL_IF mfs_thm> checked</TMPL_IF>>Thumbnail</label>
+			<label><input type="checkbox" name="mfs_size" value="1"<TMPL_IF mfs_size> checked</TMPL_IF>>Size details</label>
+			<label><input type="checkbox" name="mfs_view" value="1"<TMPL_IF mfs_view> checked</TMPL_IF>>Views</label>
+			<label><input type="checkbox" name="mfs_ddl" value="1"<TMPL_IF mfs_ddl> checked</TMPL_IF>>Downloads</label>
+			<label><input type="checkbox" name="mfs_pub" value="1"<TMPL_IF mfs_pub> checked</TMPL_IF>>Public flag</label>
+			<label><input type="checkbox" name="mfs_upl" value="1"<TMPL_IF mfs_upl> checked</TMPL_IF>>Upload date</label>
+			<label><input type="checkbox" name="mfs_del" value="1"<TMPL_IF mfs_del> checked</TMPL_IF>>Delete icon</label>
+			<div style="padding:5px;">
+			Per page: 
+			<select name="per_page_opt" onchange="$.cookie(this.name, $(this).val(), { expires: 24*30 });">
+				<option<TMPL_VAR per_20>>20</option>
+				<option<TMPL_VAR per_50>>50</option>
+				<option<TMPL_VAR per_100>>100</option>
+				<option<TMPL_VAR per_200>>200</option>
+			</select>
+			<button onclick="window.location.reload();return false;" style="margin-left: 20px;">Apply</button>
+			</div>
+		</div>
+		</td>
+	</tr>
+ </table>   
+ </div>
+</form>
+
+
+
+</div>
+
+
+<TMPL_VAR paging>
+
+<style>
+#show_props label {margin-right: 15px;}
+</style>
+<script>
+$(document).ready(function()
+{
+    $('#xfolders tr th:not(.nojs) input').prop('disabled',true);
+    $('#xfiles tr th:not(.nojs) input').prop('disabled',true);
+
+    $("#xfiles input[name=file_id]").change( function(){ 
+        if(this.checked){ $(this).parent().parent().addClass('hi2'); } else {$(this).parent().parent().removeClass('hi2');}
+        var num = $('input[type=checkbox][name=file_id]:checked').length;
+        if(num==0)
+        {
+            $('#xfiles tr th:not(.nojs) input').prop('disabled',true);
+        }
+        else
+        {
+            $('#xfiles tr th:not(.nojs) input').prop('disabled','');
+        }
+    } );
+
+    $("#xfolders input[name=fld_id1]").change( function(){ 
+        $(this).parent().parent().toggleClass('hi2'); 
+        var num = $('input[type=checkbox][name=fld_id1]:checked').length;
+        if(num==0)
+        {
+            $('#xfolders tr th:not(.nojs) input').prop('disabled',true);
+            $('#fld_buttons').hide();
+        }
+        else
+        {
+            $('#fld_buttons').show();
+            $('#xfolders tr th:not(.nojs) input').prop('disabled','');
+        }
+    } );
+
+    $("#selall").change(function(){ 
+           var sel=this.checked;
+           $("input[name=file_id]:enabled").each(function(){
+                $(this).prop('checked',sel);
+                $(this).change();
+            });
+           //$("#xfiles input[name=file_id]:enabled").click();
+    });
+    $("#selectall_fld").change(function() {
+        	var sel=this.checked;
+        	$("input[name=fld_id1]:enabled").each(function(){
+        	    $(this).prop('checked',sel);
+                $(this).change();
+        	});
+    });
+    $("input[name=fld_id1]:enabled").shiftSelectable();
+    $("input[name=file_id]:enabled").shiftSelectable();
+    $("#fld_filter_btn").click( function() {loadFolderSelects($('#fld_filter').val(), $("#fld_select"));} );
+    $("#fld_filter_btn2").click( function() {loadFolderSelects($('#fld_filter2').val(), $("#fld_select2"));} );
+    $("#btn1").click( function(e){
+        $("#btn1").hide("fast", function(){
+            $("#mass_search").show("fast");
+            });
+        return false;
+    });
+    $('#show_props input:checkbox').change(function(){
+        var sel=0;
+        if(this.checked)sel=1;
+        $.cookie(this.name, sel, { expires: 24*30 });
+    });
+});
+
+function loadFolderSelects(filter,target)
+{
+        $.ajax
+         ({
+         type: "POST",
+         url: "<TMPL_VAR site_url>/",
+         data: 'op=my_files&fld_select=1&filter='+filter,
+         cache: false,
+         success: function(html){ target.html(html); } 
+         });
+}
+
+function fileSelected()
+{
+    var num = $('input[type=checkbox][name=file_id]:checked').length;
+    if(num==0)
+    {
+        alert("Select files!");
+        return 0;
+    }
+    return num;
+}
+
+</script>
+
+<script src="<TMPL_VAR static_url>/js/jquery.cookie.js"></script>
+<script src="<TMPL_VAR static_url>/js/jquery.lbox.js"></script>

@@ -1,0 +1,37 @@
+<script>
+  loadT('Language form');
+</script>
+
+<div class="block admin-settings p-0">
+
+<form method="POST">
+<input type="hidden" name="op" value="admin_language_form">
+<input type="hidden" name="token" value="<TMPL_VAR token>">
+<input type="hidden" name="lang_id" value="<TMPL_VAR lang_id>">
+	<table class="table settings-table mb-0 align-middle">
+		<tbody>
+<tr>
+	<td class="text-lg-end">
+		<label class="col-form-label">Name</label>
+	</td>
+	<td class="border-start"><input type="text" name="lang_name" value="<TMPL_VAR lang_name>" class="form-control form-control-sm"></td>
+</tr>
+<tr>
+	<td class="text-lg-end">
+		<label class="col-form-label">Order</label>
+	</td>
+	<td class="border-start"><input type="text" name="lang_order" value="<TMPL_VAR lang_order>" class="form-control form-control-sm" maxlength="2" style="width:50px"></td>
+</tr>
+<tr>
+	<td class="text-lg-end">
+		<label class="col-form-label">Active</label>
+	</td>
+	<td class="border-start"><div class="form-switcher"><input type="checkbox" name="lang_active" value="1"<TMPL_IF lang_active> checked</TMPL_IF>></div></td>
+</tr>
+</tbody>
+</table>
+<div class="p-3 text-center">
+	<input type="submit" name="save" value="Save" class="btn btn-primary submit-btn">
+</div>
+</form>
+</div>

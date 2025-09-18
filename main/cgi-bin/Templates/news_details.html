@@ -1,0 +1,18 @@
+<div class="container">
+	<section class="page col-xl-10 mx-auto">
+		<article class="border-bottom mb-4 pb-4">
+			<h1 class="text-dark">
+				<TMPL_VAR news_title>
+			</h1>
+			<div class="py-2">
+				<TMPL_VAR news_text>
+			</div>
+			<span class="xsmall text-muted me-4">
+				<TMPL_VAR created_txt>
+			</span>
+		</article>
+    <TMPL_IF enable_file_comments>
+      <TMPL_INCLUDE comments.html>
+    </TMPL_IF>
+	</section>
+</div>

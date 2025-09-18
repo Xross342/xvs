@@ -1,0 +1,1648 @@
+<div class="container">
+	<section class="page">
+		<h1 class="text-center text-dark mb-4">
+			<TMPL_VAR site_name> API
+		</h1>
+		<article class="text-content">
+			<div class="accordion mb-4" id="accordionApi">
+				<h3 class="p-3 pb-0 text-dark">Account</h3>
+				<div class="accordion-item bg-light">
+					<div class="accordion-header h2">
+						<button class="accordion-button bg-light collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#account_info" aria-expanded="false"><small>Account Info</small></button>
+					</div>
+					<div id="account_info" class="accordion-collapse collapse" data-bs-parent="#accordionApi">
+						<div class="accordion-body">
+							<div class="function_div">
+								<h5 class="fs-6 mb-1 text-dark fw-500">Request:</h5>
+<pre class="code"><b class="badge bg-primary align-middle">GET</b> <TMPL_VAR api_url>/account/info?key=<TMPL_VAR usr_api_key></pre>
+								<h5 class="fs-6 mb-1 text-dark fw-500">Paramaters:</h5>
+								<table class="table table-bordered table-sm small">
+									<thead class="text-muted">
+										<tr>
+											<th>Name</th>
+											<th>Description</th>
+											<th>Example</th>
+											<th>Format</th>
+											<th>Required</th>
+										</tr>
+									</thead>
+									<tr>
+										<td>key</td>
+										<td>API key</td>
+										<td>
+											<TMPL_VAR usr_api_key>
+										</td>
+										<td>STRING</td>
+										<td>yes</td>
+									</tr>
+								</table>
+								<h5 class="fs-6 mb-1 text-dark fw-500">Response:</h5>
+	<pre class="code">{
+    "msg": "OK",
+    "server_time": "2021-09-11 04:30:07",
+    "status": 200,
+    "result": {
+    	"files_total":"31",
+    	"storage_left":1288483337,
+    	"login":"megauploader21",
+        "email": "megauploader21@gmail.com",
+        "premium_expire":"2022-10-15 04:46:59",
+        "balance":"108.00000",
+        "premium":1,
+        "storage_used":"685101"
+    }
+}</pre>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="accordion-item bg-light">
+					<div class="accordion-header h2">
+						<button class="accordion-button bg-light collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#account_stats" aria-expanded="false"><small>Account Stats</small></button>
+					</div>
+					<div id="account_stats" class="accordion-collapse collapse" data-bs-parent="#accordionApi">
+						<div class="accordion-body">
+							<div class="function_div">
+								<h5 class="fs-6 mb-1 text-dark fw-500">Request:</h5>
+<pre class="code"><b class="badge bg-primary align-middle">GET</b> <TMPL_VAR api_url>/account/stats?key=<TMPL_VAR usr_api_key></pre>
+								<h5 class="fs-6 mb-1 text-dark fw-500">Paramaters:</h5>
+								<table class="table table-bordered table-sm small">
+									<thead class="text-muted">
+										<tr>
+											<th>Name</th>
+											<th>Description</th>
+											<th>Example</th>
+											<th>Format</th>
+											<th>Required</th>
+										</tr>
+									</thead>
+									<tr>
+										<td>key</td>
+										<td>API key</td>
+										<td>
+											<TMPL_VAR usr_api_key>
+										</td>
+										<td>STRING</td>
+										<td>yes</td>
+									</tr>
+									<tr>
+										<td>last</td>
+										<td>show stats for last X days (default: 7)</td>
+										<td>14</td>
+										<td>INT</td>
+										<td></td>
+									</tr>
+								</table>
+								<h5 class="fs-6 mb-1 text-dark fw-500">Response:</h5>
+<pre class="code">{
+"msg": "OK",
+"server_time": "2021-09-13 04:30:07",
+"status": 200,
+"result": [
+  {
+    "downloads": "0",
+    "profit_views": "0.00000",
+    "views_adb": "1",
+    "sales": "0",
+    "profit_sales": "0.00000",
+    "profit_refs": "0.00000",
+    "profit_site": "0.00000",
+    "views": "0",
+    "refs": "0",
+    "day": "2021-09-12",
+    "profit_total": "0.00000",
+    "views_prem": "0"
+  }
+]
+}</pre>
+							</div>
+						</div>
+					</div>
+				</div>
+				<br>
+				<h3 class="p-3 pb-0 text-dark">Upload</h3>
+				<div class="accordion-item bg-light">
+					<div class="accordion-header h2">
+						<button class="accordion-button bg-light collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#upload_server" aria-expanded="false"><small>Get Upload Server</small></button>
+					</div>
+					<div id="upload_server" class="accordion-collapse collapse" data-bs-parent="#accordionApi">
+						<div class="accordion-body">
+							<div class="function_div">
+								<h5 class="fs-6 mb-1 text-dark fw-500">Request:</h5>
+<pre class="code"><b class="badge bg-primary align-middle">GET</b> <TMPL_VAR api_url>/upload/server?key=<TMPL_VAR usr_api_key></pre>
+								<h5 class="fs-6 mb-1 text-dark fw-500">Paramaters:</h5>
+								<table class="table table-bordered table-sm small">
+									<thead class="text-muted">
+										<tr>
+											<th>Name</th>
+											<th>Description</th>
+											<th>Example</th>
+											<th>Format</th>
+											<th>Required</th>
+										</tr>
+									</thead>
+									<tr>
+										<td>key</td>
+										<td>API key</td>
+										<td>
+											<TMPL_VAR usr_api_key>
+										</td>
+										<td>STRING</td>
+										<td>yes</td>
+									</tr>
+								</table>
+								<h5 class="fs-6 mb-1 text-dark fw-500">Response:</h5>
+	<pre class="code">{
+  "msg": "OK",
+  "server_time": "2021-08-11 04:29:54",
+  "status": 200,
+  "result": "https://s1.myvideo.com/upload/01"
+}</pre>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="accordion-item bg-light">
+					<div class="accordion-header h2">
+						<button class="accordion-button bg-light collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#upload_file" aria-expanded="false"><small>Upload File to Server</small></button>
+					</div>
+					<div id="upload_file" class="accordion-collapse collapse" data-bs-parent="#accordionApi">
+						<div class="accordion-body">
+							<div class="function_div">
+								<h5 class="fs-6 mb-1 text-dark fw-500">Paramaters:</h5>
+								<table class="table table-bordered table-sm small">
+									<thead class="text-muted">
+										<tr>
+											<th>Name</th>
+											<th>Description</th>
+											<th>Example</th>
+											<th>Format</th>
+											<th>Required</th>
+										</tr>
+									</thead>
+									<tr>
+										<td>key</td>
+										<td>API key</td>
+										<td>
+											<TMPL_VAR usr_api_key>
+										</td>
+										<td>STRING</td>
+										<td>yes</td>
+									</tr>
+									<tr>
+										<td>file</td>
+										<td>Video file(s)</td>
+										<td>1.avi</td>
+										<td>FILE</td>
+										<td>yes</td>
+									</tr>
+									<tr>
+										<td>file_title</td>
+										<td>Title of video</td>
+										<td>New release video</td>
+										<td>STRING</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>file_descr</td>
+										<td>Description of video</td>
+										<td>This is sample from<br>our upcoming release</td>
+										<td>STRING</td>
+										<td></td>
+									</tr>
+									<TMPL_IF custom_snapshot_upload>
+										<tr>
+											<td>snapshot</td>
+											<td>Custom video snapshot (up to <TMPL_VAR custom_snapshot_upload>KB)</td>
+											<td>1.jpg</td>
+											<td>FILE</td>
+											<td></td>
+										</tr>
+									</TMPL_IF>
+									<tr>
+										<td>fld_id</td>
+										<td>Folder ID</td>
+										<td>25</td>
+										<td>INT</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>cat_id</td>
+										<td>Category ID</td>
+										<td>5</td>
+										<td>INT</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>tags</td>
+										<td>Tags list</td>
+										<td>promo, high quality</td>
+										<td>STRING</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>file_public</td>
+										<td>Public flag</td>
+										<td>1</td>
+										<td>INT</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>file_adult</td>
+										<td>Adult flag</td>
+										<td>1</td>
+										<td>INT</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>html_redirect</td>
+										<td>Use old style HTML redirect output instead of JSON</td>
+										<td>1</td>
+										<td>INT</td>
+										<td></td>
+									</tr>
+								</table>
+								<h5 class="fs-6 mb-1 text-dark fw-500">Minimal HTML form upload sample:</h5>
+	<pre class="code">&lt;form method="POST" enctype="multipart/form-data" action="https://s1.myvideo.com/upload/01"&gt;
+&lt;input type="hidden" name="key" value="<TMPL_VAR usr_api_key>"&gt;
+&lt;input type="hidden" name="html_redirect" value="1"&gt;
+&lt;input type="file" name="file"&gt;
+&lt;input type="submit"&gt;
+&lt;/form&gt;</pre>
+								<h5 class="fs-6 mb-1 text-dark fw-500">CURL file upload sample:</h5> Upload 2 videos:
+<pre class="code">curl -X POST -F 'key=<TMPL_VAR usr_api_key>' -F 'file=@1.avi' -F 'file=@2.avi' https://s1.myvideo.com/upload/01</pre> Upload video with custom title and snapshot:
+<pre class="code">curl -X POST -F 'key=1l5ftrilhllgwx2bo' -F 'file_title="Hola!"' -F 'file=@1.avi' -F 'snapshot=@1.jpg' http://s1.xvs.tt/upload/01</pre> Response:
+<pre class="code">{
+  "msg": "OK",
+  "status": 200,
+  "files": [{
+      "filecode": "u9150wqzvhxj",
+      "filename": "1.avi",
+      "status": "OK"
+  }, {
+      "filecode": "gzky98gfg6hn",
+      "filename": "2.avi",
+      "status": "OK"
+  }]
+}</pre>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="accordion-item bg-light">
+					<div class="accordion-header h2">
+						<button class="accordion-button bg-light collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#upload_url" aria-expanded="false"><small>Upload by URL</small></button>
+					</div>
+					<div id="upload_url" class="accordion-collapse collapse" data-bs-parent="#accordionApi">
+						<div class="accordion-body">
+							<div class="function_div">
+								<h5 class="fs-6 mb-1 text-dark fw-500">Request:</h5>
+<pre class="code"><b class="badge bg-primary align-middle">GET</b> <TMPL_VAR api_url>/upload/url?key=<TMPL_VAR usr_api_key>&url=<b>{url}</b></pre>
+								<h5 class="fs-6 mb-1 text-dark fw-500">Paramaters:</h5>
+								<table class="table table-bordered table-sm small">
+									<thead class="text-muted">
+										<tr>
+											<th>Name</th>
+											<th>Description</th>
+											<th>Example</th>
+											<th>Format</th>
+											<th>Required</th>
+										</tr>
+									</thead>
+									<tr>
+										<td>key</td>
+										<td>API key</td>
+										<td>
+											<TMPL_VAR usr_api_key>
+										</td>
+										<td>STRING</td>
+										<td>yes</td>
+									</tr>
+									<tr>
+										<td>url</td>
+										<td>URL to video file</td>
+										<td>http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4</td>
+										<td>STRING</td>
+										<td>yes</td>
+									</tr>
+									<tr>
+										<td>fld_id</td>
+										<td>Folder ID</td>
+										<td>25</td>
+										<td>INT</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>cat_id</td>
+										<td>Category ID</td>
+										<td>5</td>
+										<td>INT</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>file_public</td>
+										<td>Public flag</td>
+										<td>1</td>
+										<td>INT</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>file_adult</td>
+										<td>Adult flag</td>
+										<td>1</td>
+										<td>INT</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>tags</td>
+										<td>Tags list</td>
+										<td>promo, high quality</td>
+										<td>STRING</td>
+										<td></td>
+									</tr>
+								</table>
+								<h5 class="fs-6 mb-1 text-dark fw-500">Response:</h5> returns future filecode that will work after upload complete
+	<pre class="code">{
+	"msg":"OK",
+	"server_time":"2021-08-12 20:56:47",
+	"status":200,
+	"result":{
+		"filecode":"fb5asfuj2snh"
+	}
+}</pre>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="accordion-item bg-light">
+					<div class="accordion-header h2">
+						<button class="accordion-button bg-light collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#upload_sub" aria-expanded="false"><small>Upload Subtitle</small></button>
+					</div>
+					<div id="upload_sub" class="accordion-collapse collapse" data-bs-parent="#accordionApi">
+						<div class="accordion-body">
+							<div class="function_div">
+								<h5 class="fs-6 mb-1 text-dark fw-500">Request:</h5>
+<pre class="code"><b class="badge bg-primary align-middle">GET</b> <TMPL_VAR api_url>/upload/sub?key=<TMPL_VAR usr_api_key>&file_code=<b>{file_code}</b>&sub_lang=<b>{sub_lang}</b>&sub_url=<b>{url}</b></pre>
+								<h5 class="fs-6 mb-1 text-dark fw-500">Paramaters:</h5>
+								<table class="table table-bordered table-sm small">
+									<thead class="text-muted">
+										<tr>
+											<th>Name</th>
+											<th>Description</th>
+											<th>Example</th>
+											<th>Format</th>
+											<th>Required</th>
+										</tr>
+									</thead>
+									<tr>
+										<td>key</td>
+										<td>API key</td>
+										<td>
+											<TMPL_VAR usr_api_key>
+										</td>
+										<td>STRING</td>
+										<td>yes</td>
+									</tr>
+									<tr>
+										<td>file_code</td>
+										<td>file code</td>
+										<td>gi4o0tlro01u</td>
+										<td>STRING</td>
+										<td>yes</td>
+									</tr>
+									<tr>
+										<td>sub_lang</td>
+										<td>Subtitle language code</td>
+										<td>eng</td>
+										<td>STRING</td>
+										<td>yes</td>
+									</tr>
+									<tr>
+										<td>sub_url</td>
+										<td>URL to subtitle file</td>
+										<td>https://xvs.tt/1.srt</td>
+										<td>STRING</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>sub_file</td>
+										<td>Subtitle file attachment</td>
+										<td>1.vtt</td>
+										<td>FILE</td>
+										<td></td>
+									</tr>
+								</table>
+								<strong>CURL subtitle file upload sample:</strong>
+<pre class="code">curl -X POST -F 'key=<TMPL_VAR usr_api_key>' -F 'file_code=cnypqbf2t79l' -F 'sub_lang=eng' -F 'sub_file=@1.vtt' https://xvs.tt/api/upload/sub</pre>
+								<h5 class="fs-6 mb-1 text-dark fw-500">Response:</h5> returns future filecode that will work after upload complete
+	<pre class="code">{
+	"msg":"OK",
+	"server_time":"2021-08-12 20:56:47",
+	"status":200
+}</pre>
+							</div>
+						</div>
+					</div>
+				</div>
+				<br>
+				<h3 class="p-3 pb-0 text-dark">File</h3>
+				<div class="accordion-item bg-light">
+					<div class="accordion-header h2">
+						<button class="accordion-button bg-light collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#file_info" aria-expanded="false"><small>File Info</small></button>
+					</div>
+					<div id="file_info" class="accordion-collapse collapse" data-bs-parent="#accordionApi">
+						<div class="accordion-body">
+							<div class="function_div">
+								<h5 class="fs-6 mb-1 text-dark fw-500">Request:</h5>
+<pre class="code"><b class="badge bg-primary align-middle">GET</b> <TMPL_VAR api_url>/file/info?key=<TMPL_VAR usr_api_key>&file_code=<b>{file_code}</b></pre>
+								<h5 class="fs-6 mb-1 text-dark fw-500">Paramaters:</h5>
+								<table class="table table-bordered table-sm small">
+									<thead class="text-muted">
+										<tr>
+											<th>Name</th>
+											<th>Description</th>
+											<th>Example</th>
+											<th>Format</th>
+											<th>Required</th>
+										</tr>
+									</thead>
+									<tr>
+										<td>key</td>
+										<td>API key</td>
+										<td>
+											<TMPL_VAR usr_api_key>
+										</td>
+										<td>STRING</td>
+										<td>yes</td>
+									</tr>
+									<tr>
+										<td>file_code</td>
+										<td>file code, or list separated by comma</td>
+										<td>gi4o0tlro01u,gi4o0tlro012</td>
+										<td>STRING</td>
+										<td>yes</td>
+									</tr>
+								</table>
+								<h5 class="fs-6 mb-1 text-dark fw-500">Response:</h5>
+<pre class="code">{
+"msg":"OK",
+"server_time":"2021-08-12 21:10:07",
+"status":200,
+"result":[
+	{
+	"file_views_full":"0",
+	"cat_id":"3",
+	"player_img":"http://img.xvs.tt/fb5asfuj2snh.jpg",
+	"status":200,
+	"file_code":"fb5asfuj2snh",
+	"file_last_download":"2021-08-12 20:56:54",
+	"canplay":1,
+	"file_public":"1",
+	"file_length":"60",
+	"file_title":"big buck bunny",
+	"file_views":"0",
+	"file_created":"2021-08-102 20:51:52",
+	"file_premium_only":"0",
+	"file_adult":"1",
+	"file_fld_id":"25",
+	"tags":"promo, high quality"
+	}
+]
+}</pre>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="accordion-item bg-light">
+					<div class="accordion-header h2">
+						<button class="accordion-button bg-light collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#file_edit" aria-expanded="false"><small>File Edit</small></button>
+					</div>
+					<div id="file_edit" class="accordion-collapse collapse" data-bs-parent="#accordionApi">
+						<div class="accordion-body">
+							<div class="function_div">
+								<h5 class="fs-6 mb-1 text-dark fw-500">Request:</h5>
+<pre class="code"><b class="badge bg-primary align-middle">GET</b> <TMPL_VAR api_url>/file/edit?key=<TMPL_VAR usr_api_key>&file_code=<b>{file_code}</b>&file_title=<b>{file_title}</b></pre>
+								<h5 class="fs-6 mb-1 text-dark fw-500">Paramaters:</h5>
+								<table class="table table-bordered table-sm small">
+									<thead class="text-muted">
+										<tr>
+											<th>Name</th>
+											<th>Description</th>
+											<th>Example</th>
+											<th>Format</th>
+											<th>Required</th>
+										</tr>
+									</thead>
+									<tr>
+										<td>key</td>
+										<td>API key</td>
+										<td>
+											<TMPL_VAR usr_api_key>
+										</td>
+										<td>STRING</td>
+										<td>yes</td>
+									</tr>
+									<tr>
+										<td>file_code</td>
+										<td>File code or comma separated list</td>
+										<td>gi4o0tlro01u,hqpibyqwxumrt</td>
+										<td>STRING</td>
+										<td>yes</td>
+									</tr>
+									<tr>
+										<td>file_title</td>
+										<td>File title</td>
+										<td>The 100 S01E02</td>
+										<td>STRING</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>file_descr</td>
+										<td>File description</td>
+										<td>release by MegaDrive</td>
+										<td>STRING</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>cat_id</td>
+										<td>Category ID</td>
+										<td>5</td>
+										<td>INT</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>file_fld_id</td>
+										<td>Folder ID</td>
+										<td>25</td>
+										<td>INT</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>file_public</td>
+										<td>Public flag</td>
+										<td>1</td>
+										<td>INT</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>file_adult</td>
+										<td>Adult flag</td>
+										<td>0</td>
+										<td>INT</td>
+										<td></td>
+									</tr>
+									<TMPL_IF usr_premium_only>
+										<tr>
+											<td>file_premium_only</td>
+											<td>Premium Only flag</td>
+											<td>1</td>
+											<td>INT</td>
+											<td></td>
+										</tr>
+									</TMPL_IF>
+									<tr>
+										<td>tags</td>
+										<td>File tags</td>
+										<td>promo, high quality</td>
+										<td>STRING</td>
+										<td></td>
+									</tr>
+								</table>
+								<h5 class="fs-6 mb-1 text-dark fw-500">Response:</h5>
+	<pre class="code">{
+	"msg":"OK",
+	"server_time":"2021-08-13 20:17:12",
+	"status":200,
+	"result":"true"
+}</pre>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="accordion-item bg-light">
+					<div class="accordion-header h2">
+						<button class="accordion-button bg-light collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#file_list" aria-expanded="false"><small>File List</small></button>
+					</div>
+					<div id="file_list" class="accordion-collapse collapse" data-bs-parent="#accordionApi">
+						<div class="accordion-body">
+							<div class="function_div">
+								<h5 class="fs-6 mb-1 text-dark fw-500">Request:</h5>
+<pre class="code"><b class="badge bg-primary align-middle">GET</b> <TMPL_VAR api_url>/file/list?key=<TMPL_VAR usr_api_key></pre>
+								<h5 class="fs-6 mb-1 text-dark fw-500">Paramaters:</h5>
+								<table class="table table-bordered table-sm small">
+									<thead class="text-muted">
+										<tr>
+											<th>Name</th>
+											<th>Description</th>
+											<th>Example</th>
+											<th>Format</th>
+											<th>Required</th>
+										</tr>
+									</thead>
+									<tr>
+										<td>key</td>
+										<td>API key</td>
+										<td>
+											<TMPL_VAR usr_api_key>
+										</td>
+										<td>STRING</td>
+										<td>yes</td>
+									</tr>
+									<tr>
+										<td>fld_id</td>
+										<td>Folder ID</td>
+										<td>25</td>
+										<td>INT</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>title</td>
+										<td>Filter videos by title</td>
+										<td>Iron man</td>
+										<td>STRING</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>created</td>
+										<td>Show only videos uploaded after timestamp.<br>Specify number to show videos uploaded X minutes ago</td>
+										<td>
+											<nobr>2021-07-21 05:07:10</nobr>
+										</td>
+										<td>STRING</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>public</td>
+										<td>Show public (1) or private (0) videos only, empty to show all</td>
+										<td>1</td>
+										<td>INT</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>adult</td>
+										<td>Show adult (1) or safe (0) videos only, empty to show all</td>
+										<td>0</td>
+										<td>INT</td>
+										<td></td>
+									</tr>
+									<TMPL_IF usr_premium_only>
+										<tr>
+											<td>premium_only</td>
+											<td>Show Premium Only (1) or Free (0) videos only, empty to show all</td>
+											<td>0</td>
+											<td>INT</td>
+											<td></td>
+										</tr>
+									</TMPL_IF>
+									<tr>
+										<td>per_page</td>
+										<td>Number of results per page</td>
+										<td>50</td>
+										<td>INT</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>page</td>
+										<td>Page number</td>
+										<td>2</td>
+										<td>INT</td>
+										<td></td>
+									</tr>
+								</table>
+								<h5 class="fs-6 mb-1 text-dark fw-500">Response:</h5>
+	<pre class="code">{
+	"msg":"OK",
+	"server_time":"2021-08-13 20:35:18",
+	"status":200,
+	"result":
+	{
+		"files":[
+			{
+				"thumbnail":"http://img.xvs.tt/fb5asfuj2snh_t.jpg",
+				"link":"http://xvs.tt/fb5asfuj2snh.html",
+				"file_code":"fb5asfuj2snh",
+				"canplay":1,
+				"length":"60",
+				"views":"0",
+				"uploaded":"2021-07-12 20:56:54",
+				"public":"0",
+				"fld_id":"0",
+				"title":"Test 123"
+			}
+		],
+		"results_total":9,
+		"pages":9,
+		"results":1
+	}
+}</pre>
+							</div>
+						</div>
+					</div>
+				</div>
+				<TMPL_IF m_6_direct>
+					<div class="accordion-item bg-light">
+						<div class="accordion-header h2">
+							<button class="accordion-button bg-light collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#file_direct_link" aria-expanded="false"><small>File Direct Link</small></button>
+						</div>
+						<div id="file_direct_link" class="accordion-collapse collapse" data-bs-parent="#accordionApi">
+							<div class="accordion-body">
+								<div class="function_div">
+									<h5 class="fs-6 mb-1 text-dark fw-500">Request:</h5>
+<pre class="code"><b class="badge bg-primary align-middle">GET</b> <TMPL_VAR api_url>/file/direct_link?key=<TMPL_VAR usr_api_key>&file_code=<b>{file_code}</b></pre>
+									<h5 class="fs-6 mb-1 text-dark fw-500">Paramaters:</h5>
+									<table class="table table-bordered table-sm small">
+										<thead class="text-muted">
+											<tr>
+												<th>Name</th>
+												<th>Description</th>
+												<th>Example</th>
+												<th>Format</th>
+												<th>Required</th>
+											</tr>
+										</thead>
+										<tr>
+											<td>key</td>
+											<td>API key</td>
+											<td>
+												<TMPL_VAR usr_api_key>
+											</td>
+											<td>STRING</td>
+											<td>yes</td>
+										</tr>
+										<tr>
+											<td>file_code</td>
+											<td>File code</td>
+											<td>fb5asfuj2snh</td>
+											<td>STRING</td>
+											<td>yes</td>
+										</tr>
+										<tr>
+											<td>q</td>
+											<td>Video quality if available. Possible values: n , h , l, o</td>
+											<td>n</td>
+											<td>STRING</td>
+											<td></td>
+										</tr>
+										<tr>
+											<td>hls</td>
+											<td>Generate HLS manifest URL (HLS mod required)</td>
+											<td>1</td>
+											<td>INT</td>
+											<td></td>
+										</tr>
+									</table>
+									<h5 class="fs-6 mb-1 text-dark fw-500">Response:</h5>
+<pre class="code">{
+	"msg":"OK",
+	"server_time":"2022-11-12 05:32:27",
+	"status":200,
+	"result":
+	{
+		"versions":[
+			{"url":"http://s1.xvs.tt/zqsccwdttqsal2eyd2pjrlvodgh7iyejldkogrnzwypvlnajbosxsuchfurq/v.mp4","name":"n","size":"120755726"},
+			{"url":"http://s1.xvs.tt/zqsccwdttqsal2eyd2pjrlvodgh7iyejldkogrnzwapvlnajbostzwskpx4a/v.mp4","name":"h","size":"135481436"},
+			{"url":"http://s1.xvs.tt/zqsccwdttqsal2eyd2pjrlvodgh7iyejldkogrnzwqpvlnajbosrpvmuh5la/v.mp4","name":"l","size":"34744877"},
+			{"url":"http://s1.xvs.tt/zqsccwdttqsal2eyd2pjrlvodgh7iyejldkogrnzw4pvlnajbosyx264xtsq/v.mp4","name":"o","size":"319256576"}
+		],
+		"file_length":"1560",
+		"player_img":"http://img.xvs.tt/abnormamorph.jpg",
+		"hls_direct":"http://s1.xvs.tt/hls/zqsccwdttqsal2eyd2pjrlvodgh7iyejldkogrnzw,qpvlnajbosrpvmuh5la,ypvlnajbosxsuchfurq,apvlnajbostzwskpx4a,.urlset/master.m3u8"
+	}
+}</pre>
+								</div>
+							</div>
+						</div>
+					</div>
+				</TMPL_IF>
+				<TMPL_IF m_6_clone>
+					<div class="accordion-item bg-light">
+						<div class="accordion-header h2">
+							<button class="accordion-button bg-light collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#file_clone" aria-expanded="false"><small>File Clone</small></button>
+						</div>
+						<div id="file_clone" class="accordion-collapse collapse" data-bs-parent="#accordionApi">
+							<div class="accordion-body">
+								<div class="function_div">
+									<h5 class="fs-6 mb-1 text-dark fw-500">Request:</h5>
+<pre class="code"><b class="badge bg-primary align-middle">GET</b> <TMPL_VAR api_url>/file/clone?key=<TMPL_VAR usr_api_key>&file_code=<b>{file_code}</b></pre>
+									<h5 class="fs-6 mb-1 text-dark fw-500">Paramaters:</h5>
+									<table class="table table-bordered table-sm small">
+										<thead class="text-muted">
+											<tr>
+												<th>Name</th>
+												<th>Description</th>
+												<th>Example</th>
+												<th>Format</th>
+												<th>Required</th>
+											</tr>
+										</thead>
+										<tr>
+											<td>key</td>
+											<td>API key</td>
+											<td>
+												<TMPL_VAR usr_api_key>
+											</td>
+											<td>STRING</td>
+											<td>yes</td>
+										</tr>
+										<tr>
+											<td>file_code</td>
+											<td>Source file code</td>
+											<td>abnormamorph</td>
+											<td>STRING</td>
+											<td>yes</td>
+										</tr>
+										<tr>
+											<td>file_title</td>
+											<td>New file title if required</td>
+											<td>New video title</td>
+											<td>STRING</td>
+											<td></td>
+										</tr>
+										<tr>
+											<td>fld_id</td>
+											<td>Target folder id</td>
+											<td>5</td>
+											<td>INT</td>
+											<td></td>
+										</tr>
+									</table>
+									<h5 class="fs-6 mb-1 text-dark fw-500">Response:</h5>
+<pre class="code">{
+	"msg":"OK",
+	"server_time":"2022-11-12 19:39:58",
+	"status":200,
+	"result":
+	{
+		"url":"http://xvs.tt/u405p6qz5xpi",
+		"filecode":"u405p6qz5xpi"
+	}
+}</pre>
+								</div>
+							</div>
+						</div>
+					</div>
+				</TMPL_IF>
+				<TMPL_IF m_6_delete>
+					<div class="accordion-item bg-light">
+						<div class="accordion-header h2">
+							<button class="accordion-button bg-light collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#file_delete" aria-expanded="false"><small>File Delete</small></button>
+						</div>
+						<div id="file_delete" class="accordion-collapse collapse" data-bs-parent="#accordionApi">
+							<div class="accordion-body">
+								<div class="function_div">
+									<h5 class="fs-6 mb-1 text-dark fw-500">Request:</h5>
+<pre class="code"><b class="badge bg-primary align-middle">GET</b> <TMPL_VAR api_url>/file/delete?key=<TMPL_VAR usr_api_key>&file_code=<b>{file_code}</b></pre>
+									<h5 class="fs-6 mb-1 text-dark fw-500">Paramaters:</h5>
+									<table class="table table-bordered table-sm small">
+										<thead class="text-muted">
+											<tr>
+												<th>Name</th>
+												<th>Description</th>
+												<th>Example</th>
+												<th>Format</th>
+												<th>Required</th>
+											</tr>
+										</thead>
+										<tr>
+											<td>key</td>
+											<td>API key</td>
+											<td>
+												<TMPL_VAR usr_api_key>
+											</td>
+											<td>STRING</td>
+											<td>yes</td>
+										</tr>
+										<tr>
+											<td>file_code</td>
+											<td>File code</td>
+											<td>abnormamorph</td>
+											<td>STRING</td>
+											<td>yes</td>
+										</tr>
+									</table>
+									<h5 class="fs-6 mb-1 text-dark fw-500">Response:</h5>
+<pre class="code">{
+	"msg":"OK",
+	"server_time":"2022-11-12 19:39:58",
+	"status":200
+}</pre>
+								</div>
+							</div>
+						</div>
+					</div>
+				</TMPL_IF>
+				<div class="accordion-item bg-light">
+					<div class="accordion-header h2">
+						<button class="accordion-button bg-light collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#file_deleted" aria-expanded="false"><small>Deleted Files</small></button>
+					</div>
+					<div id="file_deleted" class="accordion-collapse collapse" data-bs-parent="#accordionApi">
+						<div class="accordion-body">
+							<div class="function_div">
+								<p>Get last deleted files list</p>
+								<h5 class="fs-6 mb-1 text-dark fw-500">Request:</h5>
+<pre class="code"><b class="badge bg-primary align-middle">GET</b> <TMPL_VAR api_url>/file/deleted?key=<TMPL_VAR usr_api_key>&last=<b>{last}</b></pre>
+								<h5 class="fs-6 mb-1 text-dark fw-500">Paramaters:</h5>
+								<table class="table table-bordered table-sm small">
+									<thead class="text-muted">
+										<tr>
+											<th>Name</th>
+											<th>Description</th>
+											<th>Example</th>
+											<th>Format</th>
+											<th>Required</th>
+										</tr>
+									</thead>
+									<tr>
+										<td>key</td>
+										<td>API key</td>
+										<td>
+											<TMPL_VAR usr_api_key>
+										</td>
+										<td>STRING</td>
+										<td>yes</td>
+									</tr>
+									<tr>
+										<td>last</td>
+										<td>Show files deleted in last X hours</td>
+										<td>24</td>
+										<td>INT</td>
+										<td></td>
+									</tr>
+								</table>
+								<h5 class="fs-6 mb-1 text-dark fw-500">Response:</h5>
+<pre class="code">{
+	"msg":"OK",
+	"server_time":"2021-08-15 19:04:06",
+	"status":200,
+	"result":[
+		{
+			"file_code":"38j4wvxw164d",
+			"deleted_by":"me",
+			"deleted_ago_sec":"40",
+			"deleted":"2021-08-15 19:03:26",
+			"title":"Video 109779195"
+		}
+	]
+}</pre>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="accordion-item bg-light">
+					<div class="accordion-header h2">
+						<button class="accordion-button bg-light collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#file_dmca" aria-expanded="false"><small>File DMCA</small></button>
+					</div>
+					<div id="file_dmca" class="accordion-collapse collapse" data-bs-parent="#accordionApi">
+						<div class="accordion-body">
+							<div class="function_div">
+								<p>Get files scheduled for DMCA delete</p>
+								<h5 class="fs-6 mb-1 text-dark fw-500">Request:</h5>
+<pre class="code"><b class="badge bg-primary align-middle">GET</b> <TMPL_VAR api_url>/file/dmca?key=<TMPL_VAR usr_api_key>&last=<b>{last}</b></pre>
+								<h5 class="fs-6 mb-1 text-dark fw-500">Paramaters:</h5>
+								<table class="table table-bordered table-sm small">
+									<thead class="text-muted">
+										<tr>
+											<th>Name</th>
+											<th>Description</th>
+											<th>Example</th>
+											<th>Format</th>
+											<th>Required</th>
+										</tr>
+									</thead>
+									<tr>
+										<td>key</td>
+										<td>API key</td>
+										<td>
+											<TMPL_VAR usr_api_key>
+										</td>
+										<td>STRING</td>
+										<td>yes</td>
+									</tr>
+									<tr>
+										<td>last</td>
+										<td>Show files reported last X hours only</td>
+										<td>24</td>
+										<td>INT</td>
+										<td></td>
+									</tr>
+								</table>
+								<h5 class="fs-6 mb-1 text-dark fw-500">Response:</h5>
+<pre class="code">{
+	"msg":"OK",
+	"server_time":"2021-08-15 19:31:48",
+	"status":200,
+	"result":[
+		{
+			"file_code":"x2q5h0uhfzdu",
+			"del_in_sec":"42097",
+			"del_time":"2021-08-16 07:13:25"
+		}
+	]
+}</pre>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="accordion-item bg-light">
+					<div class="accordion-header h2">
+						<button class="accordion-button bg-light collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#file_encodings" aria-expanded="false"><small>File Encodings</small></button>
+					</div>
+					<div id="file_encodings" class="accordion-collapse collapse" data-bs-parent="#accordionApi">
+						<div class="accordion-body">
+							<div class="function_div">
+								<p>Get current encoding queues</p>
+								<h5 class="fs-6 mb-1 text-dark fw-500">Request:</h5>
+<pre class="code"><b class="badge bg-primary align-middle">GET</b> <TMPL_VAR api_url>/file/encodings?key=<TMPL_VAR usr_api_key></pre>
+								<h5 class="fs-6 mb-1 text-dark fw-500">Paramaters:</h5>
+								<table class="table table-bordered table-sm small">
+									<thead class="text-muted">
+										<tr>
+											<th>Name</th>
+											<th>Description</th>
+											<th>Example</th>
+											<th>Format</th>
+											<th>Required</th>
+										</tr>
+									</thead>
+									<tr>
+										<td>key</td>
+										<td>API key</td>
+										<td>
+											<TMPL_VAR usr_api_key>
+										</td>
+										<td>STRING</td>
+										<td>yes</td>
+									</tr>
+									<tr>
+										<td>file_code</td>
+										<td>Filter by File code</td>
+										<td>fb5asfuj2snh</td>
+										<td>STRING</td>
+										<td></td>
+									</tr>
+								</table>
+								<h5 class="fs-6 mb-1 text-dark fw-500">Response:</h5>
+<pre class="code">{
+	"msg":"OK",
+	"server_time":"2021-08-18 21:44:09",
+	"status":200,
+	"result":[
+		{"link":"http://xvs.tt/fb5asfuj2snh.html","progress":15,"status":"ENCODING","title":"Test video","quality":"h","file_code":"fb5asfuj2snh"},
+		{"link":"http://xvs.tt/fb5asfuj2snh.html","progress":0,"status":"PENDING","title":"Test video","quality":"l","file_code":"fb5asfuj2snh"}
+	]
+}</pre>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="accordion-item bg-light">
+					<div class="accordion-header h2">
+						<button class="accordion-button bg-light collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#file_urluploads" aria-expanded="false"><small>File URL Uploads</small></button>
+					</div>
+					<div id="file_urluploads" class="accordion-collapse collapse" data-bs-parent="#accordionApi">
+						<div class="accordion-body">
+							<div class="function_div">
+								<p>Get current encoding queues</p>
+								<h5 class="fs-6 mb-1 text-dark fw-500">Request:</h5>
+<pre class="code"><b class="badge bg-primary align-middle">GET</b> <TMPL_VAR api_url>/upload/url?key=<TMPL_VAR usr_api_key>&url={upload_url}</pre>
+								<h5 class="fs-6 mb-1 text-dark fw-500">Paramaters:</h5>
+								<table class="table table-bordered table-sm small">
+									<thead class="text-muted">
+										<tr>
+											<th>Name</th>
+											<th>Description</th>
+											<th>Example</th>
+											<th>Format</th>
+											<th>Required</th>
+										</tr>
+									</thead>
+									<tr>
+										<td>key</td>
+										<td>API key</td>
+										<td>
+											<TMPL_VAR usr_api_key>
+										</td>
+										<td>STRING</td>
+										<td>yes</td>
+									</tr>
+									<tr>
+										<td>filecode</td>
+										<td>Filter by File code</td>
+										<td>fb5asfuj2snh</td>
+										<td>STRING</td>
+										<td></td>
+									</tr>
+								</table>
+								<h5 class="fs-6 mb-1 text-dark fw-500">Response:</h5>
+<pre class="code">{
+	"requests_available":2,
+	"msg":"OK",
+	"server_time":"2022-06-14 20:30:20",
+	"status":200,
+	"result":[
+		{"remote_url":"https://xvs.tt/1.mp4","progress":0,"status":"PENDING","filecode":"","fld_id":"0"},
+		{"remote_url":"https://xvs.tt/2.mp4","progress":0,"status":"PENDING","filecode":"xyayxm9ajlys","fld_id":"7"}
+	]
+}</pre>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="accordion-item bg-light">
+					<div class="accordion-header h2">
+						<button class="accordion-button bg-light collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#file_urlactions" aria-expanded="false"><small>File URL Uploads Actions</small></button>
+					</div>
+					<div id="file_urlactions" class="accordion-collapse collapse" data-bs-parent="#accordionApi">
+						<div class="accordion-body">
+							<div class="function_div">
+								<p>Get current encoding queues</p>
+								<h5 class="fs-6 mb-1 text-dark fw-500">Request:</h5>
+<pre class="code"><b class="badge bg-primary align-middle">GET</b> <TMPL_VAR api_url>/file/url_actions?key=<TMPL_VAR usr_api_key></pre>
+								<h5 class="fs-6 mb-1 text-dark fw-500">Paramaters:</h5>
+								<table class="table table-bordered table-sm small">
+									<thead class="text-muted">
+										<tr>
+											<th>Name</th>
+											<th>Description</th>
+											<th>Example</th>
+											<th>Format</th>
+											<th>Required</th>
+										</tr>
+									</thead>
+									<tr>
+										<td>key</td>
+										<td>API key</td>
+										<td>
+											<TMPL_VAR usr_api_key>
+										</td>
+										<td>STRING</td>
+										<td>yes</td>
+									</tr>
+									<tr>
+										<td>restart_errors</td>
+										<td>Restart all failed uploads</td>
+										<td>1</td>
+										<td>INT</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>delete_errors</td>
+										<td>Delete all failed uploads</td>
+										<td>1</td>
+										<td>INT</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>delete_all</td>
+										<td>Delete all current uploads</td>
+										<td>1</td>
+										<td>INT</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>delete_code</td>
+										<td>Delete specific uploads by code</td>
+										<td>xyayxm9ajlys,6bnyg8rnu11e</td>
+										<td>STRING</td>
+										<td></td>
+									</tr>
+								</table>
+								<h5 class="fs-6 mb-1 text-dark fw-500">Response:</h5>
+<pre class="code">{
+	"requests_available":2,
+	"msg":"OK",
+	"server_time":"2022-06-14 20:30:20",
+	"status":200
+}</pre>
+							</div>
+						</div>
+					</div>
+				</div>
+				<br>
+				<h3 class="p-3 pb-0 text-dark">Folder</h3>
+				<div class="accordion-item bg-light">
+					<div class="accordion-header h2">
+						<button class="accordion-button bg-light collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#folder_list" aria-expanded="false"><small>Folder List</small></button>
+					</div>
+					<div id="folder_list" class="accordion-collapse collapse" data-bs-parent="#accordionApi">
+						<div class="accordion-body">
+							<div class="function_div">
+								<h5 class="fs-6 mb-1 text-dark fw-500">Request:</h5>
+<pre class="code"><b class="badge bg-primary align-middle">GET</b> <TMPL_VAR api_url>/folder/list?key=<TMPL_VAR usr_api_key>&fld_id=<b>{fld_id}</b>&files=1</pre>
+								<h5 class="fs-6 mb-1 text-dark fw-500">Paramaters:</h5>
+								<table class="table table-bordered table-sm small">
+									<thead class="text-muted">
+										<tr>
+											<th>Name</th>
+											<th>Description</th>
+											<th>Example</th>
+											<th>Format</th>
+											<th>Required</th>
+										</tr>
+									</thead>
+									<tr>
+										<td>key</td>
+										<td>API key</td>
+										<td>
+											<TMPL_VAR usr_api_key>
+										</td>
+										<td>STRING</td>
+										<td>yes</td>
+									</tr>
+									<tr>
+										<td>fld_id</td>
+										<td>Parent folder id, default=0</td>
+										<td>25</td>
+										<td>INT</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>files</td>
+										<td>Show file list in this folder</td>
+										<td>1</td>
+										<td>INT</td>
+										<td></td>
+									</tr>
+								</table>
+								<h5 class="fs-6 mb-1 text-dark fw-500">Response:</h5>
+	<pre class="code">{
+	"msg":"OK",
+	"server_time":"2021-08-15 19:54:22",
+	"status":200,
+	"result":{
+		"folders":[
+			{
+				"name":"Breaking Bad",
+				"fld_id":"16",
+				"code":"4pwb4yvp7v"
+			},
+			{
+				"name":"Travis",
+				"fld_id":"15",
+				"code":"68dth39m76"
+			}
+		],
+		"files":[
+			{
+				"thumbnail":"http://img.xvs.tt/abnormamorph_t.jpg",
+				"link":"http://xvs.tt/abnormamorph.html",
+				"file_code":"abnormamorph",
+				"canplay":1,
+				"length":"1560",
+				"views":"10",
+				"uploaded":"2021-08-20 20:37:22",
+				"public":"0",
+				"fld_id":"0",
+				"title":"Tri pljus dva 2012 SATRip"
+			}
+		]
+	}
+}</pre>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="accordion-item bg-light">
+					<div class="accordion-header h2">
+						<button class="accordion-button bg-light collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#folder_create" aria-expanded="false"><small>Folder Create</small></button>
+					</div>
+					<div id="folder_create" class="accordion-collapse collapse" data-bs-parent="#accordionApi">
+						<div class="accordion-body">
+							<div class="function_div">
+								<h5 class="fs-6 mb-1 text-dark fw-500">Request:</h5>
+<pre class="code"><b class="badge bg-primary align-middle">GET</b> <TMPL_VAR api_url>/folder/create?key=<TMPL_VAR usr_api_key>&name=<b>{name}</b>&parent_id=<b>{parent_id}</b></pre>
+								<h5 class="fs-6 mb-1 text-dark fw-500">Paramaters:</h5>
+								<table class="table table-bordered table-sm small">
+									<thead class="text-muted">
+										<tr>
+											<th>Name</th>
+											<th>Description</th>
+											<th>Example</th>
+											<th>Format</th>
+											<th>Required</th>
+										</tr>
+									</thead>
+									<tr>
+										<td>key</td>
+										<td>API key</td>
+										<td>
+											<TMPL_VAR usr_api_key>
+										</td>
+										<td>STRING</td>
+										<td>yes</td>
+									</tr>
+									<tr>
+										<td>name</td>
+										<td>Folder name</td>
+										<td>New Videos</td>
+										<td>STRING</td>
+										<td>yes</td>
+									</tr>
+									<tr>
+										<td>parent_id</td>
+										<td>Parent Folder ID</td>
+										<td>0</td>
+										<td>INT</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>descr</td>
+										<td>Folder description</td>
+										<td>new stuff</td>
+										<td>STRING</td>
+										<td></td>
+									</tr>
+								</table>
+								<h5 class="fs-6 mb-1 text-dark fw-500">Response:</h5>
+	<pre class="code">{
+	"msg":"OK",
+	"server_time":"2021-08-18 20:32:46",
+	"status":200,
+	"result":
+	{
+		"fld_id":"29"
+	}
+}</pre>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="accordion-item bg-light">
+					<div class="accordion-header h2">
+						<button class="accordion-button bg-light collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#folder_edit" aria-expanded="false"><small>Folder Edit</small></button>
+					</div>
+					<div id="folder_edit" class="accordion-collapse collapse" data-bs-parent="#accordionApi">
+						<div class="accordion-body">
+							<div class="function_div">
+								<p>Update folder details, skipped fields won't be updated</p>
+								<h5 class="fs-6 mb-1 text-dark fw-500">Request:</h5>
+<pre class="code"><b class="badge bg-primary align-middle">GET</b> <TMPL_VAR api_url>/folder/edit?key=<TMPL_VAR usr_api_key>&fld_id=<b>{fld_id}</b>&name=<b>{name}</b></pre>
+								<h5 class="fs-6 mb-1 text-dark fw-500">Paramaters:</h5>
+								<table class="table table-bordered table-sm small">
+									<thead class="text-muted">
+										<tr>
+											<th>Name</th>
+											<th>Description</th>
+											<th>Example</th>
+											<th>Format</th>
+											<th>Required</th>
+										</tr>
+									</thead>
+									<tr>
+										<td>key</td>
+										<td>API key</td>
+										<td>
+											<TMPL_VAR usr_api_key>
+										</td>
+										<td>STRING</td>
+										<td>yes</td>
+									</tr>
+									<tr>
+										<td>fld_id</td>
+										<td>Folder ID</td>
+										<td>25</td>
+										<td>INT</td>
+										<td>yes</td>
+									</tr>
+									<tr>
+										<td>name</td>
+										<td>Folder name</td>
+										<td>Movies 2021</td>
+										<td>STRING</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>parent_id</td>
+										<td>Parent Folder ID</td>
+										<td>0</td>
+										<td>INT</td>
+										<td></td>
+									</tr>
+									<tr>
+										<td>descr</td>
+										<td>Folder description</td>
+										<td>old stuff</td>
+										<td>STRING</td>
+										<td></td>
+									</tr>
+								</table>
+								<h5 class="fs-6 mb-1 text-dark fw-500">Response:</h5>
+<pre class="code">{
+ "msg":"OK",
+ "server_time":"2021-08-18 21:21:44",
+ "status":200,
+ "result":"true"
+}</pre>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="accordion-item bg-light">
+					<div class="accordion-header h2">
+						<button class="accordion-button bg-light collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#folder_delete" aria-expanded="false"><small>Folder Delete</small></button>
+					</div>
+					<div id="folder_delete" class="accordion-collapse collapse" data-bs-parent="#accordionApi">
+						<div class="accordion-body">
+							<div class="function_div">
+								<p>Delete folder. Folder should be empty and have no files / subfolders.</p>
+								<h5 class="fs-6 mb-1 text-dark fw-500">Request:</h5>
+<pre class="code"><b class="badge bg-primary align-middle">GET</b> <TMPL_VAR api_url>/folder/delete?key=<TMPL_VAR usr_api_key>&fld_id=<b>{fld_id}</b></pre>
+								<h5 class="fs-6 mb-1 text-dark fw-500">Paramaters:</h5>
+								<table class="table table-bordered table-sm small">
+									<thead class="text-muted">
+										<tr>
+											<th>Name</th>
+											<th>Description</th>
+											<th>Example</th>
+											<th>Format</th>
+											<th>Required</th>
+										</tr>
+									</thead>
+									<tr>
+										<td>key</td>
+										<td>API key</td>
+										<td>
+											<TMPL_VAR usr_api_key>
+										</td>
+										<td>STRING</td>
+										<td>yes</td>
+									</tr>
+									<tr>
+										<td>fld_id</td>
+										<td>Folder ID</td>
+										<td>25</td>
+										<td>INT</td>
+										<td>yes</td>
+									</tr>
+								</table>
+								<h5 class="fs-6 mb-1 text-dark fw-500">Response:</h5>
+<pre class="code">{
+	"msg":"OK",
+	"server_time":"2021-08-18 21:21:44",
+	"status":200
+}</pre>
+							</div>
+						</div>
+					</div>
+				</div>
+				<TMPL_IF admin>
+					<br>
+					<h3 class="p-3 pb-0 text-dark">Admin</h3>
+					<div class="accordion-item bg-light">
+						<div class="accordion-header h2">
+							<button class="accordion-button bg-light collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#adm_delete" aria-expanded="false"><small>Admin File Delete</small></button>
+						</div>
+						<div id="adm_delete" class="accordion-collapse collapse" data-bs-parent="#accordionApi">
+							<div class="accordion-body">
+								<div class="function_div">
+									<h5 class="fs-6 mb-1 text-dark fw-500">Request:</h5>
+	<pre class="code"><b class="badge bg-primary align-middle">GET</b> <TMPL_VAR api_url>/adm/delete?key=<TMPL_VAR usr_api_key>&file_code=<b>{file_code}</b></pre>
+									<h5 class="fs-6 mb-1 text-dark fw-500">Paramaters:</h5>
+									<table class="table table-bordered table-sm small">
+										<thead class="text-muted">
+											<tr>
+												<th>Name</th>
+												<th>Description</th>
+												<th>Example</th>
+												<th>Format</th>
+												<th>Required</th>
+											</tr>
+										</thead>
+										<tr>
+											<td>key</td>
+											<td>API key</td>
+											<td>
+												<TMPL_VAR usr_api_key>
+											</td>
+											<td>STRING</td>
+											<td>yes</td>
+										</tr>
+										<tr>
+											<td>file_code</td>
+											<td>File code</td>
+											<td>abnormamorph</td>
+											<td>STRING</td>
+											<td>yes</td>
+										</tr>
+									</table>
+									<h5 class="fs-6 mb-1 text-dark fw-500">Response:</h5>
+<pre class="code">{
+	"msg":"OK",
+	"server_time":"2022-11-12 19:39:58",
+	"status":200
+}</pre>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="accordion-item bg-light">
+						<div class="accordion-header h2">
+							<button class="accordion-button bg-light collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#adm_user_add" aria-expanded="false"><small>Admin User Add</small></button>
+						</div>
+						<div id="adm_user_add" class="accordion-collapse collapse" data-bs-parent="#accordionApi">
+							<div class="accordion-body">
+								<div class="function_div">
+									<h5 class="fs-6 mb-1 text-dark fw-500">Request:</h5>
+<pre class="code"><b class="badge bg-primary align-middle">GET</b> <TMPL_VAR api_url>/adm/user_add?key=<TMPL_VAR usr_api_key>&login=<b>{login}</b>&password=<b>{password}</b></pre>
+									<h5 class="fs-6 mb-1 text-dark fw-500">Paramaters:</h5>
+									<table class="table table-bordered table-sm small">
+										<thead class="text-muted">
+											<tr>
+												<th>Name</th>
+												<th>Description</th>
+												<th>Example</th>
+												<th>Format</th>
+												<th>Required</th>
+											</tr>
+										</thead>
+										<tr>
+											<td>key</td>
+											<td>API key</td>
+											<td>
+												<TMPL_VAR usr_api_key>
+											</td>
+											<td>STRING</td>
+											<td>yes</td>
+										</tr>
+										<tr>
+											<td>login</td>
+											<td>New user login</td>
+											<td>uploader21</td>
+											<td>STRING</td>
+											<td>yes</td>
+										</tr>
+										<tr>
+											<td>password</td>
+											<td>New user password</td>
+											<td>pass4us</td>
+											<td>STRING</td>
+											<td>yes</td>
+										</tr>
+										<tr>
+											<td>email</td>
+											<td>E-mail</td>
+											<td>u21@gmail.com</td>
+											<td>STRING</td>
+											<td></td>
+										</tr>
+										<tr>
+											<td>pay_info</td>
+											<td>Payment info</td>
+											<td>u21pp@gmail.com</td>
+											<td>STRING</td>
+											<td></td>
+										</tr>
+										<tr>
+											<td>pay_type</td>
+											<td>Payment type</td>
+											<td>paypal</td>
+											<td>STRING</td>
+											<td></td>
+										</tr>
+										<tr>
+											<td>money</td>
+											<td>Initial money balance</td>
+											<td>2.50</td>
+											<td>FLOAT</td>
+											<td></td>
+										</tr>
+										<tr>
+											<td>notes</td>
+											<td>Custom notes</td>
+											<td>new content uploader</td>
+											<td>STRING</td>
+											<td></td>
+										</tr>
+									</table>
+									<h5 class="fs-6 mb-1 text-dark fw-500">Response:</h5>
+<pre class="code">{
+	"msg":"OK",
+	"server_time":"2022-11-12 19:39:58",
+	"status":200,
+	"result":"34"
+}</pre>
+								</div>
+							</div>
+						</div>
+					</div>
+				</TMPL_IF>
+			</div>
+		</article>
+	</section>
+</div>
+<style media="screen">
+	.code {
+		padding: 0.5rem;
+		margin-bottom: 1rem;
+		font-family: monospace;
+		white-space: pre;
+		background-color: var(--bs-dark);
+		font-size: .9em;
+		border-radius: 6px;
+		color: var(--bs-gray-400);
+	}
+
+	strong.badge {
+		margin: 0 3px;
+	}
+</style>

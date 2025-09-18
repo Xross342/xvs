@@ -1,0 +1,1497 @@
+<style>
+.function_div {margin-top: 30px; padding-top: 10px; border-top: 1px solid #aaa;}
+strong {display:block; margin-top: 15px; margin-bottom: 7px;}
+pre {display:block; color: #000; font-size: 100%; background: #fff; border: 1px dashed #999; font-family: monospace; padding: 4px; overflow-y: auto;}
+.function_div table {margin:0; width: 100%;}
+.function_div td:first-child {width:50px; text-align: left;}
+.function_div td:nth-child(2) {width:60%;}
+.function_div td:nth-child(n+4) {text-align: center;}
+
+</style>
+
+<h1><TMPL_VAR site_name> API reference</h1>
+
+<div style="width:100%; text-align: left;">
+<strong>ACCOUNT</strong>
+<p><a href="#account_info">Account Info</a></p>
+<p><a href="#account_stats">Account Stats</a></p>
+
+<strong>UPLOAD</strong>
+<p><a href="#upload_server">Get Upload Server</a></p>
+<p><a href="#upload_file">Upload File</a></p>
+<p><a href="#upload_url">Upload by URL</a></p>
+<p><a href="#upload_sub">Upload Subtitle</a></p>
+
+<strong>FILE</strong>
+<p><a href="#file_info">File Info</a></p>
+<p><a href="#file_edit">File Edit</a></p>
+<p><a href="#file_list">File List</a></p>
+<TMPL_IF m_6_clone><p><a href="#file_clone">File Clone</a></p></TMPL_IF>
+<TMPL_IF m_6_direct><p><a href="#file_direct_link">File Direct Link</a></p></TMPL_IF>
+<TMPL_IF m_6_delete><p><a href="#file_delete">File Delete</a></p></TMPL_IF>
+<p><a href="#file_deleted">Deleted Files</a></p>
+<p><a href="#file_dmca">DMCA Files</a></p>
+<p><a href="#file_encodings">Encodings</a></p>
+<p><a href="#file_urluploads">URL Uploads</a></p>
+<p><a href="#file_urlactions">URL Uploads Actions</a></p>
+
+<strong>FOLDER</strong>
+<p><a href="#folder_list">Folder List</a></p>
+<p><a href="#folder_create">Folder Create</a></p>
+<p><a href="#folder_edit">Folder Edit</a></p>
+<p><a href="#folder_delete">Folder Delete</a></p>
+
+<TMPL_IF admin>
+<strong>ADMIN</strong>
+<p><a href="#adm_delete">Admin File Delete</a></p>
+<p><a href="#adm_user_add">Admin User Add</a></p>
+</TMPL_IF>
+
+
+<div class="function_div">
+<a name="account_info"></a>
+<h2>Account Info</h2>
+<strong>REQUEST</strong>
+<pre><b>GET</b> <TMPL_VAR api_url>/account/info?key=<TMPL_VAR usr_api_key></pre>
+
+<strong>PARAMETERS</strong>
+<table>
+<tr>
+	<th>Name</th>
+	<th>Description</th>
+	<th>Example</th>
+	<th>Format</th>
+	<th>Required</th>
+</tr>
+<tr>
+	<td>key</td>
+	<td>API key</td>
+	<td><TMPL_VAR usr_api_key></td>
+	<td>STRING</td>
+	<td>yes</td>
+</tr>
+</table>
+
+<strong>RESPONSE</strong>
+<pre>{
+    "msg": "OK",
+    "server_time": "2021-09-11 04:30:07",
+    "status": 200,
+    "result": {
+    	"files_total":"31",
+    	"storage_left":1288483337,
+    	"login":"megauploader21",
+        "email": "megauploader21@gmail.com",
+        "premium_expire":"2022-10-15 04:46:59",
+        "balance":"108.00000",
+        "premium":1,
+        "storage_used":"685101"
+    }
+}</pre>
+</div>
+
+<div class="function_div">
+<a name="account_stats"></a>
+<h2>Account Stats</h2>
+<strong>REQUEST</strong>
+<pre><b>GET</b> <TMPL_VAR api_url>/account/stats?key=<TMPL_VAR usr_api_key></pre>
+
+<strong>PARAMETERS</strong>
+<table>
+<tr>
+	<th>Name</th>
+	<th>Description</th>
+	<th>Example</th>
+	<th>Format</th>
+	<th>Required</th>
+</tr>
+<tr>
+	<td>key</td>
+	<td>API key</td>
+	<td><TMPL_VAR usr_api_key></td>
+	<td>STRING</td>
+	<td>yes</td>
+</tr>
+<tr>
+	<td>last</td>
+	<td>show stats for last X days (default: 7)</td>
+	<td>14</td>
+	<td>INT</td>
+	<td></td>
+</tr>
+</table>
+
+<strong>RESPONSE</strong>
+<pre>{
+  "msg": "OK",
+  "server_time": "2021-09-13 04:30:07",
+  "status": 200,
+  "result": [
+    {
+      "downloads": "0",
+      "profit_views": "0.00000",
+      "views_adb": "1",
+      "sales": "0",
+      "profit_sales": "0.00000",
+      "profit_refs": "0.00000",
+      "profit_site": "0.00000",
+      "views": "0",
+      "refs": "0",
+      "day": "2021-09-12",
+      "profit_total": "0.00000",
+      "views_prem": "0"
+    }
+  ]
+}</pre>
+</div>
+
+
+<div class="function_div">
+<a name="upload_server"></a>
+<h2>Get Upload Server</h2>
+<strong>REQUEST</strong>
+<pre><b>GET</b> <TMPL_VAR api_url>/upload/server?key=<TMPL_VAR usr_api_key></pre>
+
+<strong>PARAMETERS</strong>
+<table>
+<tr>
+	<th>Name</th>
+	<th>Description</th>
+	<th>Example</th>
+	<th>Format</th>
+	<th>Required</th>
+</tr>
+<tr>
+	<td>key</td>
+	<td>API key</td>
+	<td><TMPL_VAR usr_api_key></td>
+	<td>STRING</td>
+	<td>yes</td>
+</tr>
+</table>
+
+<strong>RESPONSE</strong>
+<pre>{
+  "msg": "OK",
+  "server_time": "2021-08-11 04:29:54",
+  "status": 200,
+  "result": "https://s1.myvideo.com/upload/01"
+}</pre>
+
+</div>
+
+<div class="function_div">
+<a name="upload_file"></a>
+<h2>Upload File to Server</h2>
+
+<strong>PARAMETERS</strong>
+<table>
+<tr>
+	<th>Name</th>
+	<th>Description</th>
+	<th>Example</th>
+	<th>Format</th>
+	<th>Required</th>
+</tr>
+<tr>
+	<td>key</td>
+	<td>API key</td>
+	<td><TMPL_VAR usr_api_key></td>
+	<td>STRING</td>
+	<td>yes</td>
+</tr>
+<tr>
+	<td>file</td>
+	<td>Video file(s)</td>
+	<td>1.avi</td>
+	<td>FILE</td>
+	<td>yes</td>
+</tr>
+<tr>
+	<td>file_title</td>
+	<td>Title of video</td>
+	<td>New release video</td>
+	<td>STRING</td>
+	<td></td>
+</tr>
+<tr>
+	<td>file_descr</td>
+	<td>Description of video</td>
+	<td>This is sample from<br>our upcoming release</td>
+	<td>STRING</td>
+	<td></td>
+</tr>
+<TMPL_IF custom_snapshot_upload>
+<tr>
+	<td>snapshot</td>
+	<td>Custom video snapshot (up to <TMPL_VAR custom_snapshot_upload>KB)</td>
+	<td>1.jpg</td>
+	<td>FILE</td>
+	<td></td>
+</tr>
+</TMPL_IF>
+<tr>
+	<td>fld_id</td>
+	<td>Folder ID</td>
+	<td>25</td>
+	<td>INT</td>
+	<td></td>
+</tr>
+<tr>
+	<td>cat_id</td>
+	<td>Category ID</td>
+	<td>5</td>
+	<td>INT</td>
+	<td></td>
+</tr>
+<tr>
+	<td>tags</td>
+	<td>Tags list</td>
+	<td>promo, high quality</td>
+	<td>STRING</td>
+	<td></td>
+</tr>
+<tr>
+	<td>file_public</td>
+	<td>Public flag</td>
+	<td>1</td>
+	<td>INT</td>
+	<td></td>
+</tr>
+<tr>
+	<td>file_adult</td>
+	<td>Adult flag</td>
+	<td>1</td>
+	<td>INT</td>
+	<td></td>
+</tr>
+<tr>
+	<td>html_redirect</td>
+	<td>Use old style HTML redirect output instead of JSON</td>
+	<td>1</td>
+	<td>INT</td>
+	<td></td>
+</tr>
+</table>
+
+<strong>Minimal HTML form upload sample:</strong>
+<pre>&lt;form method="POST" enctype="multipart/form-data" action="https://s1.myvideo.com/upload/01"&gt;
+&lt;input type="hidden" name="key" value="<TMPL_VAR usr_api_key>"&gt;
+&lt;input type="hidden" name="html_redirect" value="1"&gt;
+&lt;input type="file" name="file"&gt;
+&lt;input type="submit"&gt;
+&lt;/form&gt;</pre>
+
+<strong>CURL file upload sample:</strong>
+Upload 2 videos:
+<pre>curl -X POST -F 'key=<TMPL_VAR usr_api_key>' -F 'file=@1.avi' -F 'file=@2.avi' https://s1.myvideo.com/upload/01</pre>
+Upload video with custom title and snapshot:
+<pre>curl -X POST -F 'key=1l5ftrilhllgwx2bo' -F 'file_title="Hola!"' -F 'file=@1.avi' -F 'snapshot=@1.jpg' http://s1.xvs.tt/upload/01</pre>
+Response:
+<pre>{
+    "msg": "OK",
+    "status": 200,
+    "files": [{
+        "filecode": "u9150wqzvhxj",
+        "filename": "1.avi",
+        "status": "OK"
+    }, {
+        "filecode": "gzky98gfg6hn",
+        "filename": "2.avi",
+        "status": "OK"
+    }]
+}</pre>
+
+</div>
+
+<div class="function_div">
+<a name="upload_url"></a>
+<h2>Upload by URL</h2>
+<strong>REQUEST</strong>
+<pre><b>GET</b> <TMPL_VAR api_url>/upload/url?key=<TMPL_VAR usr_api_key>&url=<b>{url}</b></pre>
+
+<strong>PARAMETERS</strong>
+<table>
+<tr>
+	<th>Name</th>
+	<th>Description</th>
+	<th>Example</th>
+	<th>Format</th>
+	<th>Required</th>
+</tr>
+<tr>
+	<td>key</td>
+	<td>API key</td>
+	<td><TMPL_VAR usr_api_key></td>
+	<td>STRING</td>
+	<td>yes</td>
+</tr>
+<tr>
+	<td>url</td>
+	<td>URL to video file</td>
+	<td>http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4</td>
+	<td>STRING</td>
+	<td>yes</td>
+</tr>
+<tr>
+	<td>fld_id</td>
+	<td>Folder ID</td>
+	<td>25</td>
+	<td>INT</td>
+	<td></td>
+</tr>
+<tr>
+	<td>cat_id</td>
+	<td>Category ID</td>
+	<td>5</td>
+	<td>INT</td>
+	<td></td>
+</tr>
+<tr>
+	<td>file_public</td>
+	<td>Public flag</td>
+	<td>1</td>
+	<td>INT</td>
+	<td></td>
+</tr>
+<tr>
+	<td>file_adult</td>
+	<td>Adult flag</td>
+	<td>1</td>
+	<td>INT</td>
+	<td></td>
+</tr>
+<tr>
+	<td>tags</td>
+	<td>Tags list</td>
+	<td>promo, high quality</td>
+	<td>STRING</td>
+	<td></td>
+</tr>
+</table>
+
+<strong>RESPONSE</strong>
+returns future filecode that will work after upload complete
+<pre>{
+	"msg":"OK",
+	"server_time":"2021-08-12 20:56:47",
+	"status":200,
+	"result":{
+		"filecode":"fb5asfuj2snh"
+	}
+}</pre>
+</div>
+
+<div class="function_div">
+<a name="upload_sub"></a>
+<h2>Upload Subtitle</h2>
+<strong>REQUEST</strong>
+<TMPL_IF srt_allow_url_upload><pre><b>GET</b> <TMPL_VAR api_url>/upload/sub?key=<TMPL_VAR usr_api_key>&file_code=<b>{file_code}</b>&sub_lang=<b>{sub_lang}</b>&sub_url=<b>{url}</b></pre></TMPL_IF>
+
+<strong>PARAMETERS</strong>
+<table>
+<tr>
+	<th>Name</th>
+	<th>Description</th>
+	<th>Example</th>
+	<th>Format</th>
+	<th>Required</th>
+</tr>
+<tr>
+	<td>key</td>
+	<td>API key</td>
+	<td><TMPL_VAR usr_api_key></td>
+	<td>STRING</td>
+	<td>yes</td>
+</tr>
+<tr>
+	<td>file_code</td>
+	<td>file code</td>
+	<td>gi4o0tlro01u</td>
+	<td>STRING</td>
+	<td>yes</td>
+</tr>
+<tr>
+	<td>sub_lang</td>
+	<td>Subtitle language code</td>
+	<td>eng</td>
+	<td>STRING</td>
+	<td>yes</td>
+</tr>
+<TMPL_IF srt_allow_url_upload>
+<tr>
+	<td>sub_url</td>
+	<td>URL to subtitle file</td>
+	<td>https://xvs.tt/1.srt</td>
+	<td>STRING</td>
+	<td></td>
+</tr>
+</TMPL_IF>
+<tr>
+	<td>sub_file</td>
+	<td>Subtitle file attachment</td>
+	<td>1.vtt</td>
+	<td>FILE</td>
+	<td></td>
+</tr>
+</table>
+
+<strong>CURL subtitle file upload sample:</strong>
+<pre>curl -X POST -F 'key=<TMPL_VAR usr_api_key>' -F 'file_code=cnypqbf2t79l' -F 'sub_lang=eng' -F 'sub_file=@1.vtt' https://xvs.tt/api/upload/sub</pre>
+
+<strong>RESPONSE</strong>
+returns future filecode that will work after upload complete
+<pre>{
+	"msg":"OK",
+	"server_time":"2021-08-12 20:56:47",
+	"status":200
+}</pre>
+</div>
+
+<div class="function_div">
+<a name="file_info"></a>
+<h2>File Info</h2>
+<strong>REQUEST</strong>
+<pre><b>GET</b> <TMPL_VAR api_url>/file/info?key=<TMPL_VAR usr_api_key>&file_code=<b>{file_code}</b></pre>
+
+<strong>PARAMETERS</strong>
+<table>
+<tr>
+	<th>Name</th>
+	<th>Description</th>
+	<th>Example</th>
+	<th>Format</th>
+	<th>Required</th>
+</tr>
+<tr>
+	<td>key</td>
+	<td>API key</td>
+	<td><TMPL_VAR usr_api_key></td>
+	<td>STRING</td>
+	<td>yes</td>
+</tr>
+<tr>
+	<td>file_code</td>
+	<td>file code, or list separated by comma</td>
+	<td>gi4o0tlro01u,gi4o0tlro012</td>
+	<td>STRING</td>
+	<td>yes</td>
+</tr>
+</table>
+
+<strong>RESPONSE</strong>
+<pre>{
+	"msg":"OK",
+	"server_time":"2021-08-12 21:10:07",
+	"status":200,
+	"result":[
+		{
+		"file_views_full":"0",
+		"cat_id":"3",
+		"player_img":"http://img.xvs.tt/fb5asfuj2snh.jpg",
+		"status":200,
+		"file_code":"fb5asfuj2snh",
+		"file_last_download":"2021-08-12 20:56:54",
+		"canplay":1,
+		"file_public":"1",
+		"file_length":"60",
+		"file_title":"big buck bunny",
+		"file_views":"0",
+		"file_created":"2021-08-102 20:51:52",
+		"file_premium_only":"0",
+		"file_adult":"1",
+		"file_fld_id":"25",
+		"tags":"promo, high quality"
+		}
+	]
+}</pre>
+</div>
+
+<div class="function_div">
+<a name="file_edit"></a>
+<h2>File Edit</h2>
+<strong>REQUEST</strong>
+<pre><b>GET</b> <TMPL_VAR api_url>/file/edit?key=<TMPL_VAR usr_api_key>&file_code=<b>{file_code}</b>&file_title=<b>{file_title}</b></pre>
+
+<strong>PARAMETERS</strong>
+<table>
+<tr>
+	<th>Name</th>
+	<th>Description</th>
+	<th>Example</th>
+	<th>Format</th>
+	<th>Required</th>
+</tr>
+<tr>
+	<td>key</td>
+	<td>API key</td>
+	<td><TMPL_VAR usr_api_key></td>
+	<td>STRING</td>
+	<td>yes</td>
+</tr>
+<tr>
+	<td>file_code</td>
+	<td>File code or comma separated list</td>
+	<td>gi4o0tlro01u,hqpibyqwxumrt</td>
+	<td>STRING</td>
+	<td>yes</td>
+</tr>
+<tr>
+	<td>file_title</td>
+	<td>File title</td>
+	<td>The 100 S01E02</td>
+	<td>STRING</td>
+	<td></td>
+</tr>
+<tr>
+	<td>file_descr</td>
+	<td>File description</td>
+	<td>release by MegaDrive</td>
+	<td>STRING</td>
+	<td></td>
+</tr>
+<tr>
+	<td>cat_id</td>
+	<td>Category ID</td>
+	<td>5</td>
+	<td>INT</td>
+	<td></td>
+</tr>
+<tr>
+	<td>file_fld_id</td>
+	<td>Folder ID</td>
+	<td>25</td>
+	<td>INT</td>
+	<td></td>
+</tr>
+<tr>
+	<td>file_public</td>
+	<td>Public flag</td>
+	<td>1</td>
+	<td>INT</td>
+	<td></td>
+</tr>
+<tr>
+	<td>file_adult</td>
+	<td>Adult flag</td>
+	<td>0</td>
+	<td>INT</td>
+	<td></td>
+</tr>
+<TMPL_IF usr_premium_only>
+<tr>
+	<td>file_premium_only</td>
+	<td>Premium Only flag</td>
+	<td>1</td>
+	<td>INT</td>
+	<td></td>
+</tr>
+</TMPL_IF>
+<tr>
+	<td>tags</td>
+	<td>File tags</td>
+	<td>promo, high quality</td>
+	<td>STRING</td>
+	<td></td>
+</tr>
+</table>
+
+<strong>RESPONSE</strong>
+<pre>{
+	"msg":"OK",
+	"server_time":"2021-08-13 20:17:12",
+	"status":200,
+	"result":"true"
+}</pre>
+</div>
+
+<div class="function_div">
+<a name="file_list"></a>
+<h2>File List</h2>
+<strong>REQUEST</strong>
+<pre><b>GET</b> <TMPL_VAR api_url>/file/list?key=<TMPL_VAR usr_api_key></pre>
+
+<strong>PARAMETERS</strong>
+<table>
+<tr>
+	<th>Name</th>
+	<th>Description</th>
+	<th>Example</th>
+	<th>Format</th>
+	<th>Required</th>
+</tr>
+<tr>
+	<td>key</td>
+	<td>API key</td>
+	<td><TMPL_VAR usr_api_key></td>
+	<td>STRING</td>
+	<td>yes</td>
+</tr>
+<tr>
+	<td>fld_id</td>
+	<td>Folder ID</td>
+	<td>25</td>
+	<td>INT</td>
+	<td></td>
+</tr>
+<tr>
+	<td>title</td>
+	<td>Filter videos by title</td>
+	<td>Iron man</td>
+	<td>STRING</td>
+	<td></td>
+</tr>
+<tr>
+	<td>created</td>
+	<td>Show only videos uploaded after timestamp.<br>Specify number to show videos uploaded X minutes ago</td>
+	<td><nobr>2021-07-21 05:07:10</nobr></td>
+	<td>STRING</td>
+	<td></td>
+</tr>
+<tr>
+	<td>public</td>
+	<td>Show public (1) or private (0) videos only, empty to show all</td>
+	<td>1</td>
+	<td>INT</td>
+	<td></td>
+</tr>
+<tr>
+	<td>adult</td>
+	<td>Show adult (1) or safe (0) videos only, empty to show all</td>
+	<td>0</td>
+	<td>INT</td>
+	<td></td>
+</tr>
+<TMPL_IF usr_premium_only>
+<tr>
+	<td>premium_only</td>
+	<td>Show Premium Only (1) or Free (0) videos only, empty to show all</td>
+	<td>0</td>
+	<td>INT</td>
+	<td></td>
+</tr>
+</TMPL_IF>
+<tr>
+	<td>per_page</td>
+	<td>Number of results per page</td>
+	<td>50</td>
+	<td>INT</td>
+	<td></td>
+</tr>
+<tr>
+	<td>page</td>
+	<td>Page number</td>
+	<td>2</td>
+	<td>INT</td>
+	<td></td>
+</tr>
+</table>
+
+<strong>RESPONSE</strong>
+<pre>{
+	"msg":"OK",
+	"server_time":"2021-08-13 20:35:18",
+	"status":200,
+	"result":
+	{
+		"files":[
+			{
+				"thumbnail":"http://img.xvs.tt/fb5asfuj2snh_t.jpg",
+				"link":"http://xvs.tt/fb5asfuj2snh.html",
+				"file_code":"fb5asfuj2snh",
+				"canplay":1,
+				"length":"60",
+				"views":"0",
+				"uploaded":"2021-07-12 20:56:54",
+				"public":"0",
+				"fld_id":"0",
+				"title":"Test 123"
+			}
+		],
+		"results_total":9,
+		"pages":9,
+		"results":1
+	}
+}</pre>
+</div>
+
+<TMPL_IF m_6_direct>
+<div class="function_div">
+<a name="file_direct_link"></a>
+<h2>File Direct Link</h2>
+<strong>REQUEST</strong>
+<pre><b>GET</b> <TMPL_VAR api_url>/file/direct_link?key=<TMPL_VAR usr_api_key>&file_code=<b>{file_code}</b></pre>
+
+<strong>PARAMETERS</strong>
+<table>
+<tr>
+	<th>Name</th>
+	<th>Description</th>
+	<th>Example</th>
+	<th>Format</th>
+	<th>Required</th>
+</tr>
+<tr>
+	<td>key</td>
+	<td>API key</td>
+	<td><TMPL_VAR usr_api_key></td>
+	<td>STRING</td>
+	<td>yes</td>
+</tr>
+<tr>
+	<td>file_code</td>
+	<td>File code</td>
+	<td>fb5asfuj2snh</td>
+	<td>STRING</td>
+	<td>yes</td>
+</tr>
+<tr>
+	<td>q</td>
+	<td>Video quality if available. Possible values:  n , h , l, o</td>
+	<td>n</td>
+	<td>STRING</td>
+	<td></td>
+</tr>
+<tr>
+	<td>hls</td>
+	<td>Generate HLS manifest URL (HLS mod required)</td>
+	<td>1</td>
+	<td>INT</td>
+	<td></td>
+</tr>
+</table>
+
+<strong>RESPONSE</strong>
+<pre>{
+	"msg":"OK",
+	"server_time":"2022-11-12 05:32:27",
+	"status":200,
+	"result":
+	{
+		"versions":[
+			{"url":"http://s1.xvs.tt/zqsccwdttqsal2eyd2pjrlvodgh7iyejldkogrnzwypvlnajbosxsuchfurq/v.mp4","name":"n","size":"120755726"},
+			{"url":"http://s1.xvs.tt/zqsccwdttqsal2eyd2pjrlvodgh7iyejldkogrnzwapvlnajbostzwskpx4a/v.mp4","name":"h","size":"135481436"},
+			{"url":"http://s1.xvs.tt/zqsccwdttqsal2eyd2pjrlvodgh7iyejldkogrnzwqpvlnajbosrpvmuh5la/v.mp4","name":"l","size":"34744877"},
+			{"url":"http://s1.xvs.tt/zqsccwdttqsal2eyd2pjrlvodgh7iyejldkogrnzw4pvlnajbosyx264xtsq/v.mp4","name":"o","size":"319256576"}
+		],
+		"file_length":"1560",
+		"player_img":"http://img.xvs.tt/abnormamorph.jpg",
+		"hls_direct":"http://s1.xvs.tt/hls/zqsccwdttqsal2eyd2pjrlvodgh7iyejldkogrnzw,qpvlnajbosrpvmuh5la,ypvlnajbosxsuchfurq,apvlnajbostzwskpx4a,.urlset/master.m3u8"
+	}
+}</pre>
+</div>
+</TMPL_IF>
+
+<TMPL_IF m_6_clone>
+<div class="function_div">
+<a name="file_clone"></a>
+<h2>File Clone</h2>
+<strong>REQUEST</strong>
+<pre><b>GET</b> <TMPL_VAR api_url>/file/clone?key=<TMPL_VAR usr_api_key>&file_code=<b>{file_code}</b></pre>
+
+<strong>PARAMETERS</strong>
+<table>
+<tr>
+	<th>Name</th>
+	<th>Description</th>
+	<th>Example</th>
+	<th>Format</th>
+	<th>Required</th>
+</tr>
+<tr>
+	<td>key</td>
+	<td>API key</td>
+	<td><TMPL_VAR usr_api_key></td>
+	<td>STRING</td>
+	<td>yes</td>
+</tr>
+<tr>
+	<td>file_code</td>
+	<td>Source file code</td>
+	<td>abnormamorph</td>
+	<td>STRING</td>
+	<td>yes</td>
+</tr>
+<tr>
+	<td>file_title</td>
+	<td>New file title if required</td>
+	<td>New video title</td>
+	<td>STRING</td>
+	<td></td>
+</tr>
+<tr>
+	<td>fld_id</td>
+	<td>Target folder id</td>
+	<td>5</td>
+	<td>INT</td>
+	<td></td>
+</tr>
+</table>
+
+<strong>RESPONSE</strong>
+<pre>{
+	"msg":"OK",
+	"server_time":"2022-11-12 19:39:58",
+	"status":200,
+	"result":
+	{
+		"url":"http://xvs.tt/u405p6qz5xpi",
+		"filecode":"u405p6qz5xpi"
+	}
+}</pre>
+</div>
+</TMPL_IF>
+
+<TMPL_IF m_6_delete>
+<div class="function_div">
+<a name="file_delete"></a>
+<h2>File Delete</h2>
+<strong>REQUEST</strong>
+<pre><b>GET</b> <TMPL_VAR api_url>/file/delete?key=<TMPL_VAR usr_api_key>&file_code=<b>{file_code}</b></pre>
+
+<strong>PARAMETERS</strong>
+<table>
+<tr>
+	<th>Name</th>
+	<th>Description</th>
+	<th>Example</th>
+	<th>Format</th>
+	<th>Required</th>
+</tr>
+<tr>
+	<td>key</td>
+	<td>API key</td>
+	<td><TMPL_VAR usr_api_key></td>
+	<td>STRING</td>
+	<td>yes</td>
+</tr>
+<tr>
+	<td>file_code</td>
+	<td>File code</td>
+	<td>abnormamorph</td>
+	<td>STRING</td>
+	<td>yes</td>
+</tr>
+</table>
+
+<strong>RESPONSE</strong>
+<pre>{
+	"msg":"OK",
+	"server_time":"2022-11-12 19:39:58",
+	"status":200
+}</pre>
+</div>
+</TMPL_IF>
+
+<div class="function_div">
+<a name="file_deleted"></a>
+<h2>Deleted Files</h2>
+<p>Get last deleted files list</p>
+<strong>REQUEST</strong>
+<pre><b>GET</b> <TMPL_VAR api_url>/file/deleted?key=<TMPL_VAR usr_api_key>&last=<b>{last}</b></pre>
+
+<strong>PARAMETERS</strong>
+<table>
+<tr>
+	<th>Name</th>
+	<th>Description</th>
+	<th>Example</th>
+	<th>Format</th>
+	<th>Required</th>
+</tr>
+<tr>
+	<td>key</td>
+	<td>API key</td>
+	<td><TMPL_VAR usr_api_key></td>
+	<td>STRING</td>
+	<td>yes</td>
+</tr>
+<tr>
+	<td>last</td>
+	<td>Show files deleted in last X hours</td>
+	<td>24</td>
+	<td>INT</td>
+	<td></td>
+</tr>
+</table>
+
+<strong>RESPONSE</strong>
+<pre>{
+	"msg":"OK",
+	"server_time":"2021-08-15 19:04:06",
+	"status":200,
+	"result":[
+		{
+			"file_code":"38j4wvxw164d",
+			"deleted_by":"me",
+			"deleted_ago_sec":"40",
+			"deleted":"2021-08-15 19:03:26",
+			"title":"Video 109779195"
+		}
+	]
+}</pre>
+</div>
+
+<div class="function_div">
+<a name="file_dmca"></a>
+<h2>File DMCA</h2>
+<p>Get files scheduled for DMCA delete</p>
+<strong>REQUEST</strong>
+<pre><b>GET</b> <TMPL_VAR api_url>/file/dmca?key=<TMPL_VAR usr_api_key>&last=<b>{last}</b></pre>
+
+<strong>PARAMETERS</strong>
+<table>
+<tr>
+	<th>Name</th>
+	<th>Description</th>
+	<th>Example</th>
+	<th>Format</th>
+	<th>Required</th>
+</tr>
+<tr>
+	<td>key</td>
+	<td>API key</td>
+	<td><TMPL_VAR usr_api_key></td>
+	<td>STRING</td>
+	<td>yes</td>
+</tr>
+<tr>
+	<td>last</td>
+	<td>Show files reported last X hours only</td>
+	<td>24</td>
+	<td>INT</td>
+	<td></td>
+</tr>
+</table>
+
+<strong>RESPONSE</strong>
+<pre>{
+	"msg":"OK",
+	"server_time":"2021-08-15 19:31:48",
+	"status":200,
+	"result":[
+		{
+			"file_code":"x2q5h0uhfzdu",
+			"del_in_sec":"42097",
+			"del_time":"2021-08-16 07:13:25"
+		}
+	]
+}</pre>
+</div>
+
+<div class="function_div">
+<a name="folder_list"></a>
+<h2>Folder List</h2>
+<strong>REQUEST</strong>
+<pre><b>GET</b> <TMPL_VAR api_url>/folder/list?key=<TMPL_VAR usr_api_key>&fld_id=<b>{fld_id}</b>&files=1</pre>
+
+<strong>PARAMETERS</strong>
+<table>
+<tr>
+	<th>Name</th>
+	<th>Description</th>
+	<th>Example</th>
+	<th>Format</th>
+	<th>Required</th>
+</tr>
+<tr>
+	<td>key</td>
+	<td>API key</td>
+	<td><TMPL_VAR usr_api_key></td>
+	<td>STRING</td>
+	<td>yes</td>
+</tr>
+<tr>
+	<td>fld_id</td>
+	<td>Parent folder id, default=0</td>
+	<td>25</td>
+	<td>INT</td>
+	<td></td>
+</tr>
+<tr>
+	<td>files</td>
+	<td>Show file list in this folder</td>
+	<td>1</td>
+	<td>INT</td>
+	<td></td>
+</tr>
+</table>
+
+<strong>RESPONSE</strong>
+<pre>{
+	"msg":"OK",
+	"server_time":"2021-08-15 19:54:22",
+	"status":200,
+	"result":{
+		"folders":[
+			{
+				"name":"Breaking Bad",
+				"fld_id":"16",
+				"code":"4pwb4yvp7v"
+			},
+			{
+				"name":"Travis",
+				"fld_id":"15",
+				"code":"68dth39m76"
+			}
+		],
+		"files":[
+			{
+				"thumbnail":"http://img.xvs.tt/abnormamorph_t.jpg",
+				"link":"http://xvs.tt/abnormamorph.html",
+				"file_code":"abnormamorph",
+				"canplay":1,
+				"length":"1560",
+				"views":"10",
+				"uploaded":"2021-08-20 20:37:22",
+				"public":"0",
+				"fld_id":"0",
+				"title":"Tri pljus dva 2012 SATRip"
+			}
+		]
+	}
+}</pre>
+</div>
+
+<div class="function_div">
+<a name="folder_create"></a>
+<h2>Folder Create</h2>
+<strong>REQUEST</strong>
+<pre><b>GET</b> <TMPL_VAR api_url>/folder/create?key=<TMPL_VAR usr_api_key>&name=<b>{name}</b>&parent_id=<b>{parent_id}</b></pre>
+
+<strong>PARAMETERS</strong>
+<table>
+<tr>
+	<th>Name</th>
+	<th>Description</th>
+	<th>Example</th>
+	<th>Format</th>
+	<th>Required</th>
+</tr>
+<tr>
+	<td>key</td>
+	<td>API key</td>
+	<td><TMPL_VAR usr_api_key></td>
+	<td>STRING</td>
+	<td>yes</td>
+</tr>
+<tr>
+	<td>name</td>
+	<td>Folder name</td>
+	<td>New Videos</td>
+	<td>STRING</td>
+	<td>yes</td>
+</tr>
+<tr>
+	<td>parent_id</td>
+	<td>Parent Folder ID</td>
+	<td>0</td>
+	<td>INT</td>
+	<td></td>
+</tr>
+<tr>
+	<td>descr</td>
+	<td>Folder description</td>
+	<td>new stuff</td>
+	<td>STRING</td>
+	<td></td>
+</tr>
+</table>
+
+<strong>RESPONSE</strong>
+<pre>{
+	"msg":"OK",
+	"server_time":"2021-08-18 20:32:46",
+	"status":200,
+	"result":
+	{
+		"fld_id":"29"
+	}
+}</pre>
+</div>
+
+<div class="function_div">
+<a name="folder_edit"></a>
+<h2>Folder Edit</h2>
+<p>Update folder details, skipped fields won't be updated</p>
+<strong>REQUEST</strong>
+<pre><b>GET</b> <TMPL_VAR api_url>/folder/edit?key=<TMPL_VAR usr_api_key>&fld_id=<b>{fld_id}</b>&name=<b>{name}</b></pre>
+
+<strong>PARAMETERS</strong>
+<table>
+<tr>
+	<th>Name</th>
+	<th>Description</th>
+	<th>Example</th>
+	<th>Format</th>
+	<th>Required</th>
+</tr>
+<tr>
+	<td>key</td>
+	<td>API key</td>
+	<td><TMPL_VAR usr_api_key></td>
+	<td>STRING</td>
+	<td>yes</td>
+</tr>
+<tr>
+	<td>fld_id</td>
+	<td>Folder ID</td>
+	<td>25</td>
+	<td>INT</td>
+	<td>yes</td>
+</tr>
+<tr>
+	<td>name</td>
+	<td>Folder name</td>
+	<td>Movies 2021</td>
+	<td>STRING</td>
+	<td></td>
+</tr>
+<tr>
+	<td>parent_id</td>
+	<td>Parent Folder ID</td>
+	<td>0</td>
+	<td>INT</td>
+	<td></td>
+</tr>
+<tr>
+	<td>descr</td>
+	<td>Folder description</td>
+	<td>old stuff</td>
+	<td>STRING</td>
+	<td></td>
+</tr>
+</table>
+
+<strong>RESPONSE</strong>
+<pre>{
+	"msg":"OK",
+	"server_time":"2021-08-18 21:21:44",
+	"status":200,
+	"result":"true"
+}</pre>
+</div>
+
+<div class="function_div">
+<a name="folder_delete"></a>
+<h2>Folder Delete</h2>
+<p>Delete folder. Folder should be empty and have no files / subfolders.</p>
+<strong>REQUEST</strong>
+<pre><b>GET</b> <TMPL_VAR api_url>/folder/delete?key=<TMPL_VAR usr_api_key>&fld_id=<b>{fld_id}</b></pre>
+
+<strong>PARAMETERS</strong>
+<table>
+<tr>
+	<th>Name</th>
+	<th>Description</th>
+	<th>Example</th>
+	<th>Format</th>
+	<th>Required</th>
+</tr>
+<tr>
+	<td>key</td>
+	<td>API key</td>
+	<td><TMPL_VAR usr_api_key></td>
+	<td>STRING</td>
+	<td>yes</td>
+</tr>
+<tr>
+	<td>fld_id</td>
+	<td>Folder ID</td>
+	<td>25</td>
+	<td>INT</td>
+	<td>yes</td>
+</tr>
+</table>
+
+<strong>RESPONSE</strong>
+<pre>{
+	"msg":"OK",
+	"server_time":"2021-08-18 21:21:44",
+	"status":200
+}</pre>
+</div>
+
+<div class="function_div">
+<a name="file_encodings"></a>
+<h2>File Encodings</h2>
+<p>Get current encoding queues</p>
+<strong>REQUEST</strong>
+<pre><b>GET</b> <TMPL_VAR api_url>/file/encodings?key=<TMPL_VAR usr_api_key></pre>
+
+<strong>PARAMETERS</strong>
+<table>
+<tr>
+	<th>Name</th>
+	<th>Description</th>
+	<th>Example</th>
+	<th>Format</th>
+	<th>Required</th>
+</tr>
+<tr>
+	<td>key</td>
+	<td>API key</td>
+	<td><TMPL_VAR usr_api_key></td>
+	<td>STRING</td>
+	<td>yes</td>
+</tr>
+<tr>
+	<td>file_code</td>
+	<td>Filter by File code</td>
+	<td>fb5asfuj2snh</td>
+	<td>STRING</td>
+	<td></td>
+</tr>
+</table>
+
+<strong>RESPONSE</strong>
+<pre>{
+	"msg":"OK",
+	"server_time":"2021-08-18 21:44:09",
+	"status":200,
+	"result":[
+		{"link":"http://xvs.tt/fb5asfuj2snh.html","progress":15,"status":"ENCODING","title":"Test video","quality":"h","file_code":"fb5asfuj2snh"},
+		{"link":"http://xvs.tt/fb5asfuj2snh.html","progress":0,"status":"PENDING","title":"Test video","quality":"l","file_code":"fb5asfuj2snh"}
+	]
+}</pre>
+</div>
+
+<div class="function_div">
+<a name="file_urluploads"></a>
+<h2>File URL Uploads</h2>
+<p>Get current encoding queues</p>
+<strong>REQUEST</strong>
+<pre><b>GET</b> <TMPL_VAR api_url>/file/url_uploads?key=<TMPL_VAR usr_api_key></pre>
+
+<strong>PARAMETERS</strong>
+<table>
+<tr>
+	<th>Name</th>
+	<th>Description</th>
+	<th>Example</th>
+	<th>Format</th>
+	<th>Required</th>
+</tr>
+<tr>
+	<td>key</td>
+	<td>API key</td>
+	<td><TMPL_VAR usr_api_key></td>
+	<td>STRING</td>
+	<td>yes</td>
+</tr>
+<tr>
+	<td>file_code</td>
+	<td>Filter by File code</td>
+	<td>fb5asfuj2snh</td>
+	<td>STRING</td>
+	<td></td>
+</tr>
+</table>
+
+<strong>RESPONSE</strong>
+<pre>{
+	"requests_available":2,
+	"msg":"OK",
+	"server_time":"2022-06-14 20:30:20",
+	"status":200,
+	"result":[
+		{"remote_url":"https://xvs.tt/1.mp4","progress":0,"status":"PENDING","file_code":"","fld_id":"0"},
+		{"remote_url":"https://xvs.tt/2.mp4","progress":0,"status":"PENDING","file_code":"xyayxm9ajlys","fld_id":"7"}
+	]
+}</pre>
+</div>
+
+<div class="function_div">
+<a name="file_urlactions"></a>
+<h2>File URL Uploads Actions</h2>
+<p>Get current encoding queues</p>
+<strong>REQUEST</strong>
+<pre><b>GET</b> <TMPL_VAR api_url>/file/url_actions?key=<TMPL_VAR usr_api_key></pre>
+
+<strong>PARAMETERS</strong>
+<table>
+<tr>
+	<th>Name</th>
+	<th>Description</th>
+	<th>Example</th>
+	<th>Format</th>
+	<th>Required</th>
+</tr>
+<tr>
+	<td>key</td>
+	<td>API key</td>
+	<td><TMPL_VAR usr_api_key></td>
+	<td>STRING</td>
+	<td>yes</td>
+</tr>
+<tr>
+	<td>restart_errors</td>
+	<td>Restart all failed uploads</td>
+	<td>1</td>
+	<td>INT</td>
+	<td></td>
+</tr>
+<tr>
+	<td>delete_errors</td>
+	<td>Delete all failed uploads</td>
+	<td>1</td>
+	<td>INT</td>
+	<td></td>
+</tr>
+<tr>
+	<td>delete_all</td>
+	<td>Delete all current uploads</td>
+	<td>1</td>
+	<td>INT</td>
+	<td></td>
+</tr>
+<tr>
+	<td>delete_code</td>
+	<td>Delete specific uploads by code</td>
+	<td>xyayxm9ajlys,6bnyg8rnu11e</td>
+	<td>STRING</td>
+	<td></td>
+</tr>
+</table>
+
+<strong>RESPONSE</strong>
+<pre>{
+	"requests_available":2,
+	"msg":"OK",
+	"server_time":"2022-06-14 20:30:20",
+	"status":200
+}</pre>
+</div>
+
+<TMPL_IF admin>
+<div class="function_div">
+<a name="adm_delete"></a>
+<h2>Admin File Delete</h2>
+<strong>REQUEST</strong>
+<pre><b>GET</b> <TMPL_VAR api_url>/adm/delete_file?key=<TMPL_VAR usr_api_key>&file_code=<b>{file_code}</b></pre>
+
+<strong>PARAMETERS</strong>
+<table>
+<tr>
+	<th>Name</th>
+	<th>Description</th>
+	<th>Example</th>
+	<th>Format</th>
+	<th>Required</th>
+</tr>
+<tr>
+	<td>key</td>
+	<td>API key</td>
+	<td><TMPL_VAR usr_api_key></td>
+	<td>STRING</td>
+	<td>yes</td>
+</tr>
+<tr>
+	<td>file_code</td>
+	<td>File code</td>
+	<td>abnormamorph</td>
+	<td>STRING</td>
+	<td>yes</td>
+</tr>
+</table>
+
+<strong>RESPONSE</strong>
+<pre>{
+	"msg":"OK",
+	"server_time":"2022-11-12 19:39:58",
+	"status":200
+}</pre>
+</div>
+
+<div class="function_div">
+<a name="adm_user_add"></a>
+<h2>Admin User Add</h2>
+<strong>REQUEST</strong>
+<pre><b>GET</b> <TMPL_VAR api_url>/adm/user_add?key=<TMPL_VAR usr_api_key>&login=<b>{login}</b>&password=<b>{password}</b></pre>
+
+<strong>PARAMETERS</strong>
+<table>
+<tr>
+	<th>Name</th>
+	<th>Description</th>
+	<th>Example</th>
+	<th>Format</th>
+	<th>Required</th>
+</tr>
+<tr>
+	<td>key</td>
+	<td>API key</td>
+	<td><TMPL_VAR usr_api_key></td>
+	<td>STRING</td>
+	<td>yes</td>
+</tr>
+<tr>
+	<td>login</td>
+	<td>New user login</td>
+	<td>uploader21</td>
+	<td>STRING</td>
+	<td>yes</td>
+</tr>
+<tr>
+	<td>password</td>
+	<td>New user password</td>
+	<td>pass4us</td>
+	<td>STRING</td>
+	<td>yes</td>
+</tr>
+<tr>
+	<td>email</td>
+	<td>E-mail</td>
+	<td>u21@gmail.com</td>
+	<td>STRING</td>
+	<td></td>
+</tr>
+<tr>
+	<td>pay_info</td>
+	<td>Payment info</td>
+	<td>u21pp@gmail.com</td>
+	<td>STRING</td>
+	<td></td>
+</tr>
+<tr>
+	<td>pay_type</td>
+	<td>Payment type</td>
+	<td>paypal</td>
+	<td>STRING</td>
+	<td></td>
+</tr>
+<tr>
+	<td>money</td>
+	<td>Initial money balance</td>
+	<td>2.50</td>
+	<td>FLOAT</td>
+	<td></td>
+</tr>
+<tr>
+	<td>notes</td>
+	<td>Custom notes</td>
+	<td>new content uploader</td>
+	<td>STRING</td>
+	<td></td>
+</tr>
+</table>
+
+<strong>RESPONSE</strong>
+<pre>{
+	"msg":"OK",
+	"server_time":"2022-11-12 19:39:58",
+	"status":200,
+	"result":"34"
+}</pre>
+</div>
+</TMPL_IF>
+
+</div>
+
+<script>
+$("a[href^='#']").click(function(e) {
+    //e.preventDefault();
+    var name = $(this).attr("href");
+    $('html,body').animate({scrollTop: $("a[name='"+name.substring(1)+"']").offset().top},'slow');
+});
+</script>

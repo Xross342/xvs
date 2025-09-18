@@ -1,0 +1,49 @@
+XVideoSharing 2.2 Main script installation guide for CentOS 8, 64 bit
+
+Run these if yum will return errors:
+ find /etc/yum.repos.d -type f -exec sed -i 's/mirrorlist=http:\/\/mirrorlist.centos.org/\#mirrorlist=http:\/\/mirrorlist.centos.org/g' {} \;
+ find /etc/yum.repos.d -type f -exec sed -i 's/\#baseurl=http:\/\/mirror.centos.org/baseurl=http:\/\/vault.centos.org/g' {} \;
+
+>/etc/resolv.conf;echo "nameserver 209.244.0.3" >> /etc/resolv.conf;echo "nameserver 84.200.69.80" >> /etc/resolv.conf;echo "nameserver 8.8.4.4" >> /etc/resolv.conf;echo "nameserver 8.8.8.8" >> /etc/resolv.conf
+yum -y install curl epel-release
+yum config-manager --set-enabled powertools
+yum config-manager --set-enabled PowerTools
+yum config-manager --set-enabled epel-testing
+yum -y --nogpgcheck install curl perl-DBD-MySQL perl-Digest-HMAC perl-HTML-Template-Pro perl-libwww-perl perl-LWP-Protocol-https perl-XML-Simple perl-XML-SAX wget perl-Cache-Memcached perl-IO-Socket-SSL perl-Net-SSLeay perl-CGI perl-JSON perl-JSON-XS perl-GD sendmail perl-Filter perl-Digest-SHA1 perl-Net-SMTPS unzip mc mlocate atop htop psmisc net-tools tar screen rsync ca-certificates libmaxminddb-devel mariadb httpd mariadb-server
+systemctl enable --now chronyd
+
+
+* Configure MySQL (change DB-PASSWORD to your own password):
+echo -e "\n[mysqld]\nsql-mode=''\ncollation-server = utf8mb4_unicode_ci\ninit-connect='SET NAMES utf8mb4'\ncharacter-set-server = utf8mb4\nskip-character-set-client-handshake\n" >> /etc/my.cnf
+systemctl start mariadb.service
+
+echo -e "\nn\n\n\n\n\n" | /usr/bin/mysql_secure_installation
+
+mysqladmin create xvs
+mysql -e "GRANT ALL PRIVILEGES ON xvs.* TO 'xvs'@'localhost' IDENTIFIED BY 'xvs182' WITH GRANT OPTION;"
+
+* Configure Apache virtual host:
+setenforce 0
+perl -pi -e 's/=enforcing/=disabled/;' /etc/selinux/config
+perl -pi -e 's/Timeout 60/Timeout 360/;s/www\/html/www\/htdocs/g;s/AllowOverride None/AllowOverride All/;s/"logs\/error_log/"\/var\/www\/logs\/error_log/;s/CustomLog/#CustomLog/g;' /etc/httpd/conf/httpd.conf
+echo "TimeOut 600" >> /etc/httpd/conf/httpd.conf
+cd /var/www;rm -rf error;rm -rf html;rm -rf icons;mkdir htdocs;mkdir logs
+firewall-cmd --permanent --add-port=80/tcp;firewall-cmd --reload
+firewall-cmd --permanent --add-port=443/tcp;firewall-cmd --reload
+service httpd restart
+
+systemctl enable mariadb.service
+systemctl enable httpd.service
+systemctl enable sendmail.service
+
+* Copy main.zip to /var/www folder and unpack it:
+cd /var/www;unzip main.zip;rm -f main.zip;mv -f main/htdocs .;mv -f main/cgi-bin .;rmdir main
+cd cgi-bin;chmod 755 install_main.sh;./install_main.sh
+chown -R apache:apache /var/www
+
+Open install.cgi in browser: http://site.com/cgi-bin/install.cgi
+
+Now you can edit script templates, more information here:
+http://sibsoft.net/xvideosharing/info_templates_guide.html
+
+Have fun and Good luck!

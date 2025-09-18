@@ -1,0 +1,230 @@
+<script>
+  loadT('Server form');
+</script>
+
+<div class="block admin-settings p-0">
+<Form method="POST" onSubmit="return checkForm(this)">
+<input type="hidden" name="op" value="admin_server_save">
+<input type="hidden" name="token" value="<TMPL_VAR token>">
+<input type="hidden" name="srv_id" value="<TMPL_VAR srv_id>">
+  <table class="table settings-table mb-0 align-middle">
+    <tbody>
+<tr>
+    <td class="text-lg-end"><label class="col-form-label">Server name</label></td>
+    <td class="border-start">
+        <div class="row g-3">
+          <div class="col-auto">
+            <input type="text" name="srv_name" value="<TMPL_VAR srv_name>" class="form-control form-control-sm">
+          </div>
+          <TMPL_IF srv_id>
+          <div class="col-auto">
+            <a class="btn btn-sm btn-outline-primary me-2" href="?op=admin_server_import&srv_id=<TMPL_VAR srv_id><TMPL_VAR token_str>">Import files</a>
+            <a class="btn btn-sm btn-outline-danger" href="?op=admin_server_del&srv_id=<TMPL_VAR srv_id><TMPL_VAR token_str>" onClick="return confirm('WARNING: Delete server and all its files?')">delete server</a>
+          </div>
+          </TMPL_IF>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="text-lg-end"><label class="col-form-label">Host ID</label></td>
+    <td class="border-start"><input type="text" name="host_id" value="<TMPL_VAR host_id>" class="form-control form-control-sm" maxlength="4" style="width:100px;"></td>
+</tr>
+<tr>
+    <td class="text-lg-end"><label class="col-form-label">htdocs URL</label></td>
+    <td class="border-start"><input type="text" name="srv_htdocs_url" value="<TMPL_VAR srv_htdocs_url>" class="form-control form-control-sm"></td>
+</tr>
+<tr>
+    <td class="text-lg-end"><label class="col-form-label">cgi-bin URL</label></td>
+    <td class="border-start"><input type="text" name="srv_cgi_url" value="<TMPL_VAR srv_cgi_url>" class="form-control form-control-sm" id="cgiurl"></td>
+</tr>
+<tr>
+    <td class="text-lg-end"><label class="col-form-label">IP</label></td>
+    <td class="border-start"><input type="text" name="srv_ip" value="<TMPL_VAR srv_ip>" class="form-control form-control-sm"></td>
+</tr>
+<TMPL_IF srv_id>
+<tr>
+    <td class="text-lg-end"><label class="col-form-label">Created</label></td>
+    <td class="border-start"><TMPL_VAR srv_created></td>
+</tr>
+</TMPL_IF>
+<tr>
+    <td class="text-lg-end"><label class="col-form-label">Server type</label></td>
+    <td class="border-start">
+        <div class="check-radio mb-3">
+          <input type="radio" name="srv_type" value="STORAGE" id="type1"<TMPL_VAR srv_type_STORAGE>><label for="type1">STORAGE</label>
+        </div>
+        <div class="check-radio">
+          <input type="radio" name="srv_type" value="UPLOADER" id="type2"<TMPL_VAR srv_type_UPLOADER>><label for="type2">UPLOADER</label>
+        </div>
+        <!--input type="radio" name="srv_type" value="ENCODER" id="type3"<TMPL_VAR srv_type_ENCODER>><label for="type3">ENCODER</label-->
+    </td>
+</tr>
+<tr>
+    <td class="text-lg-end"><label class="col-form-label">Encoding</label></td>
+    <td class="border-start"><label class="form-switcher"><input type="checkbox" name="srv_encode" value="1" id="encc"<TMPL_UNLESS srv_id> checked</TMPL_UNLESS><TMPL_IF srv_encode> checked</TMPL_IF><TMPL_IF srv_type_ENCODER> checked disabled</TMPL_IF>></label></td>
+</tr>
+<tr>
+    <td class="text-lg-end"><label class="col-form-label">Status</label></td>
+    <td class="border-start">
+        <div class="mb-3">
+          <label class="check-radio"><input type="radio" name="srv_status" value="ON"<TMPL_VAR s_ON><TMPL_IF srv_type_ENCODER> disabled</TMPL_IF>><span class="fw-500">ON</span></label>
+          <small class="form-text">Uploads, downloads, file transfers</small>
+        </div>
+        <div class="mb-3">
+          <label class="check-radio"><input type="radio" name="srv_status" value="READONLY"<TMPL_VAR s_READONLY>><span class="fw-500">READONLY</span></label>
+          <small class="form-text">Downloads, file transfers</small>
+        </div>
+
+        <div class="mb-3">
+          <label class="check-radio"><input type="radio" name="srv_status" value="READONLY2"<TMPL_VAR s_READONLY2>><span class="fw-500">READONLY2</span></label>
+          <small class="form-text">Downloads only</small>
+        </div>
+
+        <div>
+          <label class="check-radio"><input type="radio" name="srv_status" value="OFF"<TMPL_VAR s_OFF>><span class="fw-500">OFF</span></label>
+          <small class="form-text">Server is not functioning</small>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="text-lg-end"><label class="col-form-label">Disk ID</label></td>
+    <td class="border-start">
+
+      <div class="row g-3 align-items-center">
+        <div class="col-auto"><input type="text" name="disk_id" value="<TMPL_VAR disk_id>" class="form-control form-control-sm" maxlength="2" style="max-width:50px"></div>
+        <div class="col-auto"><small class="text-muted">(e.g. 01, 02, ...)</small></div>
+      </div>
+
+
+
+    </td>
+</tr>
+<tr>
+    <td class="text-lg-end"><label class="col-form-label">HDD space</label></td>
+    <td class="border-start">
+
+
+      <div class="input-group input-group-sm" style="max-width: 150px;">
+                            <input type="text" name="srv_disk_max" value="<TMPL_VAR srv_disk_max>" class="form-control" maxlength="5">
+                            <span class="input-group-text">Gb</span>
+                          </div>
+
+
+
+    </td>
+</tr>
+<tr>
+    <td class="text-lg-end"><label class="col-form-label">Disk devices<br><input type="button" class="btn btn-outline-primary btn-sm" value="Get devices" onclick="$(this).hide();$.post('<TMPL_VAR site_url>/adm',{op:'admin_server_add',token:'<TMPL_VAR token>',get_dev:'1',srv_cgi_url:$('#cgiurl').val()},function(data){$('#iod').html(data)} );"></label></td>
+    <td class="border-start">
+
+
+      <div class="row g-3 align-items-center mb-3">
+        <div class="col-auto">
+
+          <div class="input-group input-group-sm" style="max-width: 150px;">
+            <span class="input-group-text">DF:</span>
+                                <input type="text" name="disk_dev_df" value="<TMPL_VAR disk_dev_df>" class="form-control" maxlength="6">
+
+                              </div>
+
+        </div>
+
+
+
+
+
+        <div class="col-auto"><small class="text-muted">(e.g. sda, sdb)</small></div>
+      </div>
+
+
+      <div class="row g-3 align-items-center">
+        <div class="col-auto">
+
+
+          <div class="input-group input-group-sm" style="max-width: 150px;">
+            <span class="input-group-text">IO:</span>
+                                <input type="text" name="disk_dev_io" value="<TMPL_VAR disk_dev_df>" class="form-control" maxlength="6">
+
+                              </div>
+
+        </div>
+      </div>
+        <div id="iod" style="font:12px Verdana;color:#373;"></div>
+    </td>
+</tr>
+<tr class="extraserv1">
+	<td colspan=2 align=center><a href="#" onclick="$('.extraserv1').hide();$('.extraserv').show();return false;">Extra settings</a></td>
+</tr>
+<tr class="inv extraserv" style="display: none;">
+    <td class="text-lg-end"><label class="col-form-label">Server only for</label></td>
+    <td class="border-start">
+        <div class="mb-3 check-radio"><input type="checkbox" name="srv_allow_regular" value="1" id="alr"<TMPL_IF srv_allow_regular> checked</TMPL_IF>><label for="alr">Regular users</label></div>
+        <div class="check-radio"><input type="checkbox" name="srv_allow_premium" value="1" id="alp"<TMPL_IF srv_allow_premium> checked</TMPL_IF>><label for="alp">Premium users</label></div>
+    </td>
+</tr>
+<tr class="inv extraserv" style="display: none;">
+    <td class="text-lg-end"><label class="col-form-label">Special users upload only</label></td>
+    <td class="border-start">
+
+
+      <div class="row g-3 align-items-center">
+        <div class="col-auto"><input type="text" name="srv_users_only" value="<TMPL_VAR srv_users_only>" class="form-control form-control-sm"> </div>
+        <div class="col-auto"><small class="text-muted">(e.g. 1,5,37)</small></div>
+      </div>
+
+
+
+    </td>
+</tr>
+<tr class="inv extraserv" style="display: none;">
+    <td class="text-lg-end"><label class="col-form-label">Selected countries upload only</label></td>
+    <td class="border-start">
+
+
+
+          <div class="row g-3 align-items-center">
+            <div class="col-auto"><input type="text" name="srv_countries_only" value="<TMPL_VAR srv_countries_only>" class="form-control form-control-sm"></div>
+            <div class="col-auto"><small class="text-muted">(e.g. US,CA)</small></div>
+          </div>
+
+
+    </td>
+</tr>
+
+<TMPL_IF tests>
+<tr>
+  <td class="text-lg-end"><label class="col-form-label">Server tests:</label></td>
+    <td class="border-start">
+        <TMPL_LOOP tests>
+        <div class="<TMPL_VAR class>"><TMPL_VAR text></div>
+        </TMPL_LOOP>
+    </td></tr>
+</TMPL_IF>
+</tbody>
+</table>
+<div class="text-center p-3">
+  <input type="submit" name="save" value="Save" class="btn btn-primary submit-btn">
+</div>
+</Form>
+</div>
+
+
+
+<Script>
+function checkForm(f1)
+{
+    if(f1.srv_name.value.length<2){alert("Enter server name at least 2 chars");return false;}
+    if(f1.srv_cgi_url.value.length<5){alert("Enter valid cgi-bin URL");return false;}
+    if(f1.srv_htdocs_url.value.length<5){alert("Enter valid files URL");return false;}
+    if(!f1.srv_allow_regular.checked && !f1.srv_allow_premium.checked){alert("Choose at least one type of users server will be used for");return false;}
+    if(parseInt(f1.srv_disk_max.value) <= 0 || !parseInt(f1.srv_disk_max.value)){alert("Specify HDD space");return false;}
+    return true;
+}
+$("input[name='srv_type']").click(function(){
+    if($(this).val()=='ENCODER') { $("#encc,#sm1").prop('disabled', 'disabled'); $("#sm2").prop('checked',true); }
+    else { $("#encc,#sm1").prop('disabled', '') }
+});
+// $("a.xdf").click(function(){
+//     $("input[name=disk_dev_df]").val($(this).text());
+// });
+</Script>

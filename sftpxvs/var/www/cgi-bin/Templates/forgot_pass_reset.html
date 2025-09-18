@@ -1,0 +1,22 @@
+<div class="container">
+	<form method="POST" onsubmit="if(this.password.value!=this.password2.value){ alert('Passwords do not match!'); return false; }">
+		<input type="hidden" name="op" value="forgot_pass">
+		<input type="hidden" name="sess_id" value="<TMPL_VAR sess_id>">
+		<div class="login">
+			<h1 class="fs-3 text-dark mb-4">Reset password></h1>
+			<div class="text-center">
+				<div class="form-floating mb-4">
+					<input class="form-control" id="usr_login" placeholder="" type="password" name="password">
+					<label for="usr_login"> New password: </label>
+				</div>
+				<div class="form-floating mb-4">
+					<input class="form-control" id="usr_login" placeholder="" type="password" name="password2">
+					<label for="usr_login"> Retype new password: </label>
+				</div>
+				<div class="text-center">
+					<input type="submit" value="Proceed" class="btn btn-primary submit-btn">
+				</div>
+			</div>
+		</div>
+	</form>
+</div>

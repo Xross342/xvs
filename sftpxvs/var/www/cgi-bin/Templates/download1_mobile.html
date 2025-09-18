@@ -1,0 +1,546 @@
+<div class="container">
+  <section class="page">
+
+<script src="<TMPL_VAR static_url>/js/jquery.cookie.js"></script>
+<script>
+$.cookie('file_id', '<TMPL_VAR file_id>', { expires: 10 });
+<TMPL_IF aff>$.cookie('aff', '<TMPL_VAR aff>', { expires: 10 });</TMPL_IF>
+<TMPL_IF referer>$.cookie('ref_url', '<TMPL_VAR referer>', { expires: 10 });</TMPL_IF>
+</script>
+
+<TMPL_IF devtools_mode><TMPL_INCLUDE detector_devtools.html></TMPL_IF>
+
+<TMPL_IF usr_disable_adb>
+	<TMPL_IF adb_mode><TMPL_INCLUDE detector_adb.html></TMPL_IF>
+</TMPL_IF>
+
+
+<TMPL_IF msg>
+	<div class="alert alert-danger">
+		<TMPL_VAR msg>
+	</div>
+</TMPL_IF>
+
+
+
+<div class="row">
+    <div class="col-xl-9">
+			<TMPL_IF video_code_html>
+      <div class="preview mb-4">
+        <div xclass="ratio ratio-16x9" style="aspect-ratio:16/9; xmax-height:calc(100vh/1.5);">
+					<div id="play_limit_box" style="display: none;">
+			    	<a href="/premium.html"><TMPL_VAR lng_download_upgrade_your_account></a> <TMPL_VAR lng_download_to_watch_no_limits>
+			    </div>
+			    <TMPL_IF preview_message><div id="over_player_msg" style="display:none;"><TMPL_VAR preview_message></div></TMPL_IF>
+
+			    <TMPL_VAR video_code_html>
+        </div>
+      </div>
+			</TMPL_IF>
+
+
+			<TMPL_IF video_wait>
+			<div class="preview mb-4">
+				<div class="ratio ratio-16x9">
+			    <img src="<TMPL_VAR video_img_url>" alt="">
+			    <TMPL_IF msg2>
+			      <div id="over_player_msg"><TMPL_VAR msg2></div>
+			    </TMPL_IF>
+			</div>
+			</div>
+			</TMPL_IF>
+
+
+
+            <div class="download mb-4">
+              <div class="block">
+                <div class="row flex-nowrap g-3">
+									<TMPL_IF user_avatar_url>
+                  <div class="col-auto">
+                    <img src="<TMPL_VAR user_avatar_url>" class="channel-avatar">
+                  </div>
+									</TMPL_IF>
+
+                  <div class="col-auto flex-grow-1 flex-shrink-1 mb-0">
+                    <div class="row align-items-center g-3">
+                      <div class="col-auto flex-grow-1 flex-shrink-1">
+                        <h1 class="download-title text-truncate mb-2">
+													<span<TMPL_IF edit_ok> class="me-2"</TMPL_IF> ><TMPL_VAR file_title></span>
+													<TMPL_IF edit_ok> <a href="/?op=file_edit&amp;file_code=<TMPL_VAR file_code>"><img src="/images2/edit.svg" alt=""></a></TMPL_IF>
+												</h1>
+                        <div class="download-meta">
+                          <div>
+                            <span><TMPL_VAR lng_download_on_time> <TMPL_VAR file_created_txt> <a href="/users/<TMPL_VAR file_usr_login>" class="link-body-emphasis"><TMPL_VAR usr_channel_name></a></span>
+                          </div>
+                          <div><TMPL_VAR file_views> views</div>
+                          <div>
+                            <a href="#id_flag" data-bs-toggle="modal" class="text-muted">
+                              <svg class="me-1" xmlns="http://www.w3.org/2000/svg" width="14" height="15" fill="none">
+                                <path fill="currentColor" d="M.5.5h6.9c.3 0 .5.2.7.4L8.6 2H13c.4 0 .7.3.7.7v8.1c0 .4-.3.7-.7.7H8.3c-.3 0-.5-.2-.7-.4l-.5-1H2v4.4H.5V.5Z"></path>
+                              </svg><TMPL_VAR lng_download_report_abuse></a>
+                          </div>
+													<TMPL_IF my_login>
+                          <div>
+                            <a href="#add_to" data-bs-toggle="modal" class="text-muted">
+                              <svg class="me-1" width="15" height="14" viewBox="0 0 15 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M1.04096 0H13.4854C13.9521 0 14.2632 0.311111 14.2632 0.777778V13.2222C14.2632 13.6889 13.9521 14 13.4854 14H1.04096C0.574295 14 0.263184 13.6889 0.263184 13.2222V0.777778C0.263184 0.311111 0.574295 0 1.04096 0ZM6.48541 6.22222H3.37429V7.77778H6.48541V10.8889H8.04096V7.77778H11.1521V6.22222H8.04096V3.11111H6.48541V6.22222Z" fill="#7E879D"></path>
+                              </svg><TMPL_VAR lng_download_add_to_playlist></a>
+                          </div>
+													</TMPL_IF>
+													<TMPL_IF admin>
+                          <div>
+                            <a href="#" onclick="return jah('/adm?op=admin_files_featured&amp;ajax_toggle=<TMPL_VAR file_id>','fft')" class="link-primary-emphasis">
+															<b><TMPL_IF featured>Remove from Featured<TMPL_ELSE>Add to Featured</TMPL_IF></b>
+														</a>
+                          </div>
+													</TMPL_IF>
+                        </div>
+                      </div>
+                      <div class="col-auto">
+                        <div class="download-rating" id="vote">
+                          <button class="btn btn-outline-light rating-minus active m-1 vote_down<TMPL_VAR voted_down>" onclick="return jah('/?op=vote&file_code=<TMPL_VAR file_code>&v=down')" title="<TMPL_VAR lng_download_dislike>">
+                            <svg class="me-1" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path fill-rule="evenodd" clip-rule="evenodd" d="M11.8816 1.29119C11.5098 0.50107 10.7406 -0.000304222 9.89887 -0.000304222H5.15812C4.3435 -0.000304222 3.68375 0.690946 3.68375 1.54407V7.51945C3.68375 8.04795 3.857 8.5607 4.17375 8.97282L7.36837 13.1221H8.10512C8.512 13.1221 8.84188 12.7764 8.84188 12.3503V8.49069H12.5265C13.3403 8.49069 14 7.79945 14 6.9472V5.78957L11.8816 1.29119ZM0 7.71895H2.21025V-0.000304222H0V7.71895Z" fill="currentColor"></path>
+                            </svg>
+                            <span id="dislikes_num"><TMPL_VAR dislikes></span>
+                          </button>
+                          <button class="btn btn-outline-light rating-plus m-1 vote_up<TMPL_VAR voted_up>" onclick="return jah('/?op=vote&file_code=<TMPL_VAR file_code>&v=up')" title="<TMPL_VAR lng_download_like>">
+                            <svg class="me-1" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <path fill-rule="evenodd" clip-rule="evenodd" d="M11.8816 11.8309C11.5098 12.621 10.7406 13.1224 9.89887 13.1224H5.15812C4.3435 13.1224 3.68375 12.4311 3.68375 11.578V5.60262C3.68375 5.07412 3.857 4.56138 4.17375 4.14925L7.36837 0H8.10512C8.512 0 8.84188 0.345625 8.84188 0.77175V4.63138H12.5265C13.3403 4.63138 14 5.32263 14 6.17488V7.3325L11.8816 11.8309ZM0 5.40313H2.21025V13.1224H0V5.40313Z" fill="currentColor"></path>
+                            </svg>
+                            <span id="likes_num"><TMPL_VAR likes></span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="fulltext"><TMPL_IF file_descr>
+											<div class="plot">
+                        <p><TMPL_VAR file_descr></p>
+                      </div>
+											</TMPL_IF><TMPL_LOOP extra_data>
+											<div class="mb-3">
+                        <p><TMPL_VAR name>: <a href="/s/<TMPL_VAR name>/<TMPL_VAR value2>"><TMPL_VAR value></a></p>
+                      </div>
+											</TMPL_IF><TMPL_IF tags>
+                      <div class="tags">
+                        <TMPL_LOOP tags><a href="/tag/<TMPL_VAR tag_value2>" class="me-2"><TMPL_VAR tag_value></a> </TMPL_LOOP>
+                      </div>
+											</TMPL_IF></div>
+											<style media="screen">
+												.fulltext:empty {
+													display: none;
+												}
+											</style>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+<TMPL_IF downloads>
+						<TMPL_IF download_original>
+            <div class="text-center mb-4">
+              <a href="#download" data-bs-toggle="modal" class="btn btn-primary download-btn">
+                <div class="row align-items-center g-3" data-status="active">
+                  <div class="col-auto">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="29" viewBox="0 0 32 29" fill="none">
+                      <path d="M8.72719 28.3182C3.49083 27.8819 -0.436447 23.3728 -8.36439e-05 18.1364C0.290825 15.0819 1.89083 12.4637 4.36355 10.8637C5.23628 4.46368 11.0545 -0.0454082 17.4545 0.827319C22.6908 1.55459 26.909 5.62732 27.4908 10.8637C31.8545 13.6273 33.309 19.4455 30.5454 23.9546C28.9454 26.5728 26.1817 28.1728 23.2726 28.3182H8.72719ZM17.4545 15.2273V9.40914H14.5454V15.2273H10.1817L15.9999 22.5L21.8181 15.2273H17.4545Z" fill="currentColor"></path>
+                    </svg>
+                  </div>
+                  <div class="col-auto">
+                    <div class="large fw-600">Download video</div>
+                  </div>
+                </div>
+              </a>
+            </div>
+
+
+            <div class="modal fade" id="download" tabindex="-1">
+              <div class="modal-dialog modal-dialog-centered modal-sm">
+                <div class="modal-content border-0">
+                  <div class="modal-header border-0 pb-0">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Download</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+										<TMPL_LOOP versions>
+										<TMPL_IF not_available><a href="#" class="btn download-item" onclick="alert('<TMPL_VAR lng_download_premium_for_originals>');return false;"><TMPL_ELSE><a class="btn download-item" href="<TMPL_VAR quality_download_link>"></TMPL_IF>
+											<span class="row flex-nowrap align-items-center gx-2 w-100">
+												<span class="col-auto">
+													<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+														<path
+															d="M9 18C4.05 18 0 13.95 0 9C0 4.05 4.05 0 9 0C13.95 0 18 4.05 18 9C18 13.95 13.95 18 9 18ZM9 1.8C5.04 1.8 1.8 5.04 1.8 9C1.8 12.96 5.04 16.2 9 16.2C12.96 16.2 16.2 12.96 16.2 9C16.2 5.04 12.96 1.8 9 1.8ZM9 13.5C8.73 13.5 8.55 13.41 8.37 13.23L5.67 10.53C5.31 10.17 5.31 9.63 5.67 9.27C6.03 8.91 6.57 8.91 6.93 9.27L8.1 10.44V5.4C8.1 4.86 8.46 4.5 9 4.5C9.54 4.5 9.9 4.86 9.9 5.4V10.44L11.07 9.27C11.43 8.91 11.97 8.91 12.33 9.27C12.69 9.63 12.69 10.17 12.33 10.53L9.63 13.23C9.45 13.41 9.27 13.5 9 13.5Z"
+															fill="#3586FF"></path>
+													</svg>
+												</span>
+												<span class="col-auto flex-grow-1 text-start">
+													<b><TMPL_VAR vid_height>p quality</b>
+												</span>
+												<span class="col-auto ms-auto">
+													<span class="text-muted small"><TMPL_VAR vid_width>x<TMPL_VAR vid_height>, <TMPL_VAR file_size_mb></span>
+												</span>
+											</span>
+										</a>
+
+										</TMPL_LOOP>
+                  </div>
+                </div>
+              </div>
+            </div>
+						</TMPL_IF>
+
+						<TMPL_IF audio_extract_on>
+		        <form method="POST" action="/dl">
+		        <input type="hidden" name="op" value="audio_extract">
+		        <input type="hidden" name="file_code" value="<TMPL_VAR file_code>">
+							<div class="text-center mb-4">
+		        <input type="submit" name="dl" value="Download MP3/AAC audio" class="btn btn-primary download-btn">
+						</div>
+		        </form>
+		        </TMPL_IF>
+
+
+</TMPL_IF>
+
+
+            <div class="modal fade" id="id_flag" tabindex="-1">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content border-0">
+                  <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel"><TMPL_VAR lng_download_report_abuse></h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+
+									<form method="POST" action="/" onsubmit="$.post('/',$(this).serialize(),function(code){ eval(code); } );return false;">
+					        <input type="hidden" name="op" value="report_file">
+					        <input type="hidden" name="file_code" value="<TMPL_VAR file_code>">
+
+									<div class="modal-body">
+                    <div class="mb-3">
+                      <select class="form-select" name="report_type">
+							            <option><TMPL_VAR lng_download_flag_reason1></option>
+							            <option><TMPL_VAR lng_download_flag_reason2></option>
+							            <option><TMPL_VAR lng_download_flag_reason3></option>
+							            <option><TMPL_VAR lng_download_flag_reason4></option>
+							        </select>
+                    </div>
+                    <textarea class="form-control" name="report_info" rows="3" placeholder="<TMPL_VAR lng_download_flag_details>"></textarea>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal">Close</button>
+                    <input type="submit" name="add" value="<TMPL_VAR lng_download_flag_send>" class="btn btn-primary">
+                  </div>
+
+									</form>
+                </div>
+              </div>
+            </div>
+
+
+						<TMPL_IF my_login>
+            <div class="modal fade" id="add_to" tabindex="-1">
+              <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content border-0">
+                  <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel"><TMPL_VAR lng_download_add_to_playlist></h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+
+
+
+									<div class="modal-body">
+
+										<div class="mb-1"><a href="/?op=add_to_playlist&file_code=<TMPL_VAR file_code>&pls_id=watchlater&<TMPL_VAR token_str>" onclick="return jah(this.href,$(this).parent())">Watch later</a> (<TMPL_VAR playlist_watch_later>)</div>
+			            <TMPL_LOOP playlists>
+			                <div class="mb-1"><a href="/?op=add_to_playlist&file_code=<TMPL_VAR file_code>&pls_id=<TMPL_VAR pls_id>&<TMPL_VAR token_str>" onclick="return jah(this.href,$(this).parent())"><TMPL_VAR pls_name></a> (<TMPL_VAR num>)</div>
+			            </TMPL_LOOP>
+			                <div><input type="button" value="<TMPL_VAR lng_download_new_playlist_name>" class="btn btn-outline-success" onclick="var x=prompt('<TMPL_VAR lng_download_new_playlist_name>:','');if(typeof(x)=='undefined'||x==null)return false; return jah('/?op=add_to_playlist&file_code=<TMPL_VAR file_code>&<TMPL_VAR token_str>&new='+x,$(this).parent());" style="margin-top:10px;"></div>
+
+
+
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal">Close</button>
+                    <TMPL_IF add_to_account>
+<input type="button" value="<TMPL_VAR lng_download_add_to_my_account>" class="btn btn-primary" onclick="return jah('/?op=my_files&amp;add_my_acc=<TMPL_VAR file_code>',$(this).parent())">
+
+										</TMPL_IF>
+                  </div>
+
+
+                </div>
+              </div>
+            </div>
+						</TMPL_IF>
+
+
+            <div class="block p-0">
+              <div class="nav nav-fill block-tabs" role="tablist">
+                <a data-bs-toggle="tab" class="nav-link active" href="#tab_down_link" aria-selected="true" role="tab"><TMPL_VAR lng_download_download_link></a>
+                <a data-bs-toggle="tab" class="nav-link" href="#tab_code_bb" aria-selected="false" tabindex="-1" role="tab"><TMPL_VAR lng_download_forum_code></a>
+                <a data-bs-toggle="tab" class="nav-link" href="#tab_html_info" aria-selected="false" tabindex="-1" role="tab"><TMPL_VAR lng_download_html_code></a>
+								<TMPL_IF video_embed_code>
+                <a data-bs-toggle="tab" class="nav-link" href="#tab_code_embed" aria-selected="false" tabindex="-1" role="tab"><TMPL_VAR lng_download_embed_code></a>
+								</TMPL_IF>
+              </div>
+              <div class="tab-content">
+                <div class="tab-pane fade show active" id="tab_down_link" role="tabpanel">
+                  <div class="codes-textarea">
+                    <textarea class="form-control copy-source" rows="5" onfocus="copy(this)"><TMPL_VAR download_link></textarea>
+                    <button class="btn icon-btn text-muted" onclick="copy(this)">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="20" viewBox="0 0 18 20" fill="none">
+                        <path d="M4 2V0H14V2H17C17.5 2 18 2.5 18 3V19C18 19.5 17.5 20 17 20H1C0.5 20 0 19.5 0 19V3C0 2.5 0.5 2 1 2H4ZM4 4H2V18H16V4H14V6H4V4ZM6 2V4H12V2H6Z" fill="currentColor"></path>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                <div class="tab-pane fade" id="tab_code_bb" role="tabpanel">
+                  <div class="codes-textarea">
+                    <textarea class="form-control copy-source" rows="5" onfocus="copy(this)">[URL=<TMPL_VAR download_link>][IMG]<TMPL_VAR video_thumb_url>[/IMG]
+				<TMPL_VAR file_title>[/URL]
+				[<TMPL_VAR vid_width>x<TMPL_VAR vid_height>, <TMPL_VAR vid_length_txt>]</textarea>
+                    <button class="btn icon-btn text-muted" onclick="copy(this)">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="20" viewBox="0 0 18 20" fill="none">
+                        <path d="M4 2V0H14V2H17C17.5 2 18 2.5 18 3V19C18 19.5 17.5 20 17 20H1C0.5 20 0 19.5 0 19V3C0 2.5 0.5 2 1 2H4ZM4 4H2V18H16V4H14V6H4V4ZM6 2V4H12V2H6Z" fill="currentColor"></path>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+                <div class="tab-pane fade" id="tab_html_info" role="tabpanel">
+                  <div class="codes-textarea">
+                    <textarea class="form-control copy-source" rows="5" onfocus="copy(this)"><a href="<TMPL_VAR download_link>"><img src="<TMPL_VAR video_thumb_url>" border=0><br><TMPL_VAR file_title></a><br>[<TMPL_VAR vid_width>x<TMPL_VAR vid_height>, <TMPL_VAR vid_length_txt>]</textarea>
+                    <button class="btn icon-btn text-muted" onclick="copy(this)">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="20" viewBox="0 0 18 20" fill="none">
+                        <path d="M4 2V0H14V2H17C17.5 2 18 2.5 18 3V19C18 19.5 17.5 20 17 20H1C0.5 20 0 19.5 0 19V3C0 2.5 0.5 2 1 2H4ZM4 4H2V18H16V4H14V6H4V4ZM6 2V4H12V2H6Z" fill="currentColor"></path>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+								<TMPL_IF video_embed_code>
+                <div class="tab-pane fade" id="tab_code_embed" role="tabpanel">
+									<div class="py-2 px-3 border-bottom">
+										<div class="row align-items-center flex-wrap g-2 small">
+											<div class="col-auto">Embed size:</div>
+											<div class="col-auto"><input type="text" id="iew" value="640" class="form-control form-control-sm" maxlength="3" style="width: 60px;"></div>
+											<div class="col-auto">x</div>
+											<div class="col-auto"><input type="text" id="ieh" value="360" class="form-control form-control-sm" maxlength="3" style="width: 60px;"></div>
+										</div>
+									</div>
+                  <div class="codes-textarea">
+                    <textarea class="form-control copy-source" rows="5" onfocus="copy(this)"><TMPL_VAR embed_code></textarea>
+                    <button class="btn icon-btn text-muted" onclick="copy(this)">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="18" height="20" viewBox="0 0 18 20" fill="none">
+                        <path d="M4 2V0H14V2H17C17.5 2 18 2.5 18 3V19C18 19.5 17.5 20 17 20H1C0.5 20 0 19.5 0 19V3C0 2.5 0.5 2 1 2H4ZM4 4H2V18H16V4H14V6H4V4ZM6 2V4H12V2H6Z" fill="currentColor"></path>
+                      </svg>
+                    </button>
+                  </div>
+                </div>
+								</TMPL_IF>
+              </div>
+            </div>
+
+
+            <TMPL_IF facebook_app_id_like>
+							<div id="fb-root"></div>
+							<script>(function(d, s, id) {
+							  var js, fjs = d.getElementsByTagName(s)[0];
+							  if (d.getElementById(id)) return;
+							  js = d.createElement(s); js.id = id;
+							  js.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.1&appId=<TMPL_VAR facebook_app_id_like>&autoLogAppEvents=1';
+							  fjs.parentNode.insertBefore(js, fjs);
+							}(document, 'script', 'facebook-jssdk'));</script>
+
+							<div class="fb-like" data-layout="button_count" data-action="like" data-size="small" data-show-faces="false" data-share="true"></div>
+						</TMPL_IF>
+
+						    <TMPL_IF enable_file_comments>
+						        <TMPL_IF facebook_comments>
+						            <fb:comments href="<TMPL_VAR download_link>" num_posts="3" width="640"></fb:comments>
+						        <TMPL_ELSE>
+						            <TMPL_INCLUDE comments.html>
+						        </TMPL_IF>
+						    </TMPL_IF>
+
+
+          </div>
+          <div class="col-xl-3">
+            <div class="mb-4">
+              <div class="h5 text-dark">Up Next:</div>
+              <div class="relatedVideo">
+                <div class="row flex-nowrap gx-3">
+                  <div class="col-auto">
+                    <div class="relatedVideo-image">
+                      <img src="content/image.png" alt="">
+                    </div>
+                  </div>
+                  <div class="col-auto flex-grow-1 flex-shrink-1 mw-0">
+                    <div class="small text-truncate"><a href="#" class="link-body-emphasis fw-500">Let’s go! Bali in Indonesia! 5GX Bali</a>
+                    </div>
+                    <div class="text-muted xsmall">cinemaxxx</div>
+                    <div class="text-muted xsmall">6,079,880 views</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="mb-4">
+              <div class="h5 text-dark">More from Watch later:</div>
+              <div class="relatedVideo">
+                <div class="row flex-nowrap gx-3">
+                  <div class="col-auto">
+                    <div class="relatedVideo-image">
+                      <img src="content/image.png" alt="">
+                      <span class="playing">Now playing</span>
+                    </div>
+                  </div>
+                  <div class="col-auto flex-grow-1 flex-shrink-1 mw-0">
+                    <div class="small text-truncate"><a href="#" class="link-body-emphasis fw-500">Kingdom Of The Planet Of The Apes 2024 1080p HDTS EgyDead CoM</a>
+                    </div>
+                    <div class="text-muted xsmall">cinemaxxx</div>
+                    <div class="text-muted xsmall">6,079,880 views</div>
+                  </div>
+                </div>
+              </div>
+              <div class="relatedVideo">
+                <div class="row flex-nowrap gx-3">
+                  <div class="col-auto">
+                    <div class="relatedVideo-image">
+                      <img src="content/image.png" alt="">
+                    </div>
+                  </div>
+                  <div class="col-auto flex-grow-1 flex-shrink-1 mw-0">
+                    <div class="small text-truncate"><a href="#" class="link-body-emphasis fw-500">Sigma Girl Education #sigma #viral #comedy</a>
+                    </div>
+                    <div class="text-muted xsmall">cinemaxxx</div>
+                    <div class="text-muted xsmall">6,079,880 views</div>
+                  </div>
+                </div>
+              </div>
+              <div class="relatedVideo">
+                <div class="row flex-nowrap gx-3">
+                  <div class="col-auto">
+                    <div class="relatedVideo-image">
+                      <img src="content/image.png" alt="">
+                    </div>
+                  </div>
+                  <div class="col-auto flex-grow-1 flex-shrink-1 mw-0">
+                    <div class="small text-truncate"><a href="#" class="link-body-emphasis fw-500">Who says Goldman Statue is not getting kisses at work?</a>
+                    </div>
+                    <div class="text-muted xsmall">cinemaxxx</div>
+                    <div class="text-muted xsmall">6,079,880 views</div>
+                  </div>
+                </div>
+              </div>
+              <div class="relatedVideo">
+                <div class="row flex-nowrap gx-3">
+                  <div class="col-auto">
+                    <div class="relatedVideo-image">
+                      <img src="content/image.png" alt="">
+                    </div>
+                  </div>
+                  <div class="col-auto flex-grow-1 flex-shrink-1 mw-0">
+                    <div class="small text-truncate"><a href="#" class="link-body-emphasis fw-500">Let’s go! Bali in Indonesia! 5GX Bali</a>
+                    </div>
+                    <div class="text-muted xsmall">cinemaxxx</div>
+                    <div class="text-muted xsmall">6,079,880 views</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+
+            <div class="mb-4">
+              <div class="h5 text-dark"><TMPL_VAR lng_download_more_files>:</div>
+							<TMPL_LOOP files>
+              <div class="relatedVideo">
+                <div class="row flex-nowrap gx-3">
+                  <div class="col-auto">
+                    <div class="relatedVideo-image">
+                      <img src="<TMPL_VAR video_thumb_url>" alt="">
+                    </div>
+                  </div>
+                  <div class="col-auto flex-grow-1 flex-shrink-1 mw-0">
+                    <div class="small text-truncate"><a href="<TMPL_VAR download_link>" class="link-body-emphasis fw-500"><TMPL_VAR file_title_txt></a>
+                    </div>
+                    <div class="text-muted xsmall"><TMPL_VAR usr_channel_name></div>
+                    <div class="text-muted xsmall"><TMPL_VAR file_length2></div>
+                  </div>
+                </div>
+              </div>
+							</TMPL_LOOP>
+            </div>
+
+
+
+          </div>
+        </div>
+
+
+
+<TMPL_VAR video_code_js>
+
+<Script>
+$("#embed_div textarea").focus(function (){ $(this).select(); })
+var tab_cookie='tab_down';
+
+$('ul.tabs').on('click', 'li:not(.current)', function() {
+    $(this).addClass('current').siblings().removeClass('current')
+        .parents('div.section').find('div.box').eq($(this).index()).fadeIn(150).siblings('div.box').hide();
+});
+
+$("#iew,#ieh").change(function (){
+    var ww = $("#iew").val();
+    var hh = $("#ieh").val();
+    ww = ww.replace(/\D/g,'');
+    hh = hh.replace(/\D/g,'');
+    if(!ww)ww=640;
+    if(!hh)hh=360;
+    tt = $("#iet").val();
+    tt = tt.replace(/ WIDTH=\d+ HEIGHT=\d+ /,' WIDTH='+ww+' HEIGHT='+hh+' ');
+    $("#iet").val(tt);
+});
+
+<TMPL_IF enc_status>
+encStatus('<TMPL_VAR file_real_id>',1);
+</TMPL_IF>
+</Script>
+<script src="<TMPL_VAR static_url>/js/tabber.js"></script>
+
+<TMPL_IF usr_disable_adb111><script src="<TMPL_VAR cdn_url>/js/googima.js"></script></TMPL_IF>
+<Script>
+$(function() {
+ <TMPL_IF usr_disable_adb111>
+	if( window.cRAds === undefined ){ $('#adbd').css('display','table'); }
+
+	<TMPL_IF force_disable_popup_blocker>
+	var test = window.open(null,"","width=1,height=1");
+	setTimeout(function(){
+	if (test && test.innerHeight && test.innerHeight > 0) {
+		test.close();
+	}
+	else {
+		$('#adbd').css('display','table');
+	}
+	}, 10);
+	</TMPL_IF>
+ </TMPL_IF>
+});
+</Script>
+
+<TMPL_IF ad_code>
+<!-- Custom User Ads start -->
+	<div style="clear:both"><TMPL_VAR ad_code></div>
+<!-- Custom User Ads end -->
+</TMPL_IF>
+
+<TMPL_IF video_ads>
+<!-- Javascript Alt Ads code start -->
+	<TMPL_IF ad1><script>console.log('AD1');</script></TMPL_IF>
+	<TMPL_IF ad2><script>console.log('AD2');</script></TMPL_IF>
+	<TMPL_IF ad3><script>console.log('AD3');</script></TMPL_IF>
+<!-- Javascript Alt Ads code end -->
+</TMPL_IF>
+
+
+</section>
+</div>

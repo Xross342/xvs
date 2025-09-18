@@ -1,0 +1,38 @@
+<script>
+  loadT('News form');
+</script>
+<div class="block admin-settings p-0">
+  <Form method="POST">
+    <input type="hidden" name="op" value="admin_news_edit">
+    <input type="hidden" name="token" value="<TMPL_VAR token>">
+    <input type="hidden" name="news_id" value="<TMPL_VAR news_id>">
+    <table class="table settings-table mb-0 align-middle">
+      <tbody>
+        <tr>
+          <td class="text-lg-end"><label class="col-form-label">Title</label></td>
+          <td class="border-start"><input type="text" name="news_title" value="<TMPL_VAR news_title>" class="form-control form-control-sm"></td>
+        </tr>
+        <tr>
+          <td class="text-lg-end"><label class="col-form-label">Title Code</label></td>
+          <td class="border-start"><input type="text" name="news_title2" value="<TMPL_VAR news_title2>" class="form-control form-control-sm"></td>
+        </tr>
+        <tr>
+          <td class="text-lg-end"><label class="col-form-label">Published</label></td>
+          <td class="border-start"><input type="text" name="created" value="<TMPL_VAR created>" class="form-control form-control-sm"></td>
+        </tr>
+        <tr>
+          <td class="text-lg-end"><label class="col-form-label">Text</label></td>
+          <td class="border-start">
+            <textarea name="news_text" rows="5" class="form-control form-control-sm"><TMPL_VAR news_text></textarea>
+          <div class="form-text">
+            Tags: <b>[cut]</b> - cut news body
+          </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="text-center p-3">
+      <input type="submit" name="save" value="Save" class="btn btn-primary submit-btn">
+    </div>
+  </Form>
+</div>

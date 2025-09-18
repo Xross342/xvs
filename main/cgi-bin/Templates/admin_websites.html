@@ -1,0 +1,43 @@
+<script>
+	loadT('Admin Websites');
+</script>
+<div class="top-bar">
+	<div class="row align-items-center g-3">
+		<div class="col-auto">
+			<input type="button" value="Reset profit counter" class="btn btn-primary" onclick="if(!confirm('Reset websites profit counters?'))return false;window.location='?op=admin_websites&amp;site_reset=1<TMPL_VAR token_str>';">
+		</div>
+	</div>
+</div>
+<TMPL_IF list>
+<div class="col-lg-6 mx-auto">
+	<div class="table-responsive">
+		<table class="table table-rounded table-hover table-justify table-fixed">
+			<thead>
+				<tr>
+					<th>Domain</th>
+					<th>User</th>
+					<th>Total profit</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<TMPL_LOOP list>
+						<td>
+							<TMPL_VAR domain>
+						</td>
+						<td><a href="?op=admin_user_edit&amp;usr_id=<TMPL_VAR usr_id><TMPL_VAR token_str>">
+								<TMPL_VAR usr_login>
+							</a></td>
+						<td>$<TMPL_VAR money_sales>
+						</td>
+					</TMPL_LOOP>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+<TMPL_ELSE>
+	<div class="alert alert-secondary">
+		No websites
+	</div>
+</TMPL_IF>

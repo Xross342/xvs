@@ -1,0 +1,106 @@
+<script>
+  loadT('<TMPL_VAR lang_torrents>');
+</script>
+
+<TMPL_IF hosts>
+  <div class="table-responsive mb-4">
+  	<table class="table table-rounded table-hover align-middle table-justify small">
+<thead>
+  <tr>
+      <th>Host name</th>
+      <th>Torrents</th>
+      <th>Progress</th>
+      <th>Peers</th>
+      <th>Download KB/s</th>
+      <th>Torrent engine</th>
+      <th></th>
+  </tr>
+</thead>
+<TMPL_LOOP hosts>
+<tbody>
+  <tr>
+      <td><a href="?op=admin_torrents&host_id=<TMPL_VAR host_id><TMPL_VAR token_str>"><b><TMPL_VAR host_name></b></a></td>
+      <td><TMPL_VAR num></td>
+      <td><TMPL_VAR downloaded> of <TMPL_VAR size> Gb</td>
+      <td><TMPL_VAR peers></td>
+      <td><TMPL_VAR download_speed></td>
+      <TMPL_IF active>
+      <td><b style="color:green">Working</b></td>
+      <td><input type="button" value="Stop engine" onClick="window.location='?op=admin_torrents&kill=1&host_id=<TMPL_VAR host_id><TMPL_VAR token_str>';" class="btn btn-danger"></td>
+      <TMPL_ELSE>
+      <td><b style="color:red">Disabled</b></td>
+      <td><input type="button" value="Start engine" onClick="window.location='<TMPL_VAR host_cgi_url>/Torrents/start.cgi?<TMPL_VAR token_str>';" class="btn btn-success"></td>
+      </TMPL_IF>
+  </tr>
+</tbody>
+</TMPL_LOOP>
+</table>
+</div>
+<TMPL_ELSE>
+  <div class="alert alert-secondary">
+    No host
+  </div>
+</TMPL_IF>
+
+
+<form action="" method="POST">
+   <input type="hidden" name="op" value="admin_torrents">
+   <input type="hidden" name="token" value="<TMPL_VAR token>">
+
+     <h5 class="text-center mb-3 text-dark">
+       Torrents
+     </h5>
+
+     <div class="table-responsive mb-4">
+       <table class="table table-rounded table-hover align-middle table-justify small">
+	<thead>
+    <tr>
+  	 <th><div class="check-radio"><input type="checkbox" id="selall"></div></th>
+  	 <th>Torrent</th>
+  	 <th>Progress</th>
+  	 <th>Peers</th>
+  	 <th>Download</th>
+  	 <th>Upload</th>
+  	 <th>Working</th>
+  	 <th>Username</th>
+  	 <th>Host</th>
+  	 <th></th>
+  	</tr>
+  </thead>
+	<TMPL_LOOP torrents>
+	<tr>
+	 <td><div class="check-radio"><input type="checkbox" name="sid" value="<TMPL_VAR sid>"></div></td>
+	 <td>
+	 	<a href="#" onclick="$('#<TMPL_VAR sid>').toggle();"><TMPL_VAR name></a>
+		<div id="<TMPL_VAR sid>" style="display:none"><TMPL_VAR file_list></div>
+	</td>
+	 <td><TMPL_VAR downloaded> of <TMPL_VAR size> Gb (<TMPL_VAR percent>%)</td>
+	 <td><TMPL_VAR peers></td>
+	 <td><TMPL_VAR download_speed></td>
+	 <td><TMPL_VAR upload_speed></td>
+	 <td><TMPL_VAR working></td>
+	 <td><a href="?op=admin_torrents&usr_id=<TMPL_VAR usr_id><TMPL_VAR token_str>"><TMPL_VAR usr_login></a></td>
+	 <td><TMPL_VAR host_name></td>
+	 <td><a href="?op=admin_torrents&del_torrents=1&sid=<TMPL_VAR sid>&token=<TMPL_VAR token>" onClick="return confirm('Delete this torrent?')"><img src="<TMPL_VAR site_url>/images2/delete.svg" border=0></a></td>
+	</tr>
+	</TMPL_LOOP>
+	<tfoot>
+    <tr>
+  		<td colspan="10">
+  			<input name="del_torrents" value="Delete selected" type="submit" onclick="return confirm('Delete selected torrents?')" class="btn btn-danger">
+  		</td>
+  	</tr>
+  </tfoot>
+	</table>
+	</div>
+</form>
+
+<script>
+$("#selall").change(function(){
+           var sel=this.checked;
+           $("input[name=sid]:enabled").each(function(){
+               $(this).prop('checked',sel);
+           });
+    });
+    $("input[name=sid]:enabled").shiftSelectable();
+</script>

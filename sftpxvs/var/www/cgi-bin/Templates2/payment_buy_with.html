@@ -1,0 +1,58 @@
+<Table class="tbl1" cellpadding=3 cellspacing=1>
+<TR class="hdr">
+<TD><TMPL_VAR lng_buywith_price></TD>
+<TD><TMPL_VAR lng_buywith_premium_days></TD>
+<TMPL_LOOP payment_types>
+	<TD>&nbsp;</TD>
+</TMPL_LOOP>
+</TR>
+<TMPL_LOOP plans>
+<TR align=center>
+<TD><TMPL_VAR amount> <TMPL_VAR currency_code></TD>
+<TD><b><TMPL_VAR days> <TMPL_VAR lng_buywith_days></b></TD>
+<TMPL_LOOP payment_types>
+<TD>
+	<a href="<TMPL_VAR site_url>/?op=payments&amp;amount=<TMPL_VAR amount>&amp;type=<TMPL_VAR name><TMPL_IF submethod>&submethod=<TMPL_VAR submethod></TMPL_IF>&amp;r=<TMPL_VAR rand>" class="ask_email"><img src="<TMPL_VAR site_url>/images/<TMPL_VAR image>" border=0 alt="<TMPL_VAR title>"></a>
+</TD>
+</TMPL_LOOP>
+</TR>
+</TMPL_LOOP>
+</Table>
+
+<br><br>
+
+<TMPL_IF storage_plans>
+<h2>Extra Storage Plans</h2>
+<Table class="tbl1" cellpadding=3 cellspacing=1>
+<TR class="hdr">
+<TD><TMPL_VAR lng_buywith_price></TD>
+<TD>Storage / Days</TD>
+<TMPL_LOOP payment_types>
+	<TD>&nbsp;</TD>
+</TMPL_LOOP>
+</TR>
+<TMPL_LOOP storage_plans>
+<TR align=center>
+<TD><TMPL_VAR amount> <TMPL_VAR currency_code></TD>
+<TD><b><TMPL_VAR storage> GB / <TMPL_VAR days> <TMPL_VAR lng_buywith_days></b></TD>
+<TMPL_LOOP payment_types>
+<TD>
+	<a href="/?op=payments&amount=<TMPL_VAR amount>&type=<TMPL_VAR name><TMPL_IF submethod>&submethod=<TMPL_VAR submethod></TMPL_IF>&storage=1&r=<TMPL_VAR rand>" class="ask_email"><img src="<TMPL_VAR site_url>/images/<TMPL_VAR image>" border=0 alt="<TMPL_VAR title>"></a>
+</TD>
+</TMPL_LOOP>
+</TR>
+</TMPL_LOOP>
+</Table>
+</TMPL_IF>
+
+<script>
+<TMPL_IF ask_email>
+$('.ask_email').click(function(event) {
+	event.preventDefault();
+	var email = prompt('Your account access for <TMPL_VAR site_name> will be sent to this e-mail:','');
+	if(email)
+		document.location = this.href + '&email=' + escape(email);
+	return(false);
+});
+</TMPL_IF>
+</script>

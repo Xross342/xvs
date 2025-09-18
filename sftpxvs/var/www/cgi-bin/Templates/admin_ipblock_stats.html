@@ -1,0 +1,28 @@
+<script>
+	loadT('IP block stats');
+</script>
+
+<TMPL_IF list>
+<div class="col-lg-6 mx-auto">
+  <div class="table-responsive">
+    <table class="table table-rounded table-hover table-fixed table-justify">
+  <thead>
+    <tr>
+        <th>Date</th>
+        <th>Blocked</th>
+        <th>Money saved</th>
+    </tr>
+  </thead>
+  <tbody>
+    <TMPL_LOOP list>
+    <tr>
+        <td><TMPL_VAR day></td>
+        <td><TMPL_VAR ipblock_blocked></td>
+        <td>$<TMPL_VAR ipblock_money_saved></td>
+    </tr>
+    </TMPL_LOOP>
+  </tbody>
+  </Table>
+  </div>
+</div>
+</TMPL_IF>

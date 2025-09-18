@@ -1,0 +1,42 @@
+<div class="container">
+  <section class="page">
+
+
+<div class="col-lg-9 col-xl-6 mx-auto">
+  <div class="block">
+
+
+
+    <h3 class="text-dark"><TMPL_VAR lng_download_dl_link_generated></h3>
+    <table class="table small">
+    <tr>
+        <td class="text-muted"><TMPL_VAR lng_download_file_size></td>
+        <td><TMPL_VAR fsize></td>
+    </tr>
+    <tr>
+        <td class="text-muted"><TMPL_VAR lng_download_exact_file_size></td><td><TMPL_VAR file_size> bytes</td>
+    </tr>
+    <tr>
+        <td class="text-muted"><TMPL_VAR lng_download_your_ip></td><td><TMPL_VAR ip></td>
+    </tr>
+    </table>
+    <br>
+
+
+    <TMPL_VAR lng_download_link_will_be_available> <TMPL_VAR symlink_expire> <TMPL_VAR lng_misc_mins><br><br>
+
+
+    <a href="<TMPL_VAR direct_link>" class="btn btn-primary download-btn"><svg class="me-2" xmlns="http://www.w3.org/2000/svg" width="24"  viewBox="0 0 32 29" fill="none">
+      <path d="M8.72719 28.3182C3.49083 27.8819 -0.436447 23.3728 -8.36439e-05 18.1364C0.290825 15.0819 1.89083 12.4637 4.36355 10.8637C5.23628 4.46368 11.0545 -0.0454082 17.4545 0.827319C22.6908 1.55459 26.909 5.62732 27.4908 10.8637C31.8545 13.6273 33.309 19.4455 30.5454 23.9546C28.9454 26.5728 26.1817 28.1728 23.2726 28.3182H8.72719ZM17.4545 15.2273V9.40914H14.5454V15.2273H10.1817L15.9999 22.5L21.8181 15.2273H17.4545Z" fill="currentColor"></path>
+    </svg> <TMPL_VAR lng_download_direct_download_link></a>
+
+
+
+  </div>
+
+</div>
+
+
+
+</section>
+</div>

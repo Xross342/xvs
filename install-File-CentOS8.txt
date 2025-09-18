@@ -1,0 +1,81 @@
++++ XVideoSharing 2.2 File-Server installation guide for CentOS 8 +++
+
+Check your CentOS version and make sure server is clean:
+updatedb;echo "NGINX:";locate nginx.conf;echo "APACHE:";locate httpd.conf;locate api.cgi;ls -l /home/;ls -l /var/www/;uname -m;cat /etc/redhat-release
+
+ If there are some errors with yum install try to run these commands and run yum commands again:
+  find /etc/yum.repos.d -type f -exec sed -i 's/mirrorlist=http:\/\/mirrorlist.centos.org/\#mirrorlist=http:\/\/mirrorlist.centos.org/g' {} \;
+  find /etc/yum.repos.d -type f -exec sed -i 's/\#baseurl=http:\/\/mirror.centos.org/baseurl=http:\/\/vault.centos.org/g' {} \;
+
+>/etc/resolv.conf;echo "nameserver 1.1.1.1" >> /etc/resolv.conf;echo "nameserver 1.0.0.1" >> /etc/resolv.conf;echo "nameserver 8.8.4.4" >> /etc/resolv.conf;echo "nameserver 8.8.8.8" >> /etc/resolv.conf;echo "nameserver 9.9.9.9" >> /etc/resolv.conf
+yum -y install curl dnf-plugins-core yum-utils epel-release
+yum -y install epel-next-release
+yum -y install almalinux-release
+yum config-manager --set-enabled PowerTools
+dnf config-manager --set-enabled powertools
+yum config-manager --set-enabled epel-testing
+yum config-manager --set-enabled crb
+yum -y --nogpgcheck install pcre pcre-devel zlib-devel openssl-devel make perl-libwww-perl.noarch mc zlib* ImageMagick perl-Digest-SHA1 perl-Digest-SHA sysstat atop psacct gcc perl-CPAN perl-Net-SSLeay perl-IO-Socket-SSL.noarch perl-GD wget chrony perl-Time-HiRes unzip perl-XML-Simple.noarch perl-IO-Socket-SSL.noarch perl-Net-SSLeay perl-ExtUtils-Embed perl-Digest-HMAC psmisc perl-LWP-Protocol-https openssh-clients net-tools xz httpd perl-CGI perl-JSON perl-JSON-XS mlocate smartmontools tar nscd ca-certificates libmaxminddb-devel certbot python3-certbot-nginx
+systemctl enable --now chronyd
+
+cd /usr/src
+wget https://sibsoft.net/xvideosharing/nginx-upload-progress-module-master.zip;unzip nginx-upload-progress-module-master.zip;rm -f nginx-upload-progress-module-master.zip
+wget https://sibsoft.net/xvideosharing/nginx-upload-module-2019.zip;unzip nginx-upload-module-2019.zip;rm -f nginx-upload-module-2019.zip
+wget https://sibsoft.net/xvideosharing/nginx-vod-module-1.28.tar.gz;tar -xf nginx-vod-module-1.28.tar.gz;rm -f nginx-vod-module-1.28.tar.gz
+wget https://sibsoft.net/xvideosharing/nginx-rtmp-module-1.2.1.tar.gz;tar -xf nginx-rtmp-module-1.2.1.tar.gz;rm -f nginx-rtmp-module-1.2.1.tar.gz
+wget https://sibsoft.net/xvideosharing/ngx_cache_purge251.zip;unzip ngx_cache_purge251.zip;rm -f ngx_cache_purge251.zip
+wget https://sibsoft.net/xvideosharing/ngx_http_hmac_secure_link_module.zip;unzip ngx_http_hmac_secure_link_module.zip;rm -f ngx_http_hmac_secure_link_module.zip
+wget https://github.com/kaltura/nginx-secure-token-module/archive/refs/heads/master.zip;unzip master.zip;rm -f master.zip
+wget https://github.com/yaoweibin/ngx_http_substitutions_filter_module/archive/refs/heads/master.zip;unzip master.zip;rm -f master.zip
+wget https://github.com/leev/ngx_http_geoip2_module/archive/refs/tags/3.4.tar.gz;tar -xf 3.4.tar.gz;rm -f 3.4.tar.gz
+wget https://nginx.org/download/nginx-1.21.4.tar.gz;tar -xzf nginx-1.21.4.tar.gz;rm -f nginx-1.21.4.tar.gz;cd nginx-1.21.4
+./configure --with-http_stub_status_module --with-http_mp4_module --add-module=../nginx-upload-module-master --add-module=../nginx-upload-progress-module-master --add-module=../nginx-vod-module-1.28 --add-module=../nginx-rtmp-module-1.2.1 --add-module=../ngx_cache_purge-2.5.1 --add-module=../nginx-secure-token-module-master/ --add-module=../ngx_http_hmac_secure_link_module-master/ --with-file-aio --with-threads --with-http_ssl_module --with-http_v2_module --with-cc-opt="-Wimplicit-fallthrough=0" --with-http_realip_module --add-module=../ngx_http_substitutions_filter_module-master --add-module=../ngx_http_geoip2_module-3.4
+make && make install
+(crontab -l ; echo "@reboot         /usr/local/nginx/sbin/nginx >/dev/null 2>&1") | crontab -
+cd /usr/local/nginx/conf;wget https://sibsoft.net/xvideosharing/GeoLite2-ASN.mmdb
+
+setenforce 0
+perl -pi -e 's/=enforcing/=disabled/;' /etc/selinux/config
+echo -e "* hard nofile 96000\n* soft nofile 96000" >> /etc/security/limits.conf
+ulimit -n 96000
+cd /var/www;mkdir cgi-bin;mkdir htdocs;mkdir logs;rm -f index.html;rmdir html
+perl -pi -e 's/Listen 80/Listen 127.0.0.1:8001/;s/Timeout 60/Timeout 360/;s/www\/html/www\/htdocs/g;s/AllowOverride None/AllowOverride All/;s/logs\/error_log/\/var\/www\/logs\/error_log/;s/CustomLog/#CustomLog/g;' /etc/httpd/conf/httpd.conf
+systemctl enable httpd.service;systemctl start httpd.service
+
+firewall-cmd --permanent --add-port=80/tcp;firewall-cmd --reload
+firewall-cmd --permanent --add-port=443/tcp;firewall-cmd --reload
+firewall-cmd --permanent --add-port=888/tcp;firewall-cmd --reload
+
+Upload fs.zip to the /var/www folder and unpack:
+cd /var/www;unzip fs.zip;mv -f fs/htdocs .;mv -f fs/cgi-bin .;rm -f fs.zip;mv -f fs/conf/nginx.conf /usr/local/nginx/conf/;mv fs/conf/* /usr/local/nginx/conf/;rm -rf fs
+
+Run install_fs.sh to create subfolders and set correct permissions:
+If disk is mounted to / just run:
+cd /var/www/cgi-bin;sh install_fs.sh
+
+If your HDD for files mounted to /home run:
+cd /var/www/cgi-bin;sh install_fs.sh /home
+
+Set the right owner for the files:
+chown -R apache:apache /var/www
+
+Start NGINX:
+/usr/local/nginx/sbin/nginx
+
+Add Host / Server through web site, Save Settings and restart daemons+nginx on fileserver:
+killall enc.pl;killall transfer.pl;killall url_upload.pl
+killall nginx;sleep 1;/usr/local/nginx/sbin/nginx
+
+Configure crontabs:
+(crontab -l ; echo "*/5  *  *  *  *  cd /var/www/cgi-bin;./atop.pl >/dev/null 2>&1") | crontab -
+(crontab -l ; echo "*/3  *  *  *  *  cd /var/www/cgi-bin;./nginx_logs.sh >/dev/null 2>&1") | crontab -
+(crontab -l ; echo "*    *  *  *  *  cd /var/www/cgi-bin;./cron_cmd.pl >/dev/null 2>&1") | crontab -
+(crontab -l ; echo "*/5  *  *  *  *  cd /var/www/cgi-bin;./cron_delete_disk.pl >/dev/null 2>&1") | crontab -
+(crontab -l ; echo "*    *  *  *  *  cd /var/www/cgi-bin;./cron_vtt.pl >/dev/null 2>&1") | crontab -
+
+(crontab -l -uapache ; echo "*/3  *  *  *  *  cd /var/www/cgi-bin;./enc.pl >/dev/null 2>&1") | crontab -uapache -
+(crontab -l -uapache ; echo "*/3  *  *  *  *  cd /var/www/cgi-bin;./transfer.pl >/dev/null 2>&1") | crontab -uapache -
+(crontab -l -uapache ; echo "*/3  *  *  *  *  cd /var/www/cgi-bin;./url_upload.pl >/dev/null 2>&1") | crontab -uapache -
+(crontab -l -uapache ; echo "5    *  *  *  *  cd /var/www/cgi-bin;./cron_cleanup.pl >/dev/null 2>&1") | crontab -uapache -
+(crontab -l -uapache ; echo "*/3  *  *  *  *  cd /var/www/cgi-bin;./cron_ftp.pl >/dev/null 2>&1") | crontab -uapache -
+

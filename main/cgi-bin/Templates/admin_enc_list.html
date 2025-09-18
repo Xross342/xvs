@@ -1,0 +1,147 @@
+<script>
+	loadT('Encoding queue');
+</script>
+
+
+<TMPL_IF restart_stuck>
+<div class="text-center mb-3">
+  <input type="button" value="Restart all stucked" onclick="window.location='?op=admin_enc_list&amp;restart_stuck=1<TMPL_VAR token_str>'" class="btn btn-primary m-2">
+  <input type="button" value="Cancel all stucked" onclick="if(!confirm('Cancel all stucked?'))return false; window.location='?op=admin_enc_list&amp;delete_stuck=1<TMPL_VAR token_str>'" class="btn btn-danger m-2">
+</div>
+</TMPL_IF>
+
+<TMPL_IF restart_error>
+<div class="text-center mb-3">
+  <input type="button" value="Restart all errors" onclick="window.location='?op=admin_enc_list&amp;restart_errors=1<TMPL_VAR token_str>'" class="btn btn-primary m-2">
+  <input type="button" value="Cancel all errors" onclick="if(!confirm('Cancel all errors?'))return false; window.location='?op=admin_enc_list&amp;delete_errors=1<TMPL_VAR token_str>'" class="btn btn-danger m-2">
+</div>
+</TMPL_IF>
+
+
+<TMPL_IF chart>
+<div class="col-lg-6 mx-auto">
+  <div class="table-responsive">
+    <table class="table table-hover table-rounded align-middle table-justify small">
+<tr>
+  <th>User</th>
+  <th>Queue</th>
+</tr>
+<TMPL_LOOP top_users>
+<tr>
+  <td><a href="?op=admin_enc_list&amp;usr_id=<TMPL_VAR usr_id><TMPL_VAR token_str>"><TMPL_VAR usr_login></a></td>
+  <td align=center><TMPL_VAR x></td>
+</tr>
+</TMPL_LOOP>
+</table>
+</div>
+
+<br>
+
+<div class="table-responsive">
+  <table class="table table-hover table-rounded align-middle table-justify small">
+<tr>
+  <th>Server</th>
+  <th>Queue</th>
+  <th>FPS</th>
+</tr>
+<TMPL_LOOP chart>
+<tr align=center>
+  <td><a href="?op=admin_enc_list&amp;host_id=<TMPL_VAR host_id><TMPL_VAR token_str>"><TMPL_VAR host_name></a></td>
+  <td><TMPL_VAR num> ( <TMPL_VAR PENDING> pending
+                      <TMPL_IF ENCODING>, <TMPL_VAR ENCODING> encoding</TMPL_IF>
+                      <TMPL_IF ERROR>, <TMPL_VAR ERROR> errors</TMPL_IF>
+                      <TMPL_IF STUCK>, <TMPL_VAR STUCK> stuck</TMPL_IF>)
+  </td>
+  <td><TMPL_VAR fps></td>
+</tr>
+</TMPL_LOOP>
+</table>
+</div>
+
+<br>
+
+<div class="table-responsive">
+  <table class="table table-hover table-rounded align-middle table-justify small">
+<tr>
+  <th>Quality</th>
+  <th>Pending</th>
+</tr>
+<TMPL_LOOP chart_quality>
+<tr>
+  <td><TMPL_VAR quality></td>
+  <td><TMPL_VAR num></td>
+</tr>
+</TMPL_LOOP>
+</table>
+</div>
+</div>
+</TMPL_IF>
+
+<form method="POST">
+<input type="hidden" name="op" value="admin_enc_list">
+<input type="hidden" name="token" value="<TMPL_VAR token>">
+
+  <div class="table-responsive">
+    <table class="table table-hover table-rounded align-middle table-justify small" id="xfiles">
+<thead>
+  <tr>
+  <th style="width: 1%;"><div class="check-radio"><input type="checkbox" id="selall"></div></th>
+  <th class="text-start">Title</th>
+  <th style="width: 80px;">Size</th>
+  <th style="width: 100px;">Length</th>
+  <th style="width: 100px;" title="Quality: Normal / High / Low">Q</th>
+  <th style="width: 100px;">User</th>
+  <th style="width: 100px;">Started</th>
+  <th style="width: 100px;">Host</th>
+  <th style="width: 150px;">Progress</th>
+  </tr>
+</thead>
+<tbody>
+  <TMPL_LOOP list>
+  <tr<TMPL_UNLESS __ODD__> class="hi"</TMPL_UNLESS>>
+      <td><div class="check-raido"><input type="checkbox" name="file_real" value="<TMPL_VAR file_real>-<TMPL_VAR quality>"></div></td>
+      <td class="text-start">
+          <a href="<TMPL_VAR download_link>"><TMPL_IF premium><b></TMPL_IF><TMPL_VAR file_title_txt></a>
+          <TMPL_IF priority><sup title="Priority"><TMPL_VAR priority></sup></TMPL_IF>
+          <TMPL_IF qstatus> <TMPL_VAR qstatus></TMPL_IF>
+          <TMPL_IF restart> <a href="?op=admin_enc_list&amp;restart=1&amp;file_real=<TMPL_VAR file_real>-<TMPL_VAR quality><TMPL_VAR token_str>"><i style="color:#aa3">-restart-</i></a></TMPL_IF>
+      </td>
+      <td><TMPL_VAR file_size2></td>
+      <td><TMPL_VAR file_length2></td>
+      <td><TMPL_VAR quality></td>
+      <td><TMPL_IF usr_id><a href="?op=admin_files&amp;usr_id=<TMPL_VAR usr_id><TMPL_VAR token_str>"><TMPL_VAR usr_login></a></TMPL_IF></td>
+      <td nowrap><small><TMPL_VAR started2></small></td>
+      <td><TMPL_VAR host_name></td>
+      <td align=left class="enc_td"><div style="position:relative;"><div class="enc_status" style="width:<TMPL_VAR progress>%;"></div><div class="enc_value"><TMPL_VAR progress>%<TMPL_IF fps> (<TMPL_VAR fps> fps)</TMPL_IF></div></div></td>
+  </tr>
+  </TMPL_LOOP>
+</tbody>
+<tfoot>
+  <tr>
+  <td colspan=9>
+      <input type="submit" name="restart" value="Restart" class="btn btn-primary me-2">
+      <input type="submit" name="cancel" value="Cancel" class="btn btn-secondary me-2" onClick="return confirm('Cancel selected encodings?')">
+      <input type="submit" name="delete" value="Delete File" class="btn btn-danger me-2" onClick="return confirm('Delete selected files?')">
+      <input type="submit" name="priority_up" value="Increase priority" class="btn btn-success me-2">
+  </td>
+  </tr>
+</tfoot>
+</table>
+</div>
+
+</form>
+
+<TMPL_VAR paging>
+
+<script>
+$(document).ready(function(){
+    $("input[name=file_real]").change( function(){ $(this).parent().parent().toggleClass('hi2'); } );
+    $("#selall").change(function(){
+           var sel=this.checked;
+           $("#xfiles input[name=file_real]:enabled").each(function(){
+               $(this).prop('checked',sel);
+               if(sel){$(this).parent().parent().addClass('hi2');} else {$(this).parent().parent().removeClass('hi2');}
+           });
+    });
+});
+</script>

@@ -1,0 +1,21 @@
+Just do these commands on ftp fileserver:
+
+yum -y install proftpd perl-JSON proftpd-utils
+
+perl -pi -e 's/DefaultRoot/#DefaultRoot/;s/AuthPAMConfig/#AuthPAMConfig/;s/AuthOrder/#AuthOrder/;' /etc/proftpd.conf
+echo "SetEnv CGIBIN /var/www/cgi-bin" >> /etc/proftpd.conf
+echo "Include %{env:CGIBIN}/ftp.conf" >> /etc/proftpd.conf
+
+mkdir /home/ftp;chmod 777 /home/ftp
+echo $(hostname -I | cut -d" " -f 1) $(hostname) >> /etc/hosts
+(crontab -l -uapache ; echo "*/3 * * * * cd /var/www/cgi-bin;./cron_ftp.pl >/dev/null 2>&1") | crontab -uapache -
+
+>/var/www/cgi-bin/logs/ftp.users
+chmod 600 /var/www/cgi-bin/logs/ftp.users
+chmod 755 /var/www/cgi-bin/logs/ /var/www/cgi-bin/cron_ftp.pl
+chown apache:apache /var/www/cgi-bin/logs/ftp.users /var/www/cgi-bin/cron_ftp.pl
+service proftpd start
+
+systemctl enable proftpd.service
+
+firewall-cmd --permanent --add-port=21/tcp;firewall-cmd --reload

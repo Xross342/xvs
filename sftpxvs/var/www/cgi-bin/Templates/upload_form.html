@@ -1,0 +1,158 @@
+<Script>
+var srv_htdocs_url="<TMPL_VAR srv_htdocs_url>";
+var ext_allowed="<TMPL_UNLESS allow_non_video_uploads><TMPL_VAR video_extensions></TMPL_UNLESS>";
+var category_required="<TMPL_VAR category_required>";
+var lng_uploadform_ext_not_allowed="<TMPL_VAR lng_uploadform_ext_not_allowed>";
+var lng_uploadform_only_these_ext_allowed="<TMPL_VAR lng_uploadform_only_these_ext_allowed>";
+var lng_uploadform_choose_category="<TMPL_VAR lng_uploadform_choose_category>";
+var lng_uploadform_select_file_to_upload="<TMPL_VAR lng_uploadform_select_file_to_upload>";
+var lng_uploadform_agree_to_tos="<TMPL_VAR lng_uploadform_agree_to_tos>";
+var interval, total, time_start;
+<TMPL_IF m_n_instant_md5_upload>var auto_md5_upload=1;</TMPL_IF>
+</Script>
+
+
+
+
+<div class="col-xxl-9 mx-auto">
+<div class="block p-0">
+          <TMPL_INCLUDE upload_menu.html>
+          <div class="p-3 p-lg-5">
+          <div id="upload_div">
+
+
+								<TMPL_IF msg>
+									<div class="alert alert-success">
+										<TMPL_VAR msg>
+									</div>
+								</TMPL_IF>
+
+								<TMPL_IF hosts>
+									<div class="mb-4"><label class="form-label">Upload server:</label>
+									<select class="form-select" onchange="window.location='/?op=upload_file&srv_id='+$(this).val()">
+									<TMPL_LOOP hosts>
+									<optgroup label="<TMPL_VAR host_name>">
+										<TMPL_LOOP servers><option value="<TMPL_VAR srv_id>"<TMPL_VAR selected>><TMPL_VAR srv_name></option></TMPL_LOOP>
+									</optgroup>
+									</TMPL_LOOP>
+									</select></div>
+								</TMPL_IF>
+
+								<div id="div_file">
+
+									<form name="file" enctype="multipart/form-data" action="<TMPL_VAR srv_upload_url>/upload/<TMPL_VAR disk_id>" method="post" onSubmit="return StartUpload(this);">
+									<input type="hidden" name="sess_id" value="<TMPL_VAR sess_id>">
+									<input type="hidden" name="json" value="0">
+
+
+                <div class="dropbox" id="divinputfile">
+                  <div class="mb-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="27" height="24" viewBox="0 0 27 24" fill="none">
+                      <path d="M13.2004 12.72L18.2404 17.76L16.5604 19.44L14.4004 17.28V24H12.0004V17.28L9.84036 19.44L8.16036 17.76L13.2004 12.72ZM13.2004 0C17.5204 0 21.0004 3.24 21.6004 7.44C25.0804 8.4 27.2404 12 26.2804 15.6C25.5604 18.24 23.2804 20.16 20.5204 20.4V18C20.5204 14.04 17.2804 10.8 13.3204 10.8C9.48036 10.8 6.24036 13.92 6.12036 17.76L6.00036 18V20.4C2.40036 20.04 -0.359644 16.92 0.000356115 13.2C0.240356 10.44 2.16036 8.16 4.80036 7.44C5.40036 3.24 9.00036 0 13.2004 0Z" fill="#3586FF"></path>
+                    </svg>
+                  </div>
+                  <TMPL_VAR lng_uploadform_choose>
+                  	<input id="filepc" name="file" type="file" onchange="fileSelected(this);"<TMPL_UNLESS allow_non_video_uploads> accept=".mp4, .mkv, .avi, .webm, .ts, .mpg, .mpeg, .vob, .flv, .wmv, .3gp, .mov"</TMPL_UNLESS> multiple>
+                </div>
+
+								<div id="x2"></div>
+
+</form>
+								</div>
+								</div>
+
+
+<div id="progress" style="display: none;">
+
+								<div class="block uploadItem">
+                  <div class="mb-3 d-flex align-items-center text-nowrap px-3 px-md-4">
+                    <svg class="uploadItem-icon me-2" xmlns="http://www.w3.org/2000/svg" width="18" height="20" viewBox="0 0 18 20" fill="none">
+                      <path d="M13 0L18 5V19C18 19.5 17.6 20 17 20H1C0.5 20 0 19.6 0 19V1C0 0.5 0.4 0 1 0H13ZM10 10H13L9 6L5 10H8V14H10V10Z" fill="#3586FF"></path>
+                    </svg>
+                    <span class="text-truncate flex-shrink-1 mw-0 me-2" id='progress_msg'><TMPL_VAR lng_uploadform_initializing></span>
+                    <span class="text-muted me-2">(<span id='cursize'></span> of <span id='totalsize'></span>)</span>
+                    <a href="<TMPL_VAR site_url>/?op=upload" class="link-danger ms-auto">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 13 13" fill="none">
+                        <path opacity="0.75" d="M6.4 5L11.4 0.1L12.8 1.5L7.8 6.4L12.7 11.4L11.3 12.8L6.4 7.8L1.5 12.8L0 11.3L4.9 6.3L0 1.4L1.4 0L6.4 5Z" fill="currentColor"></path>
+                      </svg>
+                    </a>
+                  </div>
+                  <div class="px-3 px-md-4">
+                    <div class="pt-1 mb-3">
+                      <div class="progress" role="progressbar" aria-label="Example with label" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">
+                        <div class="progress-bar" id="upload_status"><span id='percent'>0%</span></div>
+                      </div>
+                    </div>
+										<div class="row flex-nowrap">
+											<div class="col-auto me-auto">
+												<div class="small text-muted mb-1">
+    <TMPL_VAR lng_uploadform_speed>: <b><span id='speed'></span> KB/sec</b> &nbsp;<br>
+</div>
+
+												<div class="small text-muted"><TMPL_VAR lng_uploadform_remaining>: <span id='estimate'></span></div>
+											</div>
+											<div class="col-auto">
+												<div class="small" id="onoff"><TMPL_IF show_upload_srv_id>srv=<TMPL_VAR srv_id> </TMPL_IF><a href="#" id="pbon">on</a></div>
+											</div>
+										</div>
+                  </div>
+                </div>
+                </div>
+
+
+
+          </div>
+        </div>
+        </div>
+
+
+				<div class="pt-5"></div>
+
+				<div class="server-stats">
+					<TMPL_VAR lng_uploadform_max_filesize>: <TMPL_VAR max_upload_filesize> Mb
+					<TMPL_IF show_upload_srv_id> srv=<TMPL_VAR srv_id></TMPL_IF>
+      </div>
+
+
+<script>
+$(document).ready(function(){
+
+  $("#filepc").on('dragenter dragover', function(ev) {
+      // Entering drop area. Highlight area
+      $("#divinputfile").addClass("active");
+  });
+
+  $("#filepc").on('dragleave drop', function(ev) {
+    // Going out of drop area. Remove Highlight
+    $("#divinputfile").removeClass("active");
+  });
+});
+</script>
+
+
+
+<iframe src="javascript:false;" name="xupload" style="position:absolute;top:-9999px;"></iframe>
+
+<script src="<TMPL_VAR static_url>/js/jquery.cookie.js"></script>
+<script src="<TMPL_VAR static_url>/js/md5.js"></script>
+<script src="<TMPL_VAR static_url>/js/hashme.js"></script>
+<Script>
+var x1code = $('#x1').html();
+//document.getElementById('progress_frame').allowTransparency="true";
+$("select[name=cat_id]").val( $.cookie('cat_id') );
+$("select[name=cat_id]").change(function(){ $.cookie('cat_id', $(this).val(), { expires: 9999 }); });
+$("input[name=file_public]").prop("checked", $.cookie('file_public') );
+$("input[name=file_public]").click(function(){ var val='';if($(this).prop("checked"))val=1;$.cookie('file_public', val, { expires: 9999 }); });
+$("input[name=file_adult]").prop("checked", $.cookie('file_adult') );
+$("input[name=file_adult]").click(function(){ var val='';if($(this).prop("checked"))val=1;$.cookie('file_adult', val, { expires: 9999 }); });
+$("#fld_id").change(function()
+{
+ if($(this).val()!="000")return false;
+ x=prompt('New folder name','');
+ if(typeof(x)=='undefined' || x=='' || x==null){$("#fld_id").val('0');return false;}
+ $.post("<TMPL_VAR site_url>/", {op:"ajax_new_folder", create_new_folder:x}, function(data) {
+  if(!data.match(/^<option/i)){alert(data)}
+  else {$("#fld_id").append(data);$("#fld_id option:last").attr('selected','selected');}
+ });
+});
+</Script>

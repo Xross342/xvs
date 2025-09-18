@@ -1,0 +1,7 @@
+<div class="nav block-tabs" role="tablist">
+	<a href="?op=upload_file" class="nav-link<TMPL_IF op_upload_file> active</TMPL_IF>"><TMPL_VAR lng_uploadform_file_upload></a>
+	<TMPL_IF remote_url><a href="?op=upload_url" class="nav-link<TMPL_IF op_upload_url> active</TMPL_IF>"><TMPL_VAR lng_uploadform_url_upload></a></TMPL_IF>
+	<TMPL_IF m_t_enabled><a href="?op=upload_torrent" class="nav-link<TMPL_IF op_upload_torrent> active</TMPL_IF>" ><TMPL_VAR lng_uploadform_torrent_upload></a></TMPL_IF>
+	<TMPL_IF m_f_enabled><a href="?op=upload_ftp" class="nav-link<TMPL_IF op_upload_ftp> active</TMPL_IF>"><TMPL_VAR lng_uploadform_ftp_upload></a></TMPL_IF>
+	<TMPL_IF m_n_enabled><a href="?op=upload_clone" class="nav-link<TMPL_IF op_upload_clone> active</TMPL_IF>"><TMPL_VAR lng_uploadform_clone_upload></a></TMPL_IF>
+</div>

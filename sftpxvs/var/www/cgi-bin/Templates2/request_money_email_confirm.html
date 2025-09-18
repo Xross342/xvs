@@ -1,0 +1,17 @@
+<h2>Confirm Your Withdraw Request</h2>
+
+A withdraw request of $<b><TMPL_VAR amount></b> USD has been made.
+<br><br>
+Please check your payment details below carefully before confirming the Withdraw:
+<br>
+Payment network: <TMPL_VAR usr_pay_type>
+<br>
+Withdraw address: <tt><TMPL_VAR usr_pay_email></tt>
+<br><br>
+IP address: <TMPL_VAR ip>
+<br>
+Country: <TMPL_VAR country>
+
+<a href="<TMPL_VAR site_url>/?op=request_money&confirm_withdrawal=<TMPL_VAR hash>">Confirm your withdrawal</a>
+
+Please contact our <a href="<TMPL_VAR site_url>/contact">Support Center</a> if you did not make this request or need assistance.

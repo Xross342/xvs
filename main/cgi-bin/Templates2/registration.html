@@ -1,0 +1,102 @@
+<TMPL_IF external_sites_login>
+<div class="rrd">
+<h3 style="margin:0;"><TMPL_VAR lng_registration_register_via_sites></h3>
+  <TMPL_IF facebook_app_id><a href="/?op=login&method=facebook"><img src="/images/facebook.png" alt="Login with Facebook"></a></TMPL_IF>
+  <TMPL_IF twit_consumer1><a href="/?op=login&method=twitter"><img src="/images/twitter.png" alt="Login with Twitter"></a></TMPL_IF>
+  <TMPL_IF google_app_id><a href="/?op=login&method=google"><img src="/images/google+.png" alt="Login with Google"></a></TMPL_IF>
+  <TMPL_IF vk_app_id><a href="/?op=login&method=vk"><img src="/images/vk.png" alt="Login with Vk.com"></a></TMPL_IF>
+</div>
+</TMPL_IF>
+
+
+<br>
+
+<h3><TMPL_VAR lng_registration_title></h3>
+
+<Form method="POST" onSubmit="return CheckForm(this)" style="margin:0;display:block;">
+<input type="hidden" name="op" value="register_save">
+<input type="hidden" name="rand" value="<TMPL_VAR rand>">
+<Table>
+<TR>
+    <TD class="rc"><TMPL_VAR lng_registration_username></TD>
+    <TD><input type="text" name="usr_login" value="<TMPL_VAR usr_login>" role="presentation" autocomplete="off"></TD>
+</TR>
+<TR>
+  <TD class="rc">E-mail</TD>
+  <TD><input type="text" name="usr_email" value="<TMPL_VAR usr_email>" autocomplete="email"></TD>
+</TR>
+<TR>
+  <TD class="rc"><TMPL_VAR lng_registration_password></TD>
+  <TD><input type="password" name="usr_password" value="<TMPL_VAR usr_password>" autocomplete="new-password"></TD>
+</TR>
+<TR>
+  <TD class="rc"><TMPL_VAR lng_registration_retype_password></TD>
+  <TD><input type="password" name="usr_password2" value="<TMPL_VAR usr_password2>" autocomplete="new-password"></TD>
+</TR>
+<TR>
+  <TD class="rc"><TMPL_VAR lng_registration_payment_info><br><small>(<TMPL_VAR lng_registration_optional>)</small></TD>
+  <TD nowrap>
+    <input type="text" name="usr_pay_email" value="<TMPL_VAR usr_pay_email>" size=18>
+    <select name="usr_pay_type">
+    <TMPL_LOOP payout_list>
+    <option value="<TMPL_VAR name>"><TMPL_VAR name></option>
+    </TMPL_LOOP>
+    </select>
+    </TD>
+</TR>
+<TMPL_IF coupons>
+<TR>
+  <TD class="rc"><TMPL_VAR lng_registration_coupon_code><br><small>(<TMPL_VAR lng_registration_optional>)</small></TD>
+  <TD><input type="text" name="coupon_code" value="<TMPL_VAR coupon_code>" size=12></TD>
+</TR>
+</TMPL_IF>
+<TMPL_LOOP extra_fields>
+<TR>
+  <TD class="rc"><TMPL_VAR name></TD>
+  <TD><input type="text" name="<TMPL_VAR field>" value=""></TD>
+</TR>
+</TMPL_LOOP>
+
+<TMPL_IF captcha_on>
+
+  <TMPL_IF ihtml>
+  <TR>
+    <TD colspan=2 align=center><TMPL_VAR ihtml></TD>
+  </TR>
+  <TMPL_ELSE>
+  <TR>
+    <TD class="rc"><TMPL_VAR lng_registration_captcha_code></TD>
+    <TD>
+      <table cellspacing=0 cellpadding=1><tr><td><TMPL_IF iurl><img src="<TMPL_VAR iurl>"><TMPL_ELSE><TMPL_VAR itext></TMPL_IF></td><td><input type="text" name="code" class="captcha_code"></td></tr></table>
+    </TD>
+  </TR>
+  </TMPL_IF>
+
+</TMPL_IF>
+
+<TR>
+  <TD colspan=2 align=center>
+    <TMPL_IF msg><font class="err"><TMPL_VAR msg></font><br><br></TMPL_IF>
+    <input type="submit" value=" <TMPL_VAR lng_registration_submit_button> " class="f-btn-blue">
+  </TD>
+</TR>
+</Table>
+</Form>
+
+
+<TMPL_IF aff><script src="<TMPL_VAR static_url>/js/jquery.cookie.js"></script></TMPL_IF>
+<Script>
+function  CheckForm(f)
+{
+    var err=Array();
+    if(f.usr_login.value.length<4)err.push("* <TMPL_VAR lng_registration_username_too_short>");
+    if(f.usr_login.value.length>32)err.push("* <TMPL_VAR lng_registration_username_too_long>");
+    if(!f.usr_login.value.match(/^([a-zA-Z0-9_\-])+$/))err.push("* <TMPL_VAR lng_registration_invalid_username>");
+    if(f.usr_password.value.length<4)err.push("* <TMPL_VAR lng_registration_password_too_short>");
+    if(f.usr_password.value.length>32)err.push("* <TMPL_VAR lng_registration_password_too_long>");
+    if( !f.usr_email.value.match(/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/) )err.push("* <TMPL_VAR lng_registration_email_invalid>");
+    if(f.usr_password.value.length!=f.usr_password2.value.length)err.push("* <TMPL_VAR lng_registration_passwords_dont_match>");
+    if(err.length>0){alert( '<TMPL_VAR lng_registration_fix_errors_below>:\n\n'+err.join('\n') );return false;}
+}
+<TMPL_IF aff>$.cookie('aff', '<TMPL_VAR aff>', { expires: 10 });</TMPL_IF>
+</Script>

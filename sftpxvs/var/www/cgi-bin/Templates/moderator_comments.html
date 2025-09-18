@@ -1,0 +1,51 @@
+<script>
+  loadT('Comments moderation');
+</script>
+<Form style="margin:0;" method="POST">
+  <input type="hidden" name="op" value="moderator_comments">
+  <div class="top-bar">
+    <div class="row align-items-center g-2">
+      <div class="col-auto flex-grow-1">
+        <div class="search">
+          <input type="text" class="form-control search-field" name="key" value="<TMPL_VAR key>" placeholder="Search..." data-bs-toggle="dropdown" data-bs-auto-close="outside">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="table-responsive mb-4">
+    <table class="table table-rounded align-middle table-justify">
+      <thead>
+        <tr class="hdr">
+          <th width="1%">
+            <div class="check-radio"><input type="checkbox" onClick="for(i=0;i<this.form.cmt_id.length;i++){this.form.cmt_id[i].checked=this.checked;}if(this.form.cmt_id.value)this.form.cmt_id.checked=this.checked;"></div>
+          </th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <TMPL_LOOP list>
+          <tr>
+            <td><input type="checkbox" name="cmt_id" value="<TMPL_VAR cmt_id>"></td>
+            <td class="txt12">
+              <TMPL_VAR cmt_text>
+                <div style="text-align:right;"><a href="?op=moderator_comments&rr=<TMPL_VAR cmt_type>-<TMPL_VAR cmt_ext_id>">#</a> by <TMPL_IF usr_login><a href="?op=moderator_comments&usr_id=<TMPL_VAR usr_id>">
+                      <TMPL_VAR usr_login>
+                    </a>
+                    <TMPL_ELSE>
+                      <TMPL_VAR cmt_name>
+                        <TMPL_IF cmt_email> (<TMPL_VAR cmt_email>)</TMPL_IF>
+                  </TMPL_IF> <a href="?op=moderator_comments&ip=<TMPL_VAR ip>">ip</a></div>
+            </td>
+          </tr>
+        </TMPL_LOOP>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="2"><input type="submit" name="del_selected" value="Delete selected" class="btn btn-danger"></td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+  <TMPL_VAR paging>
+    <br><br>
+</Form>

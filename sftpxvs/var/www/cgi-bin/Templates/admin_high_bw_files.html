@@ -1,0 +1,61 @@
+<script>
+  loadT('Highest Bandwidth files');
+</script>
+
+<Form>
+  <input type="hidden" name="op" value="admin_high_bw_files">
+  <input type="hidden" name="token" value="<TMPL_VAR token>">
+  <div class="block admin-settings p-0 ">
+    <table class="table settings-table mb-0 align-middle">
+
+      <body>
+        <tr>
+          <td class="text-lg-end"><label class="col-form-label">Last</label></td>
+          <td class="border-start">
+            <div class="input-group input-group-sm" style="max-width:100px">
+              <input type="text" name="hours" value="<TMPL_VAR hours>" class="form-control" maxlength="2">
+              <span class="input-group-text">hours</span>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="text-lg-end"><label class="col-form-label">srv_id</label></td>
+          <td class="border-start"><input type="text" name="srv_id" value="<TMPL_VAR srv_id>" class="form-control form-control-sm"></td>
+        </tr>
+        <tr>
+          <td class="text-lg-end border-0"></td>
+          <td class="border-start border-0"><input type="submit" value="Show" class="btn btn-primary"></td>
+        </tr>
+      </body>
+    </table>
+  </div>
+</Form>
+
+
+
+<div class="table-responsive">
+  <table class="table table-hover table-rounded align-middle table-justify small">
+    <thead>
+      <tr>
+        <th>File</th>
+        <th style="width: 120px;">Size</th>
+        <th style="width: 120px;">Period Traffic</th>
+      </tr>
+    </thead>
+    <tbody>
+      <TMPL_LOOP list>
+        <tr>
+          <td><a href="<TMPL_VAR download_link>">
+              <TMPL_VAR file_name>
+            </a></td>
+          <td>
+            <TMPL_VAR file_size>
+          </td>
+          <td>
+            <TMPL_VAR bandwidth> GB
+          </td>
+        </tr>
+      </TMPL_LOOP>
+    </tbody>
+  </table>
+</div>

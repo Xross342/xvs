@@ -1,0 +1,40 @@
+
+  <script>
+    loadT('FTP');
+  </script>
+
+<TMPL_IF hosts>
+<TMPL_LOOP hosts>
+	<div class="table-responsive mb-4">
+		<table class="table table-rounded table-hover table-justify">
+
+<thead>
+	<tr>
+		<th colspan="5">
+			<TMPL_VAR host_name> (<TMPL_VAR disk_used> MB used)
+			<TMPL_IF m_f_track_current>
+				<TMPL_IF online><span style="color:green">online</span><TMPL_ELSE><span style="color:red">offline</span></TMPL_IF>
+			</TMPL_IF>
+		</th>
+	</tr>
+</thead>
+
+<TMPL_LOOP uploads>
+<tr>
+	<td><TMPL_VAR filename></td>
+	<td><TMPL_VAR size> MB</td>
+	<td><TMPL_VAR user></td>
+	<td><TMPL_VAR ip></td>
+	<td><TMPL_VAR speed> KB/s</td>
+</tr>
+
+</TMPL_LOOP>
+</table>
+</div>
+
+</TMPL_LOOP>
+<TMPL_ELSE>
+  <div class="alert alert-secondary">
+    No ftp hosts
+  </div>
+</TMPL_IF>

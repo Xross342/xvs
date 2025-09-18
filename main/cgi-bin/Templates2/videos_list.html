@@ -1,0 +1,15 @@
+<TMPL_LOOP files>
+				<div class="videobox"> <!-- video preview-->
+					<a href="<TMPL_VAR download_link>" class="video200 <TMPL_VAR extra_css>">
+					<div style="background: url('<TMPL_VAR video_thumb_url>') no-repeat;">
+						<span><TMPL_VAR file_length2></span>
+					</div>
+					</a>
+					<a href="<TMPL_VAR download_link>" class="title"><TMPL_VAR file_title_txt></a>
+					<TMPL_UNLESS no_views><span class="views"><TMPL_VAR file_views> <TMPL_VAR lng_videoslist_views></span></TMPL_UNLESS>
+					<TMPL_UNLESS no_created><span class="date"><TMPL_VAR created> <TMPL_VAR lng_videoslist_days_ago></span></TMPL_UNLESS>
+					<span class="cat"><a href="<TMPL_VAR site_url>/category/<TMPL_VAR cat_name2>"><TMPL_VAR cat_name></a></span>
+					<TMPL_IF extra_info><span class="views"><TMPL_VAR extra_info></span></TMPL_IF>
+				</div> <!-- end video preview-->
+</TMPL_LOOP>
+

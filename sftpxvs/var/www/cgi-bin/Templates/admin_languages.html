@@ -1,0 +1,31 @@
+<script>
+  loadT('Languages list');
+</script>
+<div class="top-bar">
+  <div class="row align-items-center g-3">
+    <div class="col-auto">
+      <input type="button" value="Add new language" onclick="window.location='?op=admin_language_form<TMPL_VAR token_str>'" class="btn btn-success">
+    </div>
+  </div>
+</div>
+
+	<div class="table-responsive">
+		<table class="table table-hover table-rounded align-middle table-justify small">
+      <thead>
+      	<tr>
+      		<th>Language</th>
+      		<th style="width: 150px;">Order</th>
+      		<th style="width: 150px;">Translations</th>
+      	</tr>
+      </thead>
+      <tbody>
+      	<TMPL_LOOP list>
+      	<tr>
+      		<td><a href="?op=admin_language_form&amp;lang_id=<TMPL_VAR lang_id><TMPL_VAR token_str>"><TMPL_VAR lang_name></a><TMPL_UNLESS lang_active> [OFF]</TMPL_UNLESS></td>
+      		<td><TMPL_VAR lang_order></td>
+      		<td><a href="?op=admin_translations&amp;lang_id=<TMPL_VAR lang_id><TMPL_VAR token_str>"><TMPL_VAR trans_num> definitions</a></td>
+      	</tr>
+      	</TMPL_LOOP>
+      </tbody>
+	</Table>
+	</div>
