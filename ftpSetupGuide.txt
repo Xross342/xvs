@@ -19,3 +19,5 @@ service proftpd start
 systemctl enable proftpd.service
 
 firewall-cmd --permanent --add-port=21/tcp;firewall-cmd --reload
+
+NIGGA KYS
