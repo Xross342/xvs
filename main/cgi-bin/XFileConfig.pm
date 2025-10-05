@@ -1211,6 +1211,8 @@ $c=
 
  hls_speed => '',
 
+ hls_default_file_extension => 'ts',
+
  paypal2_url => '',
  paypal2_public_key => '',
  paypal2_private_key => '',
