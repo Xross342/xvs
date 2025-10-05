@@ -25,8 +25,15 @@ RewriteCond	%{REQUEST_FILENAME} !-f
 RewriteRule    ^([0-9A-Za-z]{12})(\/.+|\.html?|$)		/cgi-bin/index_dl.cgi?op=download1&id=$1&fname=$2 [L]
 
 #RewriteRule    ^e/([0-9A-Za-z]{12})(\.html|$)				/cgi-bin/index_dl.cgi?op=embed&file_code=$1 [L]
-RewriteRule    ^e-([0-9A-Za-z]{12})							/emb.html [L]
-RewriteRule    ^e/([0-9A-Za-z]{12})							/emb.html [L]
+
+#OLD EMBED SYSTEM GETS COMMENTED OUT
+#RewriteRule    ^e-([0-9A-Za-z]{12})							/emb.html [L]
+#RewriteRule    ^e/([0-9A-Za-z]{12})							/emb.html [L]
+#END OLD EMB SYSTEM COMMENTOUT
+
+RewriteRule    ^e-([0-9A-Za-z]{12})							/cgi-bin/index_dl.cgi?op=embed&file_code=$1 [L]
+RewriteRule    ^e/([0-9A-Za-z]{12})							/cgi-bin/index_dl.cgi?op=embed&file_code=$1 [L]
+
 RewriteRule    ^embed-([0-9A-Za-z]{12})\.html$				/cgi-bin/index_dl.cgi?op=embed&file_code=$1 [L]
 RewriteRule    ^embed-([0-9A-Za-z]{12})-(\d+)x(\d+)\.html$	/cgi-bin/index_dl.cgi?op=embed&file_code=$1&w=$2&h=$3 [L]
 
