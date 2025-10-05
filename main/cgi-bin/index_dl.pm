@@ -90,6 +90,7 @@ sub run
        iproxy			=> \&IProxy,
        playerddl		=> \&PlayerDDL,
        download_versions=> \&DownloadOriginalVersions,
+	   getSources       => \&GetSources,  # ADD THIS
             }->{ $f->{op} };
    return &$sub if $sub;
 
@@ -213,6 +214,54 @@ sub P2P_Logic
 		$p2p=0 if $c->{p2p_hours} && $hh!~/^($c->{p2p_hours})$/;
 		$file->{p2p} = $p2p;
 	}
+}
+
+sub GetSources
+{
+    print "Content-type: application/json\n\n";
+    
+    my $file = $ses->getFileRecord($f->{file_code});
+    my $servtime = sprintf("%d-%02d-%02d %02d:%02d:%02d", $ses->getTime());
+
+    unless($file)
+    {
+        require JSON::XS;
+        print JSON::XS::encode_json({"status"=>404, "msg"=>"File not found", "server_time"=>$servtime});
+        return;
+    }
+    
+    $ses->genThumbURLs($file);
+    
+    my $result = {
+        player_img => $file->{player_img},
+        file_length => $file->{file_length}
+    };
+    
+    # Get all available quality versions
+    my @versions;
+    for my $q (@{$c->{quality_letters}}, 'o')
+    {
+        if($file->{"file_size_$q"})
+        {
+            push @versions, {
+                name => $q,
+                size => $file->{"file_size_$q"},
+                url  => $ses->genDirectLink($file, $q, "$file->{file_code}_$q.mp4")
+            };
+        }
+    }
+    $result->{versions} = \@versions;
+    
+    # Generate HLS link if available
+    if($c->{m_r})
+    {
+        my ($play, $playprem) = $ses->getPlayVersions($file);
+        $result->{hls_direct} = $ses->genHLSLink($file, $play) if keys %$play;
+    }
+    
+    require JSON::XS;
+    print JSON::XS::encode_json({"status"=>200, "msg"=>"OK", "server_time"=>$servtime, "result"=>$result});
+    return;
 }
 
 sub Download1

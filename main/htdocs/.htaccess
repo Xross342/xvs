@@ -37,6 +37,12 @@ RewriteRule    ^e/([0-9A-Za-z]{12})							/cgi-bin/index_dl.cgi?op=embed&file_co
 RewriteRule    ^embed-([0-9A-Za-z]{12})\.html$				/cgi-bin/index_dl.cgi?op=embed&file_code=$1 [L]
 RewriteRule    ^embed-([0-9A-Za-z]{12})-(\d+)x(\d+)\.html$	/cgi-bin/index_dl.cgi?op=embed&file_code=$1&w=$2&h=$3 [L]
 
+# Handle /getSources/file_code format
+RewriteRule ^getSources/([^/]+)$ /cgi-bin/index_dl.cgi?op=getSources&file_code=$1 [L,QSA]
+
+# Handle /getSources?file_code=... format
+RewriteRule ^getSources$ /cgi-bin/index_dl.cgi?op=getSources [L,QSA]
+
 RewriteRule    ^d/([0-9A-Za-z]{12})_(\w)					/cgi-bin/index_dl.cgi?op=download_orig&id=$1&mode=$2 [L]
 RewriteRule    ^d/([0-9A-Za-z]{12})							/cgi-bin/index_dl.cgi?op=download_versions&id=$1 [L]
 
