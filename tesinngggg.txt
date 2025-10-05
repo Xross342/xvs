@@ -1,0 +1,87 @@
+location /hls2/ {
+	if ( $uri ~* ^/hls2/\d\d/\d\d\d\d\d/,?(\w+)\_([^/]+) ) {
+		set $xcode $1;
+		set $xmode $2;
+	}
+	if ( $uri ~* ^/hls2/\d\d/\d\d\d\d\d/lang/\w\w\w/(\w+)\_([^/]+) ) {
+		#set $xcode $1;
+		set $xcode $arg_fr;
+		set $xmode $2;
+	}
+
+	include /var/www/cgi-bin/nginx_security[.]conf;
+
+	include mod_hls_direct.conf;
+	#include mod_hls_proxy.conf;
+
+	# SHA256 hash security
+	# https://github.com/nginx-modules/ngx_http_hmac_secure_link_module
+	secure_link_hmac "$arg_t,$arg_s,$arg_e";
+	secure_link_hmac_secret $config_dl_key;
+	secure_link_hmac_message "$ippart|$arg_s|$arg_e|$xcode|$arg_sp";
+	secure_link_hmac_algorithm sha256;
+	if ($secure_link_hmac != "1") { return 403; }
+
+	set $limit_rate "${arg_sp}k";
+
+	# Add args to all .m3u8, .ts
+	# https://github.com/kaltura/nginx-secure-token-module
+	secure_token_types application/vnd.apple.mpegurl;
+	secure_token $args;
+
+	# Substitutions filter to replace .ts with .txt in .m3u8 playlists
+    subs_filter_types application/vnd.apple.mpegurl;
+    subs_filter .ts .html g;
+
+	rewrite ^(.*)\.html$ $1.ts last;
+
+	gzip on;
+	gzip_types application/vnd.apple.mpegurl video/f4m application/dash+xml text/xml text/vtt;
+	gzip_proxied any;
+
+	access_log logs/traffic_hls2.log xvshls2;
+
+	#valid_referers none blocked server_names www.gstatic.com vewd.webvideocaster.com site.com *.site.tv;
+	#if ($invalid_referer) { return 403; }
+}
+
+# Proxied downloads
+location /vp/ {
+	if ( $uri ~* ^/vp/\d\d/\d\d\d\d\d/(\w+)\_([^/]+) ) {
+		set $xcode $1;
+		set $xmode $2;
+	}
+
+	proxy_pass http://$hls_proxy_srv:999;
+	resolver 1.1.1.1 8.8.4.4;
+	proxy_http_version 1.1;
+	proxy_set_header Connection "";
+
+	proxy_set_header Host      $host;
+	proxy_set_header X-Real-IP $remote_addr;
+	proxy_set_header X-hls-header $secret_hls_header; # secret custom header
+
+	default_type  video/mp4;
+	add_header Access-Control-Allow-Origin "*";
+	add_header Content-disposition "attachment";
+
+	# SHA256 hash security
+	# https://github.com/nginx-modules/ngx_http_hmac_secure_link_module
+	secure_link_hmac "$arg_t,$arg_s,$arg_e";
+	secure_link_hmac_secret $config_dl_key;
+	secure_link_hmac_message "$ippart|$arg_s|$arg_e|$xcode|$arg_sp";
+	secure_link_hmac_algorithm sha256;
+	if ($secure_link_hmac != "1") { return 403; }
+
+	set $limit_rate "${arg_sp}k";
+
+	access_log logs/traffic_hls2.log xvshls2;
+
+	#valid_referers none blocked server_names www.gstatic.com vewd.webvideocaster.com site.com *.site.tv;
+	#if ($invalid_referer) { return 403; }
+}
+
+#vod_performance_counters perf_counters;
+location /hlstatus {
+	vod_status;
+}

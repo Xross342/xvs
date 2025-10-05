@@ -28,9 +28,13 @@ wget https://sibsoft.net/xvideosharing/ngx_http_hmac_secure_link_module.zip;unzi
 wget https://github.com/kaltura/nginx-secure-token-module/archive/refs/heads/master.zip;unzip master.zip;rm -f master.zip
 wget https://github.com/yaoweibin/ngx_http_substitutions_filter_module/archive/refs/heads/master.zip;unzip master.zip;rm -f master.zip
 wget https://github.com/leev/ngx_http_geoip2_module/archive/refs/tags/3.4.tar.gz;tar -xf 3.4.tar.gz;rm -f 3.4.tar.gz
-wget https://nginx.org/download/nginx-1.21.4.tar.gz;tar -xzf nginx-1.21.4.tar.gz;rm -f nginx-1.21.4.tar.gz;cd nginx-1.21.4
-./configure --with-http_stub_status_module --with-http_mp4_module --add-module=../nginx-upload-module-master --add-module=../nginx-upload-progress-module-master --add-module=../nginx-vod-module-1.28 --add-module=../nginx-rtmp-module-1.2.1 --add-module=../ngx_cache_purge-2.5.1 --add-module=../nginx-secure-token-module-master/ --add-module=../ngx_http_hmac_secure_link_module-master/ --with-file-aio --with-threads --with-http_ssl_module --with-http_v2_module --with-cc-opt="-Wimplicit-fallthrough=0" --with-http_realip_module --add-module=../ngx_http_substitutions_filter_module-master --add-module=../ngx_http_geoip2_module-3.4
+wget https://openresty.org/download/openresty-1.21.4.4.tar.gz;tar -xzf openresty-1.21.4.4.tar.gz;rm -f openresty-1.21.4.4.tar.gz;cd openresty-1.21.4.4
+./configure --prefix=/usr/local/openresty --with-http_stub_status_module --with-http_mp4_module --with-http_perl_module --add-module=../nginx-upload-module-master --add-module=../nginx-upload-progress-module-master --add-module=../nginx-vod-module-1.28 --add-module=../nginx-rtmp-module-1.2.1 --add-module=../ngx_cache_purge-2.5.1 --add-module=../nginx-secure-token-module-master/ --add-module=../ngx_http_hmac_secure_link_module-master/ --with-file-aio --with-threads --with-http_ssl_module --with-http_v2_module --with-cc-opt="-Wimplicit-fallthrough=0 -fPIC" --with-http_realip_module --add-module=../ngx_http_substitutions_filter_module-master --add-module=../ngx_http_geoip2_module-3.4
 make && make install
+
+sudo ln -s /usr/local/openresty/nginx /usr/local/nginx
+sudo ln -s /usr/local/openresty/nginx/sbin/nginx /usr/local/sbin/nginx
+
 (crontab -l ; echo "@reboot         /usr/local/nginx/sbin/nginx >/dev/null 2>&1") | crontab -
 cd /usr/local/nginx/conf;wget https://sibsoft.net/xvideosharing/GeoLite2-ASN.mmdb
 
@@ -78,7 +82,3 @@ Configure crontabs:
 (crontab -l -uapache ; echo "*/3  *  *  *  *  cd /var/www/cgi-bin;./url_upload.pl >/dev/null 2>&1") | crontab -uapache -
 (crontab -l -uapache ; echo "5    *  *  *  *  cd /var/www/cgi-bin;./cron_cleanup.pl >/dev/null 2>&1") | crontab -uapache -
 (crontab -l -uapache ; echo "*/3  *  *  *  *  cd /var/www/cgi-bin;./cron_ftp.pl >/dev/null 2>&1") | crontab -uapache -
-
-
-
-Original ./compile command works fine, but i cant compile the nginx perl module with it, so i will try this command ./configure --with-http_stub_status_module --with-http_perl_module --with-http_mp4_module --add-module=../nginx-upload-module-master --add-module=../nginx-upload-progress-module-master --add-module=../nginx-vod-module-1.28 --add-module=../nginx-rtmp-module-1.2.1 --add-module=../ngx_cache_purge-2.5.1 --add-module=../nginx-secure-token-module-master/ --add-module=../ngx_http_hmac_secure_link_module-master/ --with-file-aio --with-threads --with-http_ssl_module --with-http_v2_module --with-cc-opt="-Wimplicit-fallthrough=0 -fPIC" --with-http_realip_module --add-module=../ngx_http_substitutions_filter_module-master --add-module=../ngx_http_geoip2_module-3.4
