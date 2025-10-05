@@ -116,7 +116,7 @@ ENP
  #$extra_onready.="jwplayer().resize( \$(window).width(), \$(window).height() );" if $f->{embed};
 #$extra_js.=qq|jwplayer().on('displayClick', function() { jwplayer().setFullscreen(true); });| if $ses->isMobile; # autofullscreen on click for mobiles
 $extra_js.=qq|jwplayer().addButton(
-    "/images/download2.png",
+    "/images/download.svg",
     "Watch on site", 
     function() {
         //window.top.location.href = '$file->{download_link}';
