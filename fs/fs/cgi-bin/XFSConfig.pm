@@ -71,6 +71,8 @@ $c=
 
  srt_auto => '',
 
+ hls_default_file_extension => 'ts',
+
  custom_snapshot_upload => '300',
 
  m_f_sync_files_after => '3',
